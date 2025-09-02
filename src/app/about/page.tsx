@@ -10,7 +10,7 @@ export default function AboutUsPage() {
       <section className="relative h-80 w-full">
         <Image
           src="https://picsum.photos/1920/600"
-          alt="Our Team"
+          alt="Our Team working in the community"
           fill
           className="object-cover"
           data-ai-hint="team photo"
@@ -74,7 +74,7 @@ export default function AboutUsPage() {
               <p className="text-lg text-foreground/80">
                 "Since our inception, Raise India Foundation has been driven by a single, unwavering belief: that collective action can bring about profound change. We have witnessed firsthand the resilience and potential within our communities, and it is our privilege to work alongside them. Every project we undertake is a step towards a more equitable future. I invite you to join us on this journey of hope and transformation."
               </p>
-              <p className="font-bold">- Director's Name</p>
+              <p className="font-bold">- Jane Doe, Director</p>
             </div>
           </div>
         </div>

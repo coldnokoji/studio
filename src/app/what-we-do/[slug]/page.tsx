@@ -119,7 +119,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
     <>
       <section className="relative h-80 w-full">
         <Image
-          src={`https://picsum.photos/1920/600?${program.title}`}
+          src={`https://picsum.photos/1920/600?${program.title.toLowerCase().replace(' ', '-')}`}
           alt={program.title}
           fill
           className="object-cover"
@@ -167,7 +167,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
             Gallery
           </h2>
-          <Carousel className="w-full max-w-6xl mx-auto">
+          <Carousel className="w-full max-w-6xl mx-auto" opts={{ loop: true }}>
             <CarouselContent>
               {program.images.map((image, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">

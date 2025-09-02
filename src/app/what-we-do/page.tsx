@@ -54,14 +54,14 @@ export default function WhatWeDoPage() {
       </div>
       <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {socialCauses.map((cause) => (
-          <Link href={cause.href} key={cause.title}>
-            <Card className="text-center h-full transition-transform hover:scale-105 hover:shadow-xl">
-              <CardContent className="p-6 flex flex-col items-center justify-center">
+          <Link href={cause.href} key={cause.title} className="flex">
+            <Card className="text-center w-full transition-transform hover:scale-105 hover:shadow-xl flex flex-col">
+              <CardContent className="p-6 flex flex-col items-center justify-center flex-grow">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <cause.icon className="h-8 w-8" />
                 </div>
                 <h3 className="mt-6 text-xl font-bold">{cause.title}</h3>
-                <p className="mt-2 text-foreground/70">{cause.description}</p>
+                <p className="mt-2 text-foreground/70 flex-grow">{cause.description}</p>
               </CardContent>
             </Card>
           </Link>

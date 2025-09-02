@@ -17,6 +17,7 @@ import {
   Sprout,
   Users,
 } from 'lucide-react';
+import { TestimonialCarousel } from '@/components/testimonial-carousel';
 
 const impactStats = [
   { number: '1.8M', label: 'Lives Impacted' },
@@ -54,7 +55,7 @@ const socialCauses = [
     icon: Users,
     title: 'Community Building',
     description: 'Fostering strong and self-reliant communities.',
-    href: '/what-we-do/community',
+    href: '/what-we-do/community-building',
   },
   {
     icon: Globe,
@@ -107,25 +108,6 @@ const corporatePartners = [
   { src: 'https://picsum.photos/200/100', alt: 'Partner 5', aiHint: 'business logo' },
   { src: 'https://picsum.photos/200/100', alt: 'Partner 6', aiHint: 'industry logo' },
 ];
-
-const testimonials = [
-  {
-    quote: "Raise India Foundation is doing phenomenal work. Their dedication to community welfare is truly inspiring. I'm proud to be a supporter.",
-    name: 'Priya Sharma',
-    affiliation: 'Donor',
-  },
-  {
-    quote: "Interning here was a life-changing experience. I got to see the real impact of our efforts on the ground. The team is passionate and welcoming.",
-    name: 'Rahul Verma',
-    affiliation: 'Intern',
-  },
-  {
-    quote: "The transparency and commitment of this organization are commendable. You know exactly where your contribution is going and the difference it's making.",
-    name: 'Anjali Mehta',
-    affiliation: 'Supporter',
-  },
-];
-
 
 export default function Home() {
   return (
@@ -334,27 +316,7 @@ export default function Home() {
       <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">What Our Supporters Say</h2>
-          <Carousel className="w-full max-w-4xl mx-auto">
-            <CarouselContent>
-              {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex flex-col items-center justify-center p-8 text-center">
-                        <blockquote className="text-lg italic text-foreground/80">
-                          "{testimonial.quote}"
-                        </blockquote>
-                        <p className="mt-6 font-bold text-foreground">{testimonial.name}</p>
-                        <p className="text-sm text-foreground/60">{testimonial.affiliation}</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+          <TestimonialCarousel />
         </div>
       </section>
     </>
