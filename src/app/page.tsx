@@ -113,33 +113,29 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="w-full py-20 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-[1fr_600px]">
-            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
-              <Image
-                src="https://picsum.photos/1920/1080"
-                alt="A group of smiling people from the community"
-                fill
-                className="object-cover"
-                data-ai-hint="community service"
-                priority
-              />
-            </div>
-            <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-bold tracking-tighter text-primary sm:text-5xl xl:text-6xl/none font-headline">
-                  Empowering Communities, Inspiring Change
-                </h1>
-                <p className="mx-auto max-w-[700px] text-foreground/80 md:text-xl">
-                  Join Raise India Foundation in our mission to create a brighter future for everyone.
-                </p>
-              </div>
-              <div className="mx-auto lg:mx-0">
-                <Button size="lg" asChild>
-                  <Link href="/donate">Donate Now</Link>
-                </Button>
-              </div>
+      <section className="relative w-full h-[60vh] flex items-center justify-center text-center text-white">
+        <div className="absolute inset-0">
+            <Image
+              src="https://picsum.photos/1920/1080"
+              alt="A group of smiling people from the community"
+              fill
+              className="object-cover brightness-50"
+              data-ai-hint="community service"
+              priority
+            />
+        </div>
+        <div className="relative z-10 container px-4 md:px-6">
+          <div className="flex flex-col items-center space-y-4">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white font-headline">
+                Empowering Communities, Inspiring Change
+              </h1>
+              <p className="mx-auto max-w-[700px] text-lg text-gray-200 md:text-xl">
+                Join Raise India Foundation in our mission to create a brighter future for everyone.
+              </p>
+            <div className="mx-auto lg:mx-0">
+              <Button size="lg" asChild>
+                <Link href="/donate">Donate Now</Link>
+              </Button>
             </div>
           </div>
         </div>
