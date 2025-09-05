@@ -69,7 +69,7 @@ export default function ContactUsPage() {
                   <div className="space-y-4 text-foreground/80">
                     <div className="flex items-start gap-4">
                       <MapPin className="h-6 w-6 text-primary mt-1" />
-                      <span>123 Philanthropy Lane<br/>New Delhi, 110001, India</span>
+                      <span>123 Social Welfare Avenue<br/>Mumbai, 400001, India</span>
                     </div>
                     <div className="flex items-center gap-4">
                       <Phone className="h-6 w-6 text-primary" />
@@ -77,20 +77,20 @@ export default function ContactUsPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <Mail className="h-6 w-6 text-primary" />
-                      <a href="mailto:contact@raiseindia.org" className="hover:text-primary">contact@raiseindia.org</a>
+                      <a href="mailto:contact@shreyaskar.org" className="hover:text-primary">contact@shreyaskar.org</a>
                     </div>
                   </div>
                 </div>
                 <div className="h-96 w-full rounded-lg overflow-hidden">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.261259585918!2d77.21952231508219!3d28.62194218242144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd4a5c5c5c5d%3A0x8e0f2f7d3e4b3b3d!2sIndia%20Gate!5e0!3m2!1sen!2sin!4v1678886055555!5m2!1sen!2sin"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120653.07662999496!2d72.77589965833075!3d19.08252232535076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1689858888123!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Google Map of Raise India Foundation Office"
+                    title="Google Map of our location"
                   ></iframe>
                 </div>
               </div>

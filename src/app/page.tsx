@@ -4,114 +4,62 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import {
   BookOpen,
   Heart,
   Briefcase,
-  Globe,
   Sprout,
-  Users,
 } from 'lucide-react';
 import { TestimonialCarousel } from '@/components/testimonial-carousel';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 
-const impactStats = [
-  { number: '1.8M', label: 'Lives Impacted' },
-  { number: '50+', label: 'Projects Completed' },
-  { number: '10K+', label: 'Volunteers' },
-  { number: '20+', label: 'States Covered' },
-];
-
 const socialCauses = [
   {
     icon: BookOpen,
     title: 'Education',
-    description: 'Providing quality education to underprivileged children.',
+    description: 'Fostering knowledge and skills for a brighter future.',
     href: '/what-we-do/education',
   },
   {
     icon: Heart,
     title: 'Healthcare',
-    description: 'Offering accessible healthcare services to remote communities.',
+    description: 'Promoting well-being and access to essential health services.',
     href: '/what-we-do/healthcare',
   },
   {
     icon: Sprout,
     title: 'Environment',
-    description: 'Promoting sustainable practices and environmental conservation.',
+    description: 'Nurturing our planet through sustainable practices.',
     href: '/what-we-do/environment',
   },
   {
     icon: Briefcase,
     title: 'Livelihood',
-    description: 'Empowering individuals with skill development for a better future.',
+    description: 'Creating opportunities for economic self-reliance.',
     href: '/what-we-do/livelihood',
-  },
-  {
-    icon: Users,
-    title: 'Community Building',
-    description: 'Fostering strong and self-reliant communities.',
-    href: '/what-we-do/community-building',
-  },
-  {
-    icon: Globe,
-    title: 'Disaster Relief',
-    description: 'Providing immediate support during natural calamities.',
-    href: '/what-we-do/disaster-relief',
   },
 ];
 
 const flagshipProjects = [
   {
-    title: 'Project Vidya: Education for All',
+    title: 'Project Gyan: Spreading the Light of Education',
     description:
-      'Project Vidya is our flagship initiative aimed at providing quality education to children in rural and underserved areas. We establish learning centers, provide digital literacy programs, and offer scholarships to meritorious students to ensure that no child is left behind.',
+      'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.',
     image: 'https://picsum.photos/600/400',
     aiHint: 'children studying',
-    href: '/projects/vidya',
+    href: '/what-we-do/education',
   },
   {
-    title: 'Arogya: Health & Wellness Camps',
+    title: 'Arogya: A Step Towards Community Health',
     description:
-      "Through 'Arogya,' we organize regular health and wellness camps in remote villages, offering free medical check-ups, distributing essential medicines, and raising awareness about preventive healthcare. Our mobile medical units reach the most inaccessible areas.",
+      "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.",
     image: 'https://picsum.photos/600/400',
     aiHint: 'medical camp',
-    href: '/projects/arogya',
+    href: '/what-we-do/healthcare',
   },
 ];
 
-const awards = [
-  { src: 'https://picsum.photos/200/150', alt: 'Award 1', aiHint: 'award logo' },
-  { src: 'https://picsum.photos/200/150', alt: 'Award 2', aiHint: 'award seal' },
-  { src: 'https://picsum.photos/200/150', alt: 'Award 3', aiHint: 'trophy icon' },
-  { src: 'https://picsum.photos/200/150', alt: 'Award 4', aiHint: 'recognition graphic' },
-  { src: 'https://picsum.photos/200/150', alt: 'Award 5', aiHint: 'certificate logo' },
-  { src: 'https://picsum.photos/200/150', alt: 'Award 6', aiHint: 'award ribbon' },
-];
-
-const mediaLogos = [
-  { src: 'https://picsum.photos/200/100', alt: 'Media Logo 1', aiHint: 'newspaper logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Media Logo 2', aiHint: 'news channel' },
-  { src: 'https://picsum.photos/200/100', alt: 'Media Logo 3', aiHint: 'magazine logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Media Logo 4', aiHint: 'online portal' },
-];
-
-const corporatePartners = [
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 1', aiHint: 'company logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 2', aiHint: 'corporate logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 3', aiHint: 'tech company' },
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 4', aiHint: 'bank logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 5', aiHint: 'business logo' },
-  { src: 'https://picsum.photos/200/100', alt: 'Partner 6', aiHint: 'industry logo' },
-];
 
 export default function Home() {
   return (
@@ -133,30 +81,16 @@ export default function Home() {
           <div className="relative z-10 container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white font-headline">
-                  Empowering Communities, Inspiring Change
+                  सेवा परमो धर्मः
                 </h1>
                 <p className="mx-auto max-w-[700px] text-lg text-gray-200 md:text-xl">
-                  Join Raise India Foundation in our mission to create a brighter future for everyone.
+                  Join Shreyaskar Social Welfare Foundation in our mission to build a better, kinder world.
                 </p>
               <div className="mx-auto lg:mx-0">
                 <Button size="lg" asChild>
                   <Link href="/donate">Donate Now</Link>
                 </Button>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Impact Statistics Section */}
-        <section className="bg-muted/50 py-16 sm:py-24">
-          <div className="container">
-            <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-              {impactStats.map((stat) => (
-                <div key={stat.label}>
-                  <p className="text-4xl font-bold text-primary sm:text-5xl lg:text-6xl">{stat.number}</p>
-                  <p className="mt-2 text-sm font-medium uppercase tracking-wider text-foreground/80">{stat.label}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -168,7 +102,7 @@ export default function Home() {
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
                   src="https://picsum.photos/600/400"
-                  alt="Raise India Foundation Team"
+                  alt="Shreyaskar Social Welfare Foundation Team"
                   fill
                   className="object-cover"
                   data-ai-hint="team beneficiaries"
@@ -177,10 +111,10 @@ export default function Home() {
               <div className="space-y-4">
                 <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Who We Are</h2>
                 <p className="text-lg text-foreground/80">
-                  Raise India Foundation is a non-profit organization dedicated to fostering sustainable development and social equity. We work at the grassroots level to empower communities through education, healthcare, and livelihood opportunities, striving to create a world where everyone can reach their full potential.
+                  Shreyaskar Social Welfare Foundation is a newly established non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty. We are committed to fostering positive change by focusing on the core pillars of a thriving society: Education, Healthcare, Environment, and Livelihood. Our journey is just beginning, and we invite you to be a part of it.
                 </p>
                 <Button asChild>
-                  <Link href="/about">Read More</Link>
+                  <Link href="/about">Learn More</Link>
                 </Button>
               </div>
             </div>
@@ -190,11 +124,11 @@ export default function Home() {
         {/* Our Works Section */}
         <section className="py-16 sm:py-24 bg-muted/50">
           <div className="container text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Works</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What We Do</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-              We focus on key areas to create a holistic and lasting impact on society.
+              Our work is centered around four key pillars to create a holistic and lasting impact.
             </p>
-            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
               {socialCauses.map((cause) => (
                 <Card key={cause.title} className="text-center transition-transform hover:scale-105 hover:shadow-xl">
                   <CardContent className="p-6">
@@ -217,7 +151,7 @@ export default function Home() {
         <section className="py-16 sm:py-24">
           <div className="container">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Flagship Projects</h2>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Foundational Projects</h2>
             </div>
             <div className="space-y-20">
               {flagshipProjects.map((project, index) => (
@@ -244,85 +178,10 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Awards & Recognition Section */}
-        <section className="py-16 sm:py-24 bg-muted/50">
-          <div className="container text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Awards & Recognition</h2>
-            <div className="mt-12">
-              <Carousel opts={{ align: 'start', loop: true }} className="w-full">
-                <CarouselContent>
-                  {awards.map((award, index) => (
-                    <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
-                      <div className="p-1">
-                        <div className="relative h-40 flex items-center justify-center p-4 bg-background/50 rounded-lg">
-                          <Image src={award.src} alt={award.alt} width={150} height={100} className="object-contain" data-ai-hint={award.aiHint} />
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            </div>
-          </div>
-        </section>
-
-        {/* Media Coverage Section */}
-        <section className="py-16 sm:py-24">
-          <div className="container text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-12">As Seen In The Media</h2>
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Print Media</h3>
-              <div className="flex flex-wrap justify-center items-center gap-8 mb-12">
-                {mediaLogos.map((logo, index) => (
-                  <div key={`print-${index}`} className="relative h-20 w-40">
-                    <Image src={logo.src} alt={logo.alt} fill className="object-contain" data-ai-hint={logo.aiHint} />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Digital Media</h3>
-              <div className="flex flex-wrap justify-center items-center gap-8">
-                {mediaLogos.map((logo, index) => (
-                  <div key={`digital-${index}`} className="relative h-20 w-40">
-                    <Image src={logo.src} alt={logo.alt} fill className="object-contain" data-ai-hint={`${logo.aiHint} website`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Corporate Partners Section */}
-        <section className="py-16 sm:py-24 bg-muted/50">
-          <div className="container text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Esteemed Corporate Partners</h2>
-            <div className="mt-12">
-              <Carousel opts={{ align: 'start', loop: true }} className="w-full">
-                <CarouselContent>
-                  {corporatePartners.map((partner, index) => (
-                    <CarouselItem key={index} className="md:basis-1/4 lg:basis-1/6">
-                      <div className="p-1">
-                        <div className="relative h-24 flex items-center justify-center p-4 bg-background/50 rounded-lg">
-                          <Image src={partner.src} alt={partner.alt} width={150} height={60} className="object-contain" data-ai-hint={partner.aiHint} />
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            </div>
-          </div>
-        </section>
-
         {/* Donor's Testimonial Section */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-24 bg-muted/50">
           <div className="container">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">What Our Supporters Say</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">Words of Encouragement</h2>
             <TestimonialCarousel />
           </div>
         </section>

@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { Logo } from '../logo';
 
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://facebook.com' },
@@ -24,27 +25,15 @@ export function Footer() {
     <footer className="border-t bg-muted/50">
       <div className="container py-12 text-foreground">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Visit Us</h3>
-            <p className="text-sm text-foreground/80">123 Philanthropy Lane<br/>New Delhi, 110001, India</p>
-            
-            <h3 className="mt-6 mb-4 text-sm font-bold uppercase tracking-wider">Email Us</h3>
-            <a href="mailto:contact@raiseindia.org" className="text-sm text-foreground/80 hover:text-primary">contact@raiseindia.org</a>
-            
-            <h3 className="mt-6 mb-4 text-sm font-bold uppercase tracking-wider">Call Us</h3>
-            <a href="tel:+911234567890" className="text-sm text-foreground/80 hover:text-primary">+91 123 456 7890</a>
+          <div className="col-span-1 md:col-span-2">
+            <div className="mb-4">
+              <Logo />
+            </div>
+            <p className="text-sm text-foreground/80 max-w-sm">
+             A non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty.
+            </p>
           </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">About Us</h3>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-sm text-foreground/80 hover:text-primary">About Raise India Foundation</Link></li>
-              <li><Link href="/about#director-message" className="text-sm text-foreground/80 hover:text-primary">Director's Message</Link></li>
-              <li><Link href="/legal" className="text-sm text-foreground/80 hover:text-primary">Legal/Statutory Documents</Link></li>
-              <li><Link href="/awards" className="text-sm text-foreground/80 hover:text-primary">Awards & Recognition</Link></li>
-            </ul>
-          </div>
-
+          
           <div>
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">What We Do</h3>
             <ul className="space-y-3">
@@ -56,11 +45,11 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Past Events</h3>
-            <ul className="space-y-3">
-              <li><Link href="/events" className="text-sm text-foreground/80 hover:text-primary">Annual Gala 2023</Link></li>
-              <li><Link href="/events" className="text-sm text-foreground/80 hover:text-primary">Community Health Camp</Link></li>
-              <li><Link href="/events" className="text-sm text-foreground/80 hover:text-primary">Tree Plantation Drive</Link></li>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Get In Touch</h3>
+             <ul className="space-y-3">
+              <li><Link href="/about" className="text-sm text-foreground/80 hover:text-primary">About Us</Link></li>
+              <li><Link href="/contact" className="text-sm text-foreground/80 hover:text-primary">Contact</Link></li>
+              <li><Link href="/donate" className="text-sm text-foreground/80 hover:text-primary">Donate</Link></li>
             </ul>
           </div>
         </div>
@@ -68,7 +57,7 @@ export function Footer() {
         <div className="mt-12 border-t border-border pt-8">
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <p className="text-sm text-foreground/70">
-              &copy; {new Date().getFullYear()} Raise India Foundation. All rights reserved.
+              &copy; {new Date().getFullYear()} Shreyaskar Social Welfare Foundation. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => (

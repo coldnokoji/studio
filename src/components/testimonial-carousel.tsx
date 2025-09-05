@@ -14,19 +14,19 @@ import {
 
 const testimonials = [
   {
-    quote: "Raise India Foundation is doing phenomenal work. Their dedication to community welfare is truly inspiring. I'm proud to be a supporter.",
+    quote: "The mission of Shreyaskar Foundation is deeply inspiring. I'm excited to see the positive impact they will have on the community.",
     name: 'Priya Sharma',
-    affiliation: 'Donor',
+    affiliation: 'Early Supporter',
   },
   {
-    quote: "Interning here was a life-changing experience. I got to see the real impact of our efforts on the ground. The team is passionate and welcoming.",
+    quote: "It's wonderful to see a new organization with such a clear and holistic vision. I'm looking forward to volunteering with them.",
     name: 'Rahul Verma',
-    affiliation: 'Intern',
+    affiliation: 'Volunteer',
   },
   {
-    quote: "The transparency and commitment of this organization are commendable. You know exactly where your contribution is going and the difference it's making.",
+    quote: "The focus on service and compassion is what our society needs. I believe this foundation will achieve great things.",
     name: 'Anjali Mehta',
-    affiliation: 'Supporter',
+    affiliation: 'Well-wisher',
   },
 ];
 

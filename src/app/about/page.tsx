@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Award, FileText } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
@@ -27,10 +26,10 @@ export default function AboutUsPage() {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                    About Raise India Foundation
+                    About Shreyaskar Social Welfare Foundation
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl">
-                    Empowering marginalized communities through sustainable initiatives in education, healthcare, and livelihood.
+                    Laying the groundwork for a compassionate and self-reliant society through dedicated service.
                   </p>
                 </div>
               </div>
@@ -53,7 +52,7 @@ export default function AboutUsPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-foreground/80">
-                      To empower marginalized communities through sustainable initiatives in education, healthcare, and livelihood. We strive to create a world where every individual has the opportunity to live a life of dignity and purpose.
+                      To empower communities by fostering sustainable development in education, healthcare, environment, and livelihood. We are dedicated to creating a foundation of opportunity for every individual to lead a life of dignity and purpose.
                     </p>
                   </CardContent>
                 </Card>
@@ -63,7 +62,7 @@ export default function AboutUsPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-foreground/80">
-                      We envision a self-reliant India where all citizens have access to the resources and opportunities they need to thrive, fostering a society built on equality, justice, and compassion.
+                      We envision a self-reliant and compassionate India, where all citizens have the resources and opportunities they need to thrive, contributing to a society built on the principles of service, equality, and justice.
                     </p>
                   </CardContent>
                 </Card>
@@ -78,53 +77,23 @@ export default function AboutUsPage() {
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
                   src="https://picsum.photos/400/500"
-                  alt="Director of Raise India Foundation"
+                  alt="Founder of Shreyaskar Social Welfare Foundation"
                   fill
                   className="object-cover"
                   data-ai-hint="portrait photo"
                 />
               </div>
               <div className="space-y-4">
-                <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Director's Message</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Founder's Message</h2>
                 <p className="text-lg text-foreground/80">
-                  "Since our inception, Raise India Foundation has been driven by a single, unwavering belief: that collective action can bring about profound change. We have witnessed firsthand the resilience and potential within our communities, and it is our privilege to work alongside them. Every project we undertake is a step towards a more equitable future. I invite you to join us on this journey of hope and transformation."
+                  "With a firm belief in 'Seva Paramo Dharma' - service as our highest duty - we have embarked on this journey. Shreyaskar Social Welfare Foundation is born from a desire to create tangible change from the ground up. Every small step we take today in education, health, and our environment is a seed planted for a better tomorrow. I invite you to join us in nurturing these seeds of hope and building a brighter future together."
                 </p>
-                <p className="font-bold">- Jane Doe, Director</p>
+                <p className="font-bold">- Founder's Name</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-muted/50">
-          <div className="container max-w-5xl">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <Card className="text-center">
-                <CardContent className="p-8">
-                  <Award className="mx-auto h-12 w-12 text-primary" />
-                  <h3 className="mt-6 text-xl font-bold">Awards & Recognition</h3>
-                  <p className="mt-2 text-foreground/70">
-                    Our work has been recognized by various bodies for its impact and transparency.
-                  </p>
-                  <Button variant="link" asChild className="mt-4">
-                    <Link href="/awards">View Awards</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card className="text-center">
-                <CardContent className="p-8">
-                  <FileText className="mx-auto h-12 w-12 text-primary" />
-                  <h3 className="mt-6 text-xl font-bold">Legal & Statutory Documents</h3>
-                  <p className="mt-2 text-foreground/70">
-                    We are committed to transparency and accountability in all our operations.
-                  </p>
-                  <Button variant="link" asChild className="mt-4">
-                    <Link href="/legal">View Documents</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
       <ChatWidget />

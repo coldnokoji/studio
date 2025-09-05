@@ -12,9 +12,7 @@ export default function AdminLayout({
     <div className="flex min-h-screen">
       <aside className="w-64 border-r bg-muted/40 p-6 flex flex-col">
         <div className="mb-8">
-          <Link href="/admin">
-              <Logo />
-          </Link>
+            <Logo />
         </div>
         <nav className="flex flex-col gap-2 flex-grow">
           <Link href="/admin" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">

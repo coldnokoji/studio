@@ -3,13 +3,10 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster as OldToaster } from '@/components/ui/toaster';
 import { Toaster } from "@/components/ui/sonner"
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { ChatWidget } from '@/components/layout/chat-widget';
 
 export const metadata: Metadata = {
-  title: 'Raise India Foundation',
-  description: 'Empowering Communities, Inspiring Change',
+  title: 'Shreyaskar Social Welfare Foundation',
+  description: 'सेवा परमो धर्मः - Service is the highest duty.',
 };
 
 export default function RootLayout({

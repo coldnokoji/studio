@@ -6,13 +6,9 @@ import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 
 const documents = [
-  { name: 'Registration Certificate', href: '#' },
-  { name: '80G & 12A Certificates', href: '#' },
-  { name: 'FCRA Certificate', href: '#' },
-  { name: 'Annual Report 2023', href: '#' },
-  { name: 'Annual Report 2022', href: '#' },
-  { name: 'Audited Financial Statement 2023', href: '#' },
-  { name: 'Audited Financial Statement 2022', href: '#' },
+  { name: 'Registration Certificate (Pending)', href: '#' },
+  { name: '80G & 12A Certificates (Pending)', href: '#' },
+  { name: 'FCRA Certificate (Pending)', href: '#' },
 ];
 
 export default function LegalPage() {
@@ -26,7 +22,7 @@ export default function LegalPage() {
               Legal & Statutory Documents
             </h1>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-              We are committed to maintaining transparency and accountability in all our operations.
+              We are committed to maintaining transparency and accountability in all our operations. Our legal documentation is currently under process.
             </p>
           </div>
           
@@ -39,15 +35,13 @@ export default function LegalPage() {
                 <ul className="divide-y divide-border">
                   {documents.map((doc) => (
                     <li key={doc.name}>
-                      <Link href={doc.href} passHref legacyBehavior>
-                        <a target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
-                          <div className="flex items-center gap-4">
-                            <FileText className="h-5 w-5 text-primary" />
-                            <span className="text-foreground/80">{doc.name}</span>
-                          </div>
-                          <span className="text-sm text-primary hover:underline">Download</span>
-                        </a>
-                      </Link>
+                      <div className="flex items-center justify-between p-4">
+                        <div className="flex items-center gap-4">
+                          <FileText className="h-5 w-5 text-muted-foreground" />
+                          <span className="text-foreground/60">{doc.name}</span>
+                        </div>
+                        <span className="text-sm text-muted-foreground">Coming Soon</span>
+                      </div>
                     </li>
                   ))}
                 </ul>

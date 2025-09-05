@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { BookOpen, Heart, Sprout, Briefcase, Users, Globe } from 'lucide-react';
+import { BookOpen, Heart, Sprout, Briefcase } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -16,91 +16,61 @@ const programs = {
   education: {
     icon: BookOpen,
     title: 'Education',
-    description: 'Our education programs focus on providing access to quality learning for children in underserved communities. We build schools, provide scholarships, and implement digital literacy projects to bridge the educational gap.',
+    description: 'Our educational initiatives aim to unlock the potential of every child. We are focused on establishing learning centers, providing essential materials, and integrating digital tools to make learning accessible and engaging.',
     stats: [
-      { number: '50,000+', label: 'Children Enrolled' },
-      { number: '200+', label: 'Schools Supported' },
-      { number: '5,000+', label: 'Scholarships Awarded' },
+      { number: '100+', label: 'Students We Aim to Reach Initially' },
+      { number: '5', label: 'Community Learning Centers Planned' },
+      { number: '1,000+', label: 'Books to be Distributed' },
     ],
     images: [
       { src: 'https://picsum.photos/600/400', alt: 'Children in a classroom', aiHint: 'children classroom' },
-      { src: 'https://picsum.photos/600/400', alt: 'Student receiving a scholarship', aiHint: 'student award' },
+      { src: 'https://picsum.photos/600/400', alt: 'A child reading a book', aiHint: 'child reading' },
       { src: 'https://picsum.photos/600/400', alt: 'Digital literacy class', aiHint: 'computer class' },
     ],
   },
   healthcare: {
     icon: Heart,
     title: 'Healthcare',
-    description: 'We believe that healthcare is a fundamental right. Our healthcare initiatives include mobile medical camps, free health check-ups, and awareness campaigns on sanitation and hygiene in remote and rural areas.',
+    description: "We believe a healthy community is a strong community. Our healthcare goals include organizing free medical check-up camps, running awareness campaigns on preventive care, and ensuring basic health services reach the underserved.",
     stats: [
-      { number: '1.2M+', label: 'Patients Treated' },
-      { number: '1,500+', label: 'Medical Camps Held' },
-      { number: '50+', label: 'Mobile Medical Units' },
+      { number: '500+', label: 'People We Plan to Serve' },
+      { number: '10+', label: 'Health Camps to be Organized' },
+      { number: '1,000+', label: 'Health Kits to be Distributed' },
     ],
     images: [
       { src: 'https://picsum.photos/600/400', alt: 'Doctor examining a patient', aiHint: 'doctor patient' },
-      { src: 'https://picsum.photos/600/400', alt: 'Mobile medical van', aiHint: 'medical van' },
+      { src: 'https://picsum.photos/600/400', alt: 'A volunteer distributing medicine', aiHint: 'volunteer medicine' },
       { src: 'https://picsum.photos/600/400', alt: 'Health awareness session', aiHint: 'community meeting' },
     ],
   },
    environment: {
     icon: Sprout,
     title: 'Environment',
-    description: 'Our environment programs aim to promote sustainability and conserve natural resources. We organize large-scale tree plantation drives, conduct clean-up campaigns, and promote renewable energy sources in communities.',
+    description: 'Nurturing our planet is our collective responsibility. We are launching initiatives like tree plantation drives, promoting waste management, and raising awareness about sustainable living to protect our environment for future generations.',
     stats: [
-      { number: '1M+', label: 'Trees Planted' },
-      { number: '500+', label: 'Clean-Up Drives' },
-      { number: '100+', label: 'Villages with Solar Power' },
+      { number: '1,000+', label: 'Trees We Aim to Plant' },
+      { number: '5+', label: 'Clean-Up Drives Planned' },
+      { number: '10+', label: 'Villages in Our Awareness Campaign' },
     ],
     images: [
       { src: 'https://picsum.photos/600/400', alt: 'People planting trees', aiHint: 'planting trees' },
-      { src: 'https://picsum.photos/600/400', alt: 'River clean-up drive', aiHint: 'river cleaning' },
-      { src: 'https://picsum.photos/600/400', alt: 'Solar panels in a village', aiHint: 'solar panels' },
+      { src: 'https://picsum.photos/600/400', alt: 'Community clean-up drive', aiHint: 'community cleaning' },
+      { src: 'https://picsum.photos/600/400', alt: 'An awareness session on recycling', aiHint: 'recycling awareness' },
     ],
   },
   livelihood: {
     icon: Briefcase,
     title: 'Livelihood',
-    description: 'We empower individuals by providing vocational training and skill development programs. Our goal is to create sustainable livelihood opportunities, especially for women and youth, to help them achieve economic independence.',
+    description: 'Empowering individuals with skills is key to self-reliance. Our livelihood programs will focus on providing vocational training and supporting local artisans and farmers, creating sustainable economic opportunities.',
     stats: [
-      { number: '25,000+', label: 'Youth Trained' },
-      { number: '5,000+', label: 'Women Self-Help Groups' },
-      { number: '80%', label: 'Placement Rate' },
+      { number: '100+', label: 'Youth to be Trained' },
+      { number: '10+', label: 'Skill Development Workshops' },
+      { number: '50+', label: 'Families We Aim to Support' },
     ],
      images: [
-      { src: 'https://picsum.photos/600/400', alt: 'Woman in a tailoring class', aiHint: 'woman sewing' },
+      { src: 'https://picsum.photos/600/400', alt: 'A person learning a new skill', aiHint: 'vocational training' },
       { src: 'https://picsum.photos/600/400', alt: 'Students in a computer lab', aiHint: 'computer training' },
       { src: 'https://picsum.photos/600/400', alt: 'Group of artisans with their products', aiHint: 'local artisans' },
-    ],
-  },
-  'community-building': {
-    icon: Users,
-    title: 'Community Building',
-    description: 'We work to foster strong, resilient, and self-reliant communities. Our initiatives focus on infrastructure development, promoting social harmony, and empowering local governance.',
-    stats: [
-      { number: '100+', label: 'Community Centers Built' },
-      { number: '1,000+', label: 'Community Leaders Trained' },
-      { number: '50+', label: 'Model Villages Developed' },
-    ],
-     images: [
-      { src: 'https://picsum.photos/600/400', alt: 'Community meeting', aiHint: 'village meeting' },
-      { src: 'https://picsum.photos/600/400', alt: 'Inauguration of a community hall', aiHint: 'community center' },
-      { src: 'https://picsum.photos/600/400', alt: 'Villagers working together', aiHint: 'community work' },
-    ],
-  },
-  'disaster-relief': {
-    icon: Globe,
-    title: 'Disaster Relief',
-    description: 'In times of natural calamities, we provide immediate relief and long-term rehabilitation support. Our teams are trained to respond quickly with food, shelter, medical aid, and other essentials to affected populations.',
-    stats: [
-      { number: '20+', label: 'Disasters Responded To' },
-      { number: '500K+', label: 'People Assisted' },
-      { number: '10,000+', label: 'Relief Kits Distributed' },
-    ],
-    images: [
-      { src: 'https://picsum.photos/600/400', alt: 'Distributing food supplies', aiHint: 'food distribution' },
-      { src: 'https://picsum.photos/600/400', alt: 'Temporary shelters', aiHint: 'relief camp' },
-      { src: 'https://picsum.photos/600/400', alt: 'Medical team providing aid', aiHint: 'first aid' },
     ],
   }
 };
@@ -151,7 +121,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
         <section className="bg-muted/50 py-16 sm:py-24">
           <div className="container">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
-              Impact in Numbers
+              Our Initial Goals
             </h2>
             <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
               {program.stats.map((stat) => (
@@ -197,4 +167,11 @@ export default function ProgramPage({ params }: ProgramPageProps) {
       <ChatWidget />
     </>
   );
+}
+
+// Generate static paths for the slugs
+export async function generateStaticParams() {
+  return Object.keys(programs).map((slug) => ({
+    slug,
+  }));
 }

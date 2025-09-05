@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookOpen, Heart, Sprout, Briefcase, Users, Globe } from 'lucide-react';
+import { BookOpen, Heart, Sprout, Briefcase } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
@@ -9,38 +9,26 @@ const socialCauses = [
   {
     icon: BookOpen,
     title: 'Education',
-    description: 'Providing quality education to underprivileged children.',
+    description: 'Fostering knowledge and skills for a brighter future.',
     href: '/what-we-do/education',
   },
   {
     icon: Heart,
     title: 'Healthcare',
-    description: 'Offering accessible healthcare services to remote communities.',
+    description: 'Promoting well-being and access to essential health services.',
     href: '/what-we-do/healthcare',
   },
   {
     icon: Sprout,
     title: 'Environment',
-    description: 'Promoting sustainable practices and environmental conservation.',
+    description: 'Nurturing our planet through sustainable practices and conservation.',
     href: '/what-we-do/environment',
   },
   {
     icon: Briefcase,
     title: 'Livelihood',
-    description: 'Empowering individuals with skill development for a better future.',
+    description: 'Creating opportunities for economic self-reliance and skill development.',
     href: '/what-we-do/livelihood',
-  },
-  {
-    icon: Users,
-    title: 'Community Building',
-    description: 'Fostering strong and self-reliant communities.',
-    href: '/what-we-do/community-building',
-  },
-  {
-    icon: Globe,
-    title: 'Disaster Relief',
-    description: 'Providing immediate support during natural calamities.',
-    href: '/what-we-do/disaster-relief',
   },
 ];
 
@@ -55,10 +43,10 @@ export default function WhatWeDoPage() {
               What We Do
             </h1>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-              We focus on key areas to create a holistic and lasting impact on society.
+              Our work is centered around four key pillars to create a holistic and lasting impact.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
             {socialCauses.map((cause) => (
               <Link href={cause.href} key={cause.title} className="flex">
                 <Card className="text-center w-full transition-transform hover:scale-105 hover:shadow-xl flex flex-col">
