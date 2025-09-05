@@ -25,3 +25,11 @@ export type ContactMessage = {
   message: string;
   createdAt: Date;
 };
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  aiHint: string;
+};

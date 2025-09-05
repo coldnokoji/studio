@@ -2,7 +2,7 @@
 'use server';
 
 import admin from 'firebase-admin';
-import type { Award, Event, ContactMessage } from '@/lib/types';
+import type { Award, Event, ContactMessage, TeamMember } from '@/lib/types';
 
 // Your web app's Firebase configuration
 const serviceAccount = {
@@ -80,6 +80,35 @@ export async function saveEvent(id: string | undefined, data: Omit<Event, 'id'>)
 
 export async function deleteEvent(id: string): Promise<void> {
     await db.collection('events').doc(id).delete();
+}
+
+// Team Members
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  const membersCol = db.collection('teamMembers');
+  const q = membersCol.orderBy('name');
+  const membersSnapshot = await q.get();
+  return membersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as TeamMember));
+}
+
+export async function getTeamMemberById(id: string): Promise<TeamMember | null> {
+    const doc = await db.collection('teamMembers').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    return { id: doc.id, ...doc.data() } as TeamMember;
+}
+
+export async function saveTeamMember(id: string | undefined, data: Omit<TeamMember, 'id'>): Promise<string> {
+    if (id) {
+        await db.collection('teamMembers').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('teamMembers').add(data);
+    return docRef.id;
+}
+
+export async function deleteTeamMember(id: string): Promise<void> {
+    await db.collection('teamMembers').doc(id).delete();
 }
 
 

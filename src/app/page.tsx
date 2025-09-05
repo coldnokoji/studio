@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 import {
   BookOpen,
   Heart,
@@ -13,6 +13,7 @@ import { TestimonialCarousel } from '@/components/testimonial-carousel';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
+import { getTeamMembers } from '@/services/firestore';
 
 const socialCauses = [
   {
@@ -61,7 +62,9 @@ const flagshipProjects = [
 ];
 
 
-export default function Home() {
+export default async function Home() {
+  const teamMembers = (await getTeamMembers()).slice(0, 3); // Get first 3 members for homepage
+
   return (
     <>
       <Header />
@@ -177,9 +180,45 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Team Section */}
+        {teamMembers.length > 0 && (
+          <section className="py-16 sm:py-24 bg-muted/50">
+            <div className="container text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Meet Our Team</h2>
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
+                The passionate individuals leading our mission.
+              </p>
+              <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {teamMembers.map((member) => (
+                  <Card key={member.id} className="text-center overflow-hidden">
+                    <div className="relative h-64 w-full">
+                      <Image 
+                        src={member.image} 
+                        alt={member.name} 
+                        fill 
+                        className="object-cover"
+                        data-ai-hint={member.aiHint || 'person portrait'}
+                      />
+                    </div>
+                    <CardContent className="p-6">
+                      <h3 className="text-xl font-bold">{member.name}</h3>
+                      <p className="text-primary">{member.role}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <div className="mt-12">
+                <Button asChild>
+                  <Link href="/team">See Full Team</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
         
         {/* Donor's Testimonial Section */}
-        <section className="py-16 sm:py-24 bg-muted/50">
+        <section className="py-16 sm:py-24">
           <div className="container">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">Words of Encouragement</h2>
             <TestimonialCarousel />

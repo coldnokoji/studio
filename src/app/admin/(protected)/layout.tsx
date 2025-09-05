@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Home, Award, Calendar } from 'lucide-react';
+import { Home, Award, Calendar, Users } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { SignOutButton } from '@/app/admin/(protected)/sign-out-button';
 
@@ -26,6 +26,10 @@ export default function AdminLayout({
           <Link href="/admin/events" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <Calendar className="h-4 w-4" />
             Events
+          </Link>
+          <Link href="/admin/team" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <Users className="h-4 w-4" />
+            Team
           </Link>
         </nav>
         <div>

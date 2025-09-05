@@ -16,6 +16,7 @@ import { Logo } from '@/components/logo';
 const navLinks = [
   { href: '/about', label: 'About Us' },
   { href: '/what-we-do', label: 'What We Do' },
+  { href: '/team', label: 'Our Team' },
   { href: '/contact', label: 'Contact Us' },
 ];
 

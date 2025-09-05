@@ -6,7 +6,7 @@ export default function AdminDashboardPage() {
   return (
     <div>
       <h1 className="mb-6 text-3xl font-bold">Admin Dashboard</h1>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle>Manage Awards</CardTitle>
@@ -26,6 +26,17 @@ export default function AdminDashboardPage() {
             <p className="mb-4">Add, edit, or delete past events.</p>
             <Button asChild>
               <Link href="/admin/events">Go to Events</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Manage Team</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Add, edit, or delete team members.</p>
+            <Button asChild>
+              <Link href="/admin/team">Go to Team</Link>
             </Button>
           </CardContent>
         </Card>
