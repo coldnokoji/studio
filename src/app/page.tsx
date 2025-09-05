@@ -113,35 +113,40 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[calc(100vh-4rem)] w-full">
-        <Image
-          src="https://picsum.photos/1920/1080"
-          alt="A group of smiling people from the community"
-          fill
-          className="object-cover"
-          data-ai-hint="community service"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
-          <div className="container px-4">
-            <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl font-headline">
-              Empowering Communities, Inspiring Change
-            </h1>
-            <p className="mt-4 mx-auto max-w-3xl text-lg text-white/90 md:text-xl">
-              Join Raise India Foundation in our mission to create a brighter future for everyone.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button size="lg" asChild>
-                <Link href="/donate">Donate Now</Link>
-              </Button>
+      <section className="w-full py-20 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-[1fr_600px]">
+            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+              <Image
+                src="https://picsum.photos/1920/1080"
+                alt="A group of smiling people from the community"
+                fill
+                className="object-cover"
+                data-ai-hint="community service"
+                priority
+              />
+            </div>
+            <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
+              <div className="space-y-2">
+                <h1 className="text-4xl font-bold tracking-tighter text-primary sm:text-5xl xl:text-6xl/none font-headline">
+                  Empowering Communities, Inspiring Change
+                </h1>
+                <p className="mx-auto max-w-[700px] text-foreground/80 md:text-xl">
+                  Join Raise India Foundation in our mission to create a brighter future for everyone.
+                </p>
+              </div>
+              <div className="mx-auto lg:mx-0">
+                <Button size="lg" asChild>
+                  <Link href="/donate">Donate Now</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Impact Statistics Section */}
-      <section className="bg-background py-16 sm:py-24">
+      <section className="bg-muted/50 py-16 sm:py-24">
         <div className="container">
           <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
             {impactStats.map((stat) => (
@@ -155,10 +160,10 @@ export default function Home() {
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-16 sm:py-24 bg-muted/50">
+      <section className="py-16 sm:py-24">
         <div className="container">
           <div className="grid items-center gap-12 md:grid-cols-2">
-            <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
+            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
               <Image
                 src="https://picsum.photos/600/400"
                 alt="Raise India Foundation Team"
@@ -181,7 +186,7 @@ export default function Home() {
       </section>
       
       {/* Our Works Section */}
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Works</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
@@ -207,7 +212,7 @@ export default function Home() {
       </section>
 
       {/* Current Projects Section */}
-      <section className="py-16 sm:py-24 bg-muted/50">
+      <section className="py-16 sm:py-24">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Flagship Projects</h2>
@@ -238,7 +243,7 @@ export default function Home() {
       </section>
       
       {/* Awards & Recognition Section */}
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Awards & Recognition</h2>
           <div className="mt-12">
@@ -247,7 +252,7 @@ export default function Home() {
                 {awards.map((award, index) => (
                   <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
                     <div className="p-1">
-                      <div className="relative h-40 flex items-center justify-center p-4 bg-muted/50 rounded-lg">
+                      <div className="relative h-40 flex items-center justify-center p-4 bg-background/50 rounded-lg">
                         <Image src={award.src} alt={award.alt} width={150} height={100} className="object-contain" data-ai-hint={award.aiHint} />
                       </div>
                     </div>
@@ -262,7 +267,7 @@ export default function Home() {
       </section>
 
       {/* Media Coverage Section */}
-      <section className="py-16 sm:py-24 bg-muted/50">
+      <section className="py-16 sm:py-24">
         <div className="container text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-12">As Seen In The Media</h2>
           <div>
@@ -289,7 +294,7 @@ export default function Home() {
       </section>
 
       {/* Corporate Partners Section */}
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Our Esteemed Corporate Partners</h2>
           <div className="mt-12">
@@ -298,7 +303,7 @@ export default function Home() {
                 {corporatePartners.map((partner, index) => (
                   <CarouselItem key={index} className="md:basis-1/4 lg:basis-1/6">
                     <div className="p-1">
-                      <div className="relative h-24 flex items-center justify-center p-4 bg-muted/50 rounded-lg">
+                      <div className="relative h-24 flex items-center justify-center p-4 bg-background/50 rounded-lg">
                         <Image src={partner.src} alt={partner.alt} width={150} height={60} className="object-contain" data-ai-hint={partner.aiHint} />
                       </div>
                     </div>
@@ -313,7 +318,7 @@ export default function Home() {
       </section>
 
       {/* Donor's Testimonial Section */}
-      <section className="py-16 sm:py-24 bg-muted/50">
+      <section className="py-16 sm:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">What Our Supporters Say</h2>
           <TestimonialCarousel />

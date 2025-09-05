@@ -7,23 +7,33 @@ import { Award, FileText } from 'lucide-react';
 export default function AboutUsPage() {
   return (
     <>
-      <section className="relative h-80 w-full">
-        <Image
-          src="https://picsum.photos/1920/600"
-          alt="Our Team working in the community"
-          fill
-          className="object-cover"
-          data-ai-hint="team photo"
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
-          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            About Raise India Foundation
-          </h1>
+      <section className="w-full py-20 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+              <Image
+                src="https://picsum.photos/1920/1080"
+                alt="Our Team working in the community"
+                fill
+                className="object-cover"
+                data-ai-hint="team photo"
+              />
+            </div>
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  About Raise India Foundation
+                </h1>
+                <p className="max-w-[600px] text-foreground/80 md:text-xl">
+                  Empowering marginalized communities through sustainable initiatives in education, healthcare, and livelihood.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container max-w-5xl">
           <div className="space-y-12">
             <div className="text-center">
@@ -57,7 +67,7 @@ export default function AboutUsPage() {
         </div>
       </section>
       
-      <section className="py-16 sm:py-24 bg-muted/50">
+      <section className="py-16 sm:py-24">
         <div className="container max-w-5xl">
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
@@ -80,7 +90,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-muted/50">
         <div className="container max-w-5xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card className="text-center">

@@ -117,31 +117,28 @@ export default function ProgramPage({ params }: ProgramPageProps) {
 
   return (
     <>
-      <section className="relative h-80 w-full">
-        <Image
-          src={`https://picsum.photos/1920/600?${program.title.toLowerCase().replace(' ', '-')}`}
-          alt={program.title}
-          fill
-          className="object-cover"
-          data-ai-hint={`${program.title.toLowerCase()} program`}
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
-          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            {program.title}
-          </h1>
-        </div>
-      </section>
-
-      <section className="py-16 sm:py-24">
-        <div className="container max-w-5xl">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Our Approach
-            </h2>
-            <p className="mt-4 text-lg text-foreground/80">
-              {program.description}
-            </p>
+      <section className="w-full py-20 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+              <Image
+                src={`https://picsum.photos/1920/1080?${program.title.toLowerCase().replace(' ', '-')}`}
+                alt={program.title}
+                fill
+                className="object-cover"
+                data-ai-hint={`${program.title.toLowerCase()} program`}
+              />
+            </div>
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  {program.title}
+                </h1>
+                <p className="max-w-[600px] text-foreground/80 md:text-xl">
+                  {program.description}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
