@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { ChatWidget } from '@/components/layout/chat-widget';
 
 const documents = [
   { name: 'Registration Certificate', href: '#' },
@@ -14,40 +17,47 @@ const documents = [
 
 export default function LegalPage() {
   return (
-    <div className="container py-16 sm:py-24">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          Legal & Statutory Documents
-        </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-          We are committed to maintaining transparency and accountability in all our operations.
-        </p>
-      </div>
-      
-      <div className="max-w-4xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Our Documents</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="divide-y divide-border">
-              {documents.map((doc) => (
-                <li key={doc.name}>
-                  <Link href={doc.href} passHref>
-                    <a target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <FileText className="h-5 w-5 text-primary" />
-                        <span className="text-foreground/80">{doc.name}</span>
-                      </div>
-                      <span className="text-sm text-primary hover:underline">Download</span>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <>
+      <Header />
+      <main className="flex-1">
+        <div className="container py-16 sm:py-24">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              Legal & Statutory Documents
+            </h1>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
+              We are committed to maintaining transparency and accountability in all our operations.
+            </p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle>Our Documents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="divide-y divide-border">
+                  {documents.map((doc) => (
+                    <li key={doc.name}>
+                      <Link href={doc.href} passHref legacyBehavior>
+                        <a target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+                          <div className="flex items-center gap-4">
+                            <FileText className="h-5 w-5 text-primary" />
+                            <span className="text-foreground/80">{doc.name}</span>
+                          </div>
+                          <span className="text-sm text-primary hover:underline">Download</span>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
+      <Footer />
+      <ChatWidget />
+    </>
   );
 }

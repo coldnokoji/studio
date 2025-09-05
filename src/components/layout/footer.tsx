@@ -1,4 +1,8 @@
+
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 const socialLinks = [
@@ -9,6 +13,13 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Don't render footer for admin routes
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="border-t bg-muted/50">
       <div className="container py-12 text-foreground">

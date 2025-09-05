@@ -8,6 +8,9 @@ import {
 } from '@/components/ui/carousel';
 import { BookOpen, Heart, Sprout, Briefcase, Users, Globe } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { ChatWidget } from '@/components/layout/chat-widget';
 
 const programs = {
   education: {
@@ -117,76 +120,81 @@ export default function ProgramPage({ params }: ProgramPageProps) {
 
   return (
     <>
-      <section className="w-full py-20 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
-              <Image
-                src={`https://picsum.photos/1920/1080?${program.title.toLowerCase().replace(' ', '-')}`}
-                alt={program.title}
-                fill
-                className="object-cover"
-                data-ai-hint={`${program.title.toLowerCase()} program`}
-              />
-            </div>
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  {program.title}
-                </h1>
-                <p className="max-w-[600px] text-foreground/80 md:text-xl">
-                  {program.description}
-                </p>
+      <Header />
+      <main className="flex-1">
+        <section className="w-full py-20 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+              <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+                <Image
+                  src={`https://picsum.photos/1920/1080?${program.title.toLowerCase().replace(' ', '-')}`}
+                  alt={program.title}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={`${program.title.toLowerCase()} program`}
+                />
+              </div>
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                    {program.title}
+                  </h1>
+                  <p className="max-w-[600px] text-foreground/80 md:text-xl">
+                    {program.description}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="bg-muted/50 py-16 sm:py-24">
-        <div className="container">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
-            Impact in Numbers
-          </h2>
-          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
-            {program.stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="text-4xl font-bold text-primary sm:text-5xl">{stat.number}</p>
-                <p className="mt-2 text-sm font-medium uppercase tracking-wider text-foreground/80">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 sm:py-24">
-        <div className="container">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
-            Gallery
-          </h2>
-          <Carousel className="w-full max-w-6xl mx-auto" opts={{ loop: true }}>
-            <CarouselContent>
-              {program.images.map((image, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={image.aiHint}
-                      />
-                    </div>
-                  </div>
-                </CarouselItem>
+        <section className="bg-muted/50 py-16 sm:py-24">
+          <div className="container">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
+              Impact in Numbers
+            </h2>
+            <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
+              {program.stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className="text-4xl font-bold text-primary sm:text-5xl">{stat.number}</p>
+                  <p className="mt-2 text-sm font-medium uppercase tracking-wider text-foreground/80">{stat.label}</p>
+                </div>
               ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </section>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <div className="container">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
+              Gallery
+            </h2>
+            <Carousel className="w-full max-w-6xl mx-auto" opts={{ loop: true }}>
+              <CarouselContent>
+                {program.images.map((image, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={image.aiHint}
+                        />
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <ChatWidget />
     </>
   );
 }

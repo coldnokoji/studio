@@ -23,22 +23,67 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
+// Awards
 export async function getAwards(): Promise<Award[]> {
   const awardsCol = db.collection('awards');
   const q = awardsCol.orderBy('year', 'desc');
   const awardsSnapshot = await q.get();
-  const awardsList = awardsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Award));
-  return awardsList;
+  return awardsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Award));
 }
 
+export async function getAwardById(id: string): Promise<Award | null> {
+    const doc = await db.collection('awards').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    return { id: doc.id, ...doc.data() } as Award;
+}
+
+export async function saveAward(id: string | undefined, data: Omit<Award, 'id'>): Promise<string> {
+    if (id) {
+        await db.collection('awards').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('awards').add(data);
+    return docRef.id;
+}
+
+export async function deleteAward(id: string): Promise<void> {
+    await db.collection('awards').doc(id).delete();
+}
+
+
+// Events
 export async function getPastEvents(): Promise<Event[]> {
   const eventsCol = db.collection('events');
   const q = eventsCol.orderBy('date', 'desc');
   const eventsSnapshot = await q.get();
-  const eventList = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Event));
-  return eventList;
+  return eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Event));
 }
 
+export async function getEventById(id: string): Promise<Event | null> {
+    const doc = await db.collection('events').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    return { id: doc.id, ...doc.data() } as Event;
+}
+
+export async function saveEvent(id: string | undefined, data: Omit<Event, 'id'>): Promise<string> {
+    if (id) {
+        await db.collection('events').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('events').add(data);
+    return docRef.id;
+}
+
+export async function deleteEvent(id: string): Promise<void> {
+    await db.collection('events').doc(id).delete();
+}
+
+
+// Contact Messages
 export async function saveContactMessage(message: Omit<ContactMessage, 'id' | 'createdAt'>): Promise<string> {
     const messagesCol = db.collection('contactMessages');
     const docRef = await messagesCol.add({

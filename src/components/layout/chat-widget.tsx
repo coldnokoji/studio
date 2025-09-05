@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // Using an inline SVG for the WhatsApp icon as it's not in lucide-react
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -17,6 +18,13 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export function ChatWidget() {
+    const pathname = usePathname();
+
+    // Don't render widget for admin routes
+    if (pathname.startsWith('/admin')) {
+        return null;
+    }
+
   return (
     <Link
       href="https://wa.me/911234567890" // Placeholder phone number
