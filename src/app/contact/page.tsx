@@ -11,6 +11,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { saveContactMessage } from '@/services/firestore';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { toast as sonnerToast } from "sonner";
+
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -34,17 +36,14 @@ export default function ContactUsPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await saveContactMessage(values);
-      toast({
-        title: "Message Sent!",
+      sonnerToast.success("Message Sent!", {
         description: "Thank you for contacting us. We will get back to you shortly.",
       });
       form.reset();
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request. Please try again.",
-      });
+        sonnerToast.error("Uh oh! Something went wrong.", {
+            description: "There was a problem with your request. Please try again.",
+        });
     }
   }
 

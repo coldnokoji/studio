@@ -1,46 +1,49 @@
 
 'use server';
 
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import admin from 'firebase-admin';
 import type { Award, Event, ContactMessage } from '@/lib/types';
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+const serviceAccount = {
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
 };
 
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
+if (!admin.apps.length) {
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  } catch (error) {
+    console.error('Firebase admin initialization error', error);
+  }
+}
 
+const db = admin.firestore();
 
 export async function getAwards(): Promise<Award[]> {
-  const awardsCol = collection(db, 'awards');
-  const q = query(awardsCol, orderBy('year', 'desc'));
-  const awardsSnapshot = await getDocs(q);
+  const awardsCol = db.collection('awards');
+  const q = awardsCol.orderBy('year', 'desc');
+  const awardsSnapshot = await q.get();
   const awardsList = awardsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Award));
   return awardsList;
 }
 
 export async function getPastEvents(): Promise<Event[]> {
-  const eventsCol = collection(db, 'events');
-  const q = query(eventsCol, orderBy('date', 'desc'));
-  const eventsSnapshot = await getDocs(q);
+  const eventsCol = db.collection('events');
+  const q = eventsCol.orderBy('date', 'desc');
+  const eventsSnapshot = await q.get();
   const eventList = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Event));
   return eventList;
 }
 
 export async function saveContactMessage(message: Omit<ContactMessage, 'id' | 'createdAt'>): Promise<string> {
-    const messagesCol = collection(db, 'contactMessages');
-    const docRef = await addDoc(messagesCol, {
+    const messagesCol = db.collection('contactMessages');
+    const docRef = await messagesCol.add({
         ...message,
-        createdAt: serverTimestamp(),
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
     return docRef.id;
 }

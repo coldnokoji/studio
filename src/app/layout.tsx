@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster as OldToaster } from '@/components/ui/toaster';
+import { Toaster } from "@/components/ui/sonner"
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Raise India Foundation',
@@ -27,11 +29,19 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('flex min-h-screen flex-col bg-background font-body antialiased')}>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <ChatWidget />
-        <Toaster />
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <ChatWidget />
+            <OldToaster />
+            <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
