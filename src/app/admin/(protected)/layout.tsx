@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Home, Award, Calendar } from 'lucide-react';
 import { Logo } from '@/components/logo';
-import { SignOutButton } from '@/app/admin/sign-out-button';
+import { SignOutButton } from '@/app/admin/(protected)/sign-out-button';
 
 export default function AdminLayout({
   children,
