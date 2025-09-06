@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -24,7 +23,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/50">
       <div className="container py-12 text-foreground">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-1 md:col-span-2">
             <div className="mb-4">
               <Logo />
@@ -45,11 +44,22 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Get In Touch</h3>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">About Us</h3>
              <ul className="space-y-3">
-              <li><Link href="/about" className="text-sm text-foreground/80 hover:text-primary">About Us</Link></li>
-              <li><Link href="/contact" className="text-sm text-foreground/80 hover:text-primary">Contact</Link></li>
+              <li><Link href="/about" className="text-sm text-foreground/80 hover:text-primary">Our Story</Link></li>
+              <li><Link href="/team" className="text-sm text-foreground/80 hover:text-primary">Our Team</Link></li>
+              <li><Link href="/impact" className="text-sm text-foreground/80 hover:text-primary">Our Impact</Link></li>
+              <li><Link href="/news" className="text-sm text-foreground/80 hover:text-primary">News</Link></li>
+              <li><Link href="/legal" className="text-sm text-foreground/80 hover:text-primary">Transparency</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Get Involved</h3>
+             <ul className="space-y-3">
+              <li><Link href="/get-involved" className="text-sm text-foreground/80 hover:text-primary">Volunteer</Link></li>
               <li><Link href="/donate" className="text-sm text-foreground/80 hover:text-primary">Donate</Link></li>
+              <li><Link href="/contact" className="text-sm text-foreground/80 hover:text-primary">Contact Us</Link></li>
             </ul>
           </div>
         </div>

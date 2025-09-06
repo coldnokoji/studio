@@ -33,3 +33,34 @@ export type TeamMember = {
   image: string;
   aiHint: string;
 };
+
+export type VolunteerApplication = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    areaOfInterest: string;
+    availability: string;
+    createdAt: string;
+}
+
+export type ImpactStory = {
+    id: string;
+    title: string;
+    quote: string;
+    story: string;
+    personName: string;
+    image: string;
+    aiHint: string;
+}
+
+export type NewsArticle = {
+    id: string;
+    title: string;
+    author: string;
+    summary: string;
+    content: string;
+    image: string;
+    aiHint: string;
+    createdAt: string;
+}

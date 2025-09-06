@@ -4,12 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  BookOpen,
-  Heart,
-  Briefcase,
-  Sprout,
-} from 'lucide-react';
+import { BookOpen, Heart, Briefcase, Sprout } from 'lucide-react';
 import { TestimonialCarousel } from '@/components/testimonial-carousel';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -18,7 +13,6 @@ import { getTeamMembers } from '@/services/firestore';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-// A simple SVG wave component for creative section dividers
 const WaveDivider = () => (
   <div className="bg-transparent">
     <svg viewBox="0 0 1440 100" preserveAspectRatio="none" className="block w-full h-24">
@@ -34,9 +28,7 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.2 },
   },
 };
 
@@ -107,8 +99,7 @@ export default function Home() {
                   initial="initial"
                   animate="animate"
                   custom={1}
-                  // FIX 1: Removed '/none' and added padding-top to prevent clipping
-                  className="pt-2 text-5xl font-extrabold tracking-tight sm:text-6xl xl:text-7xl bg-gradient-to-r from-yellow-300 via-orange-400 to-yellow-300 bg-clip-text text-transparent font-headline"
+                  className="pt-2 text-5xl font-extrabold tracking-tight sm:text-6xl xl:text-7xl bg-gradient-to-r from-brand-yellow via-brand-orange to-brand-yellow bg-clip-text text-transparent font-headline"
                 >
                   सेवा परमो धर्मः
                 </motion.h1>
@@ -127,7 +118,7 @@ export default function Home() {
                   animate="animate"
                   custom={3}
                 >
-                  <Button size="lg" asChild className="bg-yellow-400 text-slate-900 hover:bg-yellow-500 transition-transform hover:scale-105">
+                  <Button size="lg" asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange transition-transform hover:scale-105">
                     <Link href="/donate">Donate Now</Link>
                   </Button>
                 </motion.div>
@@ -138,14 +129,13 @@ export default function Home() {
 
         {/* Who We Are Section */}
         <section className="py-20 sm:py-28 overflow-hidden">
-          <div className="container mx-auto px-4">
+          <div className="container">
             <div className="grid items-center gap-16 lg:grid-cols-2">
               <motion.div
                 initial={{ opacity: 0, x: -50, rotate: -5 }}
                 whileInView={{ opacity: 1, x: 0, rotate: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
-                // FIX 2: Removed h-96 and added aspect-video for consistent shape
                 className="relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl"
               >
                 <Image
@@ -165,10 +155,10 @@ export default function Home() {
               >
                 <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">Who We Are</h2>
                 <p className="text-lg text-slate-600">
-                  Shreyaskar Social Welfare Foundation is a newly established non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty. We are committed to fostering positive change by focusing on the core pillars of a thriving society: Education, Healthcare, Environment, and Livelihood. Our journey is just beginning, and we invite you to be a part of it.
+                  Shreyaskar Social Welfare Foundation is a newly established non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty. We are committed to fostering positive change by focusing on the core pillars of a thriving society.
                 </p>
-                <Button asChild variant="link" className="text-lg text-teal-600 hover:text-teal-700">
-                  <Link href="/about" aria-label="Learn more about us">Learn More →</Link>
+                <Button asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange">
+                  <Link href="/about" aria-label="Learn more about us">Learn More</Link>
                 </Button>
               </motion.div>
             </div>
@@ -177,7 +167,7 @@ export default function Home() {
 
         <WaveDivider />
 
-        {/* Our Works Section (No changes needed here) */}
+        {/* Our Works Section */}
         <section className="py-20 sm:py-28 bg-muted/50">
           <div className="container text-center">
             <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">What We Do</h2>
@@ -194,15 +184,15 @@ export default function Home() {
               {socialCauses.map((cause) => (
                 <motion.div key={cause.title} variants={itemVariants} className="h-full">
                    <Card className="group relative text-center h-full overflow-hidden rounded-2xl border-2 border-transparent transition-all duration-300 hover:shadow-xl">
-                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-yellow via-brand-orange to-brand-yellow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       <div className="relative bg-white h-full rounded-[14px] p-1">
                           <CardContent className="p-6 flex flex-col items-center h-full">
-                              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10 text-teal-600 transition-transform duration-300 group-hover:scale-110">
+                              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-yellow/10 text-brand-orange transition-transform duration-300 group-hover:scale-110">
                                 <cause.icon className="h-8 w-8" />
                               </div>
                               <h3 className="mt-6 text-xl font-bold text-slate-800">{cause.title}</h3>
                               <p className="mt-2 text-slate-600 flex-grow">{cause.description}</p>
-                              <Button variant="link" asChild className="mt-4 text-teal-600 group-hover:text-orange-500 transition-colors">
+                              <Button variant="link" asChild className="mt-4 text-brand-orange group-hover:text-slate-800 transition-colors">
                                 <Link href={cause.href}>Read More</Link>
                               </Button>
                           </CardContent>
@@ -224,14 +214,12 @@ export default function Home() {
             </div>
             <div className="space-y-20">
               {flagshipProjects.map((project, index) => (
-                // FIX 2: Standardized gap to match "Who We Are" section
                 <div key={project.title} className="grid items-center gap-16 md:grid-cols-2">
                   <motion.div
                     initial={{ opacity: 0, x: index % 2 === 1 ? 50 : -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
-                    // FIX 2: Removed h-96, added aspect-video, and matched shadow-2xl
                     className={`relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl ${index % 2 === 1 ? 'md:order-last' : ''}`}
                   >
                     <Image
@@ -251,7 +239,7 @@ export default function Home() {
                   >
                     <h3 className="text-2xl font-bold text-slate-800">{project.title}</h3>
                     <p className="text-lg text-slate-600">{project.description}</p>
-                    <Button asChild className="bg-teal-500 hover:bg-teal-600">
+                    <Button asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange">
                       <Link href={project.href}>Read More</Link>
                     </Button>
                   </motion.div>

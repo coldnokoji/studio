@@ -2,7 +2,7 @@
 'use server';
 
 import admin from 'firebase-admin';
-import type { Award, Event, ContactMessage, TeamMember } from '@/lib/types';
+import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle } from '@/lib/types';
 
 // Your web app's Firebase configuration
 const serviceAccount = {
@@ -120,4 +120,107 @@ export async function saveContactMessage(message: Omit<ContactMessage, 'id' | 'c
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
     return docRef.id;
+}
+
+// Volunteer Applications
+export async function saveVolunteerApplication(application: Omit<VolunteerApplication, 'id' | 'createdAt'>): Promise<string> {
+    const col = db.collection('volunteerApplications');
+    const docRef = await col.add({
+        ...application,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function getVolunteerApplications(): Promise<VolunteerApplication[]> {
+    const col = db.collection('volunteerApplications');
+    const q = col.orderBy('createdAt', 'desc');
+    const snapshot = await q.get();
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return { 
+            id: doc.id, 
+            ...data,
+            // Convert timestamp to string
+            createdAt: data.createdAt.toDate().toISOString(),
+        } as VolunteerApplication
+    });
+}
+
+export async function deleteVolunteerApplication(id: string): Promise<void> {
+    await db.collection('volunteerApplications').doc(id).delete();
+}
+
+// Impact Stories
+export async function getImpactStories(): Promise<ImpactStory[]> {
+  const storiesCol = db.collection('impactStories');
+  const q = storiesCol.orderBy('title');
+  const snapshot = await q.get();
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ImpactStory));
+}
+
+export async function getImpactStoryById(id: string): Promise<ImpactStory | null> {
+    const doc = await db.collection('impactStories').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    return { id: doc.id, ...doc.data() } as ImpactStory;
+}
+
+export async function saveImpactStory(id: string | undefined, data: Omit<ImpactStory, 'id'>): Promise<string> {
+    if (id) {
+        await db.collection('impactStories').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('impactStories').add(data);
+    return docRef.id;
+}
+
+export async function deleteImpactStory(id: string): Promise<void> {
+    await db.collection('impactStories').doc(id).delete();
+}
+
+// News Articles
+export async function getNewsArticles(): Promise<NewsArticle[]> {
+  const articlesCol = db.collection('newsArticles');
+  const q = articlesCol.orderBy('createdAt', 'desc');
+  const snapshot = await q.get();
+  return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt.toDate().toISOString(),
+      } as NewsArticle
+  });
+}
+
+export async function getNewsArticleById(id: string): Promise<NewsArticle | null> {
+    const doc = await db.collection('newsArticles').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    const data = doc.data();
+    if (!data) return null;
+    return { 
+        id: doc.id, 
+        ...data,
+        createdAt: data.createdAt.toDate().toISOString(),
+    } as NewsArticle;
+}
+
+export async function saveNewsArticle(id: string | undefined, data: Omit<NewsArticle, 'id' | 'createdAt'>): Promise<string> {
+    if (id) {
+        await db.collection('newsArticles').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('newsArticles').add({
+        ...data,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function deleteNewsArticle(id: string): Promise<void> {
+    await db.collection('newsArticles').doc(id).delete();
 }

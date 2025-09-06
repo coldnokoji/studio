@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Home, Award, Calendar, Users } from 'lucide-react';
+import { Home, Award, Calendar, Users, Handshake, HeartHandshake, Newspaper } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { SignOutButton } from '@/app/admin/(protected)/sign-out-button';
 
@@ -30,6 +30,18 @@ export default function AdminLayout({
           <Link href="/admin/team" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <Users className="h-4 w-4" />
             Team
+          </Link>
+          <Link href="/admin/news" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <Newspaper className="h-4 w-4" />
+            News
+          </Link>
+          <Link href="/admin/impact" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <HeartHandshake className="h-4 w-4" />
+            Impact Stories
+          </Link>
+          <Link href="/admin/volunteers" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <Handshake className="h-4 w-4" />
+            Volunteers
           </Link>
         </nav>
         <div>

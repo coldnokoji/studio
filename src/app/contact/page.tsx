@@ -57,7 +57,7 @@ export default function ContactUsPage() {
     <>
       <Header />
       <main className="flex-1 bg-white">
-        <section className="py-16 sm:py-24">
+        <section className="py-20 sm:py-28">
           <div className="container">
             <motion.div 
               variants={fadeInVariants}
@@ -85,16 +85,16 @@ export default function ContactUsPage() {
                   <h2 className="text-2xl font-bold mb-4 text-slate-800">Get in Touch</h2>
                   <div className="space-y-4 text-slate-600">
                     <div className="flex items-start gap-4">
-                      <MapPin className="h-6 w-6 text-brand-teal mt-1 flex-shrink-0" />
+                      <MapPin className="h-6 w-6 text-brand-orange mt-1 flex-shrink-0" />
                       <span>123 Social Welfare Avenue<br/>Mumbai, 400001, India</span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Phone className="h-6 w-6 text-brand-teal flex-shrink-0" />
-                      <a href="tel:+911234567890" className="hover:text-brand-teal-dark">+91 123 456 7890</a>
+                      <Phone className="h-6 w-6 text-brand-orange flex-shrink-0" />
+                      <a href="tel:+911234567890" className="hover:text-brand-orange">+91 123 456 7890</a>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Mail className="h-6 w-6 text-brand-teal flex-shrink-0" />
-                      <a href="mailto:contact@shreyaskar.org" className="hover:text-brand-teal-dark">contact@shreyaskar.org</a>
+                      <Mail className="h-6 w-6 text-brand-orange flex-shrink-0" />
+                      <a href="mailto:contact@shreyaskar.org" className="hover:text-brand-orange">contact@shreyaskar.org</a>
                     </div>
                   </div>
                 </div>
@@ -121,7 +121,6 @@ export default function ContactUsPage() {
                 <h2 className="text-2xl font-bold mb-4 text-slate-800">Send us a Message</h2>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {/* THIS IS THE CORRECTED SECTION */}
                     <FormField
                       control={form.control}
                       name="name"
@@ -174,7 +173,7 @@ export default function ContactUsPage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" disabled={form.formState.isSubmitting} className="bg-brand-teal hover:bg-brand-teal-dark">
+                    <Button type="submit" disabled={form.formState.isSubmitting} className="bg-brand-yellow text-slate-900 hover:bg-brand-orange">
                       {form.formState.isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>

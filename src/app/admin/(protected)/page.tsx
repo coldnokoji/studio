@@ -40,6 +40,39 @@ export default function AdminDashboardPage() {
             </Button>
           </CardContent>
         </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle>Manage News</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Create and publish news articles.</p>
+            <Button asChild>
+              <Link href="/admin/news">Go to News</Link>
+            </Button>
+          </CardContent>
+        </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle>Manage Impact Stories</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Share success stories and testimonials.</p>
+            <Button asChild>
+              <Link href="/admin/impact">Go to Impact Stories</Link>
+            </Button>
+          </CardContent>
+        </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle>View Volunteers</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">See who has signed up to volunteer.</p>
+            <Button asChild>
+              <Link href="/admin/volunteers">Go to Volunteers</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

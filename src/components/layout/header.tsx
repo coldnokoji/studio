@@ -16,20 +16,21 @@ import { Logo } from '@/components/logo';
 const navLinks = [
   { href: '/about', label: 'About Us' },
   { href: '/what-we-do', label: 'What We Do' },
-  { href: '/team', label: 'Our Team' },
+  { href: '/impact', label: 'Our Impact' },
+  { href: '/news', label: 'News' },
+  { href: '/get-involved', label: 'Get Involved' },
   { href: '/contact', label: 'Contact Us' },
 ];
 
 export function Header() {
   const pathname = usePathname();
 
-  // Don't render header for admin routes
   if (pathname.startsWith('/admin')) {
     return null;
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-lg">
       <div className="container flex h-20 items-center justify-between">
         <div className="mr-4">
           <Logo />
@@ -40,12 +41,12 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+              className="text-sm font-medium text-slate-600 transition-colors hover:text-brand-orange"
             >
               {link.label}
             </Link>
           ))}
-          <Button asChild>
+          <Button asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange transition-all hover:scale-105">
             <Link href="/donate">
               Donate
               <HandHeart className="ml-2 h-4 w-4" />
@@ -73,7 +74,7 @@ export function Header() {
                     <SheetClose asChild key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
+                        className="text-lg font-medium text-slate-700 transition-colors hover:text-brand-orange"
                       >
                         {link.label}
                       </Link>
@@ -82,7 +83,7 @@ export function Header() {
                 </nav>
                 <div className="mt-auto">
                     <SheetClose asChild>
-                      <Button asChild className="w-full">
+                      <Button asChild className="w-full bg-brand-yellow text-slate-900 hover:bg-brand-orange">
                         <Link href="/donate">
                           Donate
                           <HandHeart className="ml-2 h-4 w-4" />
