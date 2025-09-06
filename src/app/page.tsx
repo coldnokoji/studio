@@ -101,8 +101,8 @@ export default async function Home() {
         {/* Who We Are Section */}
         <section className="py-16 sm:py-24">
           <div className="container">
-            <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div className="relative aspect-[4/3] w-full max-w-lg mx-auto lg:mx-0 rounded-lg overflow-hidden shadow-lg">
+            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="https://picsum.photos/800/600"
                   alt="Shreyaskar Social Welfare Foundation Team"
