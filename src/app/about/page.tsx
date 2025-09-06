@@ -38,42 +38,44 @@ export default function AboutUsPage() {
         </section>
 
         <section className="py-16 sm:py-24 bg-muted/50">
-          <div className="container max-w-5xl">
-            <div className="space-y-12">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                  Our Mission & Vision
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Our Mission</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-foreground/80">
-                      To empower communities by fostering sustainable development in education, healthcare, environment, and livelihood. We are dedicated to creating a foundation of opportunity for every individual to lead a life of dignity and purpose.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Our Vision</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-foreground/80">
-                      We envision a self-reliant and compassionate India, where all citizens have the resources and opportunities they need to thrive, contributing to a society built on the principles of service, equality, and justice.
-                    </p>
-                  </CardContent>
-                </Card>
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <div className="space-y-12">
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                    Our Mission & Vision
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Our Mission</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-foreground/80">
+                        To empower communities by fostering sustainable development in education, healthcare, environment, and livelihood. We are dedicated to creating a foundation of opportunity for every individual to lead a life of dignity and purpose.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Our Vision</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-foreground/80">
+                        We envision a self-reliant and compassionate India, where all citizens have the resources and opportunities they need to thrive, contributing to a society built on the principles of service, equality, and justice.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             </div>
           </div>
         </section>
         
         <section className="py-16 sm:py-24">
-          <div className="container max-w-5xl">
-            <div className="grid items-center gap-12 md:grid-cols-2">
+          <div className="container">
+            <div className="grid items-center gap-12 md:grid-cols-2 max-w-5xl mx-auto">
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
                   src="https://picsum.photos/400/500"
