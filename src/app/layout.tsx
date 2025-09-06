@@ -1,13 +1,21 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Toaster as OldToaster } from '@/components/ui/toaster';
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner" // REMOVED: Unused 'OldToaster'
+import { Poppins } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'Shreyaskar Social Welfare Foundation',
   description: 'सेवा परमो धर्मः - Service is the highest duty.',
 };
+
+// You already have this part correct!
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-poppins', // This creates the CSS variable
+});
+
 
 export default function RootLayout({
   children,
@@ -15,16 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={cn('flex min-h-screen flex-col bg-background font-body antialiased')}>
+    // ADDED: The poppins.variable to the className
+    <html lang="en" className={poppins.variable} suppressHydrationWarning>
+      {/* REMOVED: The manual <head> and <link> tags for Google Fonts. next/font handles this. */}
+      <body className={cn(
+        'min-h-screen bg-background font-sans antialiased', // UPDATED: font-body to font-sans
+        'flex flex-col'
+      )}>
         {children}
         <Toaster />
       </body>

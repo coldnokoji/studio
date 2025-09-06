@@ -1,4 +1,6 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
+// ADD THIS IMPORT for default font fallbacks
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
   darkMode: ['class'],
@@ -9,12 +11,23 @@ export default {
   ],
   theme: {
     extend: {
+      // UPDATED FONT FAMILY SECTION
       fontFamily: {
-        body: ['Montserrat', 'sans-serif'],
-        headline: ['Montserrat', 'sans-serif'],
+        // This replaces 'body' and 'headline' and connects to your layout.tsx
+        sans: ['var(--font-poppins)', ...defaultTheme.fontFamily.sans],
         code: ['monospace'],
       },
       colors: {
+        // ADDED CREATIVE COLORS (for the "happy" vibe)
+        brand: {
+          yellow: '#FBBF24',      // A sunny yellow (like tailwind yellow-400)
+          orange: '#F97316',      // A vibrant orange (like tailwind orange-500)
+          teal: {
+            DEFAULT: '#14B8A6', // A friendly teal (like tailwind teal-500)
+            dark: '#0D9488',  // A darker version (like tailwind teal-600)
+          }
+        },
+        // --- Your existing shadcn/ui colors below ---
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -48,23 +61,6 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
-        },
-        sidebar: {
-          DEFAULT: 'hsl(var(--sidebar-background))',
-          foreground: 'hsl(var(--sidebar-foreground))',
-          primary: 'hsl(var(--sidebar-primary))',
-          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-          accent: 'hsl(var(--sidebar-accent))',
-          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-          border: 'hsl(var(--sidebar-border))',
-          ring: 'hsl(var(--sidebar-ring))',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
