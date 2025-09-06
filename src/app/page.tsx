@@ -102,7 +102,7 @@ export default async function Home() {
         <section className="py-16 sm:py-24">
           <div className="container">
             <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div className="relative h-[450px] w-full max-w-lg mx-auto">
+              <div className="relative h-[450px] w-full">
                 <Image
                   src="https://picsum.photos/800/600"
                   alt="Shreyaskar Social Welfare Foundation Team"

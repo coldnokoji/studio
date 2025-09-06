@@ -97,7 +97,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
-                  src={`https://picsum.photos/1920/1080?${program.title.toLowerCase().replace(' ', '-')}`}
+                  src={`https://picsum.photos/800/600?${program.title.toLowerCase().replace(' ', '-')}`}
                   alt={program.title}
                   fill
                   className="object-cover"
