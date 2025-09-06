@@ -1,4 +1,3 @@
-
 'use client';
 
 import { z } from 'zod';
@@ -14,7 +13,7 @@ import { toast as sonnerToast } from "sonner";
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
-
+import { motion, Variants } from 'framer-motion';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -23,67 +22,85 @@ const formSchema = z.object({
   message: z.string().min(10, { message: "Message must be at least 10 characters." }).max(500, { message: "Message must be less than 500 characters." }),
 });
 
+const fadeInVariants: Variants = {
+  initial: { 
+    opacity: 0, 
+    y: 20 
+  },
+  inView: {
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.6, 
+      ease: 'easeOut'
+    }
+  }
+};
+
 export default function ContactUsPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
+    defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await saveContactMessage(values);
-      sonnerToast.success("Message Sent!", {
-        description: "Thank you for contacting us. We will get back to you shortly.",
-      });
+      sonnerToast.success("Message Sent!", { description: "Thank you for contacting us. We will get back to you shortly." });
       form.reset();
     } catch (error) {
-        sonnerToast.error("Uh oh! Something went wrong.", {
-            description: "There was a problem with your request. Please try again.",
-        });
+      sonnerToast.error("Uh oh! Something went wrong.", { description: "There was a problem with your request. Please try again." });
     }
   }
 
   return (
     <>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 bg-white">
         <section className="py-16 sm:py-24">
           <div className="container">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <motion.div 
+              variants={fadeInVariants}
+              initial="initial"
+              whileInView="inView"
+              viewport={{ once: true, amount: 0.2 }}
+              className="text-center mb-16"
+            >
+              <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-5xl lg:text-6xl">
                 Contact Us
               </h1>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
                 We'd love to hear from you. Get in touch with us.
               </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="space-y-8">
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+              <motion.div 
+                variants={fadeInVariants}
+                initial="initial"
+                whileInView="inView"
+                viewport={{ once: true, amount: 0.2 }}
+                className="space-y-8"
+              >
                 <div>
-                  <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
-                  <div className="space-y-4 text-foreground/80">
+                  <h2 className="text-2xl font-bold mb-4 text-slate-800">Get in Touch</h2>
+                  <div className="space-y-4 text-slate-600">
                     <div className="flex items-start gap-4">
-                      <MapPin className="h-6 w-6 text-primary mt-1" />
+                      <MapPin className="h-6 w-6 text-brand-teal mt-1 flex-shrink-0" />
                       <span>123 Social Welfare Avenue<br/>Mumbai, 400001, India</span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Phone className="h-6 w-6 text-primary" />
-                      <a href="tel:+911234567890" className="hover:text-primary">+91 123 456 7890</a>
+                      <Phone className="h-6 w-6 text-brand-teal flex-shrink-0" />
+                      <a href="tel:+911234567890" className="hover:text-brand-teal-dark">+91 123 456 7890</a>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Mail className="h-6 w-6 text-primary" />
-                      <a href="mailto:contact@shreyaskar.org" className="hover:text-primary">contact@shreyaskar.org</a>
+                      <Mail className="h-6 w-6 text-brand-teal flex-shrink-0" />
+                      <a href="mailto:contact@shreyaskar.org" className="hover:text-brand-teal-dark">contact@shreyaskar.org</a>
                     </div>
                   </div>
                 </div>
-                <div className="h-96 w-full rounded-lg overflow-hidden">
+                <div className="h-96 w-full rounded-2xl overflow-hidden shadow-lg">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120653.07662999496!2d72.77589965833075!3d19.08252232535076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1689858888123!5m2!1sen!2sin"
+                    src="https://maps.google.com/maps?width=100%25&height=100%25&hl=en&q=Mumbai,%20India&t=&z=14&ie=UTF8&iwloc=B&output=embed"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -93,11 +110,18 @@ export default function ContactUsPage() {
                     title="Google Map of our location"
                   ></iframe>
                 </div>
-              </div>
-              <div className="space-y-8">
-                <h2 className="text-2xl font-bold mb-4">Send us a Message</h2>
+              </motion.div>
+              <motion.div 
+                variants={fadeInVariants}
+                initial="initial"
+                whileInView="inView"
+                viewport={{ once: true, amount: 0.2 }}
+                className="space-y-8"
+              >
+                <h2 className="text-2xl font-bold mb-4 text-slate-800">Send us a Message</h2>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    {/* THIS IS THE CORRECTED SECTION */}
                     <FormField
                       control={form.control}
                       name="name"
@@ -150,12 +174,12 @@ export default function ContactUsPage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" disabled={form.formState.isSubmitting} className="bg-brand-teal hover:bg-brand-teal-dark">
                       {form.formState.isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
                 </Form>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
