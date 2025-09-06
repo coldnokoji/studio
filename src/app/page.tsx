@@ -102,12 +102,12 @@ export default async function Home() {
         <section className="py-16 sm:py-24">
           <div className="container">
             <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div className="relative h-[450px] w-full">
+              <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
                   src="https://picsum.photos/800/600"
                   alt="Shreyaskar Social Welfare Foundation Team"
                   fill
-                  className="object-cover rounded-lg shadow-lg"
+                  className="object-cover"
                   data-ai-hint="team beneficiaries"
                 />
               </div>
