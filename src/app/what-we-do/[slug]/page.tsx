@@ -92,8 +92,8 @@ export default function ProgramPage({ params }: ProgramPageProps) {
     <>
       <Header />
       <main className="flex-1">
-        <section className="w-full py-20 lg:py-32">
-          <div className="container px-4 md:px-6">
+        <div className="container">
+          <section className="w-full py-20 lg:py-32">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
@@ -115,11 +115,9 @@ export default function ProgramPage({ params }: ProgramPageProps) {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="bg-muted/50 py-16 sm:py-24">
-          <div className="container">
+          <section className="bg-muted/50 py-16 sm:py-24 -mx-4 px-4">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
               Our Initial Goals
             </h2>
@@ -131,11 +129,9 @@ export default function ProgramPage({ params }: ProgramPageProps) {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="py-16 sm:py-24">
-          <div className="container">
+          <section className="py-16 sm:py-24">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
               Gallery
             </h2>
@@ -160,8 +156,8 @@ export default function ProgramPage({ params }: ProgramPageProps) {
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
       <Footer />
       <ChatWidget />
