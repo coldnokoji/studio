@@ -45,8 +45,8 @@ const socialCauses = [
 ];
 
 const flagshipProjects = [
-    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: 'https://picsum.photos/600/400?random=1', aiHint: 'smiling children happily learning', href: '/what-we-do/education' },
-    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: 'https://picsum.photos/600/400?random=2', aiHint: 'joyful community health event', href: '/what-we-do/healthcare' },
+    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: 'https://picsum.photos/seed/education/600/400', aiHint: 'smiling children happily learning', href: '/what-we-do/education' },
+    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: 'https://picsum.photos/seed/health/600/400', aiHint: 'joyful community health event', href: '/what-we-do/healthcare' },
 ];
 
 export default function Home() {
@@ -139,7 +139,7 @@ export default function Home() {
                 className="relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl"
               >
                 <Image
-                  src="https://picsum.photos/800/600?random=3"
+                  src="https://picsum.photos/seed/community/800/600"
                   alt="A happy group of volunteers"
                   fill
                   className="object-cover"

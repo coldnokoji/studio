@@ -16,6 +16,7 @@ import { ChatWidget } from '@/components/layout/chat-widget';
 import { motion } from 'framer-motion';
 import { HandHeart, BookOpen, Heart, Sprout, Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
+import Image from 'next/image';
 
 
 const volunteerRoles = [
@@ -114,7 +115,7 @@ export default function GetInvolvedPage() {
                     Fill out the form below to express your interest. Our team will review your application and contact you with potential opportunities that match your skills and passion. We're excited to have you on board!
                   </p>
                   <div className="relative h-80 w-full overflow-hidden rounded-2xl shadow-lg">
-                     <img src="https://picsum.photos/600/400?random=volunteer" alt="Happy volunteers" className="object-cover w-full h-full" data-ai-hint="happy volunteers"/>
+                     <Image src="https://picsum.photos/seed/volunteer/600/400" alt="Happy volunteers" fill className="object-cover" data-ai-hint="happy volunteers"/>
                   </div>
               </div>
               <Card className="p-8 shadow-xl">

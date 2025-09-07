@@ -7,7 +7,6 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { motion, Variants } from 'framer-motion';
-import logoImage from '@/components/ngologo.png'; // Import the logo image
 
 // Define the animation as a typed Variants object
 const fadeInVariants: Variants = {
@@ -52,10 +51,10 @@ export default function AboutUsPage() {
                   className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl"
                 >
                   <Image
-                    src={logoImage} // Use the imported logo image here
+                    src="/ngologo.jpeg"
                     alt="Shreyaskar Social Welfare Foundation Logo"
                     fill
-                    className="object-contain p-4" // Use object-contain to ensure the whole logo is visible
+                    className="object-contain p-4"
                   />
                 </motion.div>
                 <motion.div 
@@ -146,11 +145,11 @@ export default function AboutUsPage() {
               className="relative h-[28rem] w-full overflow-hidden rounded-2xl shadow-2xl"
             >
               <Image
-                src="https://picsum.photos/400/500?random=founder"
+                src="https://picsum.photos/seed/founder/800/1000"
                 alt="Founder of Shreyaskar Social Welfare Foundation"
                 fill
                 className="object-cover"
-                data-ai-hint="portrait photo"
+                data-ai-hint="founder portrait"
               />
             </motion.div>
             <motion.div 
