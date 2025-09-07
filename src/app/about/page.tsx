@@ -6,9 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
-import { motion, Variants } from 'framer-motion'; // Import Variants
+import { motion, Variants } from 'framer-motion';
+import logoImage from '@/components/ngologo.png'; // Import the logo image
 
-// FIX: Define the animation as a typed Variants object
+// Define the animation as a typed Variants object
 const fadeInVariants: Variants = {
   initial: { 
     opacity: 0, 
@@ -19,7 +20,7 @@ const fadeInVariants: Variants = {
     y: 0,
     transition: { 
       duration: 0.6, 
-      ease: 'easeOut' // This is now correctly typed
+      ease: 'easeOut'
     }
   }
 };
@@ -51,15 +52,13 @@ export default function AboutUsPage() {
                   className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl"
                 >
                   <Image
-                    src="https://picsum.photos/800/600?random=about1"
-                    alt="Our Team working in the community"
+                    src={logoImage} // Use the imported logo image here
+                    alt="Shreyaskar Social Welfare Foundation Logo"
                     fill
-                    className="object-cover"
-                    data-ai-hint="team photo"
+                    className="object-contain p-4" // Use object-contain to ensure the whole logo is visible
                   />
                 </motion.div>
                 <motion.div 
-                  // FIX: Use the variants object
                   variants={fadeInVariants}
                   initial="initial"
                   whileInView="inView"

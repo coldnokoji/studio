@@ -12,6 +12,36 @@ const socialLinks = [
   { name: 'YouTube', icon: Youtube, href: 'https://youtube.com' },
 ];
 
+const footerLinkSections = [
+    {
+        title: 'What We Do',
+        links: [
+            { href: '/what-we-do/education', label: 'Education' },
+            { href: '/what-we-do/healthcare', label: 'Healthcare' },
+            { href: '/what-we-do/environment', label: 'Environment' },
+            { href: '/what-we-do/livelihood', label: 'Livelihood' },
+        ]
+    },
+    {
+        title: 'About Us',
+        links: [
+            { href: '/about', label: 'Our Story' },
+            { href: '/team', label: 'Our Team' },
+            { href: '/impact', label: 'Our Impact' },
+            { href: '/news', label: 'News' },
+            { href: '/legal', label: 'Transparency' },
+        ]
+    },
+    {
+        title: 'Get Involved',
+        links: [
+            { href: '/get-involved', label: 'Volunteer' },
+            { href: '/donate', label: 'Donate' },
+            { href: '/contact', label: 'Contact Us' },
+        ]
+    }
+]
+
 export function Footer() {
   const pathname = usePathname();
 
@@ -23,60 +53,53 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/50">
       <div className="container py-12 text-foreground">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-          <div className="col-span-1 md:col-span-2">
-            <div className="mb-4">
-              <Logo />
-            </div>
-            <p className="text-sm text-foreground/80 max-w-sm">
-             A non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty.
-            </p>
+        <div className="flex flex-col items-center text-center gap-8">
+          {/* Logo */}
+          <div className="transform scale-150">
+            <Logo />
+          </div>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-4">
+            {socialLinks.map((social) => (
+              <Link
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
+                className="text-foreground/70 transition-colors hover:text-primary"
+              >
+                <social.icon className="h-6 w-6" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div className="w-full max-w-lg border-b border-border"></div>
+
+          {/* Navigation Links Sections */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-4xl text-center">
+            {footerLinkSections.map((section) => (
+                <div key={section.title} className="flex flex-col items-center">
+                    <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">{section.title}</h3>
+                    <ul className="space-y-3">
+                        {section.links.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-sm text-foreground/80 hover:text-primary">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
           </div>
           
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">What We Do</h3>
-            <ul className="space-y-3">
-              <li><Link href="/what-we-do/education" className="text-sm text-foreground/80 hover:text-primary">Education</Link></li>
-              <li><Link href="/what-we-do/healthcare" className="text-sm text-foreground/80 hover:text-primary">Healthcare</Link></li>
-              <li><Link href="/what-we-do/environment" className="text-sm text-foreground/80 hover:text-primary">Environment</Link></li>
-              <li><Link href="/what-we-do/livelihood" className="text-sm text-foreground/80 hover:text-primary">Livelihood</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">About Us</h3>
-             <ul className="space-y-3">
-              <li><Link href="/about" className="text-sm text-foreground/80 hover:text-primary">Our Story</Link></li>
-              <li><Link href="/team" className="text-sm text-foreground/80 hover:text-primary">Our Team</Link></li>
-              <li><Link href="/impact" className="text-sm text-foreground/80 hover:text-primary">Our Impact</Link></li>
-              <li><Link href="/news" className="text-sm text-foreground/80 hover:text-primary">News</Link></li>
-              <li><Link href="/legal" className="text-sm text-foreground/80 hover:text-primary">Transparency</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">Get Involved</h3>
-             <ul className="space-y-3">
-              <li><Link href="/get-involved" className="text-sm text-foreground/80 hover:text-primary">Volunteer</Link></li>
-              <li><Link href="/donate" className="text-sm text-foreground/80 hover:text-primary">Donate</Link></li>
-              <li><Link href="/contact" className="text-sm text-foreground/80 hover:text-primary">Contact Us</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t border-border pt-8">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <p className="text-sm text-foreground/70">
-              &copy; {new Date().getFullYear()} Shreyaskar Social Welfare Foundation. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4">
-              {socialLinks.map((social) => (
-                <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name} className="text-foreground/70 hover:text-primary">
-                  <social.icon className="h-5 w-5" />
-                </Link>
-              ))}
-            </div>
-          </div>
+          {/* Copyright */}
+          <p className="pt-8 text-xs text-foreground/70">
+            &copy; {new Date().getFullYear()} Shreyaskar Social Welfare Foundation. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

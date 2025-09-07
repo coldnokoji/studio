@@ -1,17 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import logoImage from './ngologo.png';
 
 export function Logo() {
   return (
     <Link href="/" aria-label="Shreyaskar Social Welfare Foundation Home">
-      <div className="flex items-center gap-3">
-        <Image 
-            src="/ngologo.jpeg" 
-            alt="Shreyaskar Social Welfare Foundation Logo" 
-            width={48} 
-            height={48} 
-            className="object-contain" 
-        />
+      <div className="flex items-center gap-3 pl-2">
+        <Image src={logoImage} alt="Shreyaskar Social Welfare Foundation Logo" width={48} height={48} />
         <div className="flex flex-col">
           <span className="text-lg font-bold text-foreground font-headline leading-tight">
             Shreyaskar
