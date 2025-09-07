@@ -40,44 +40,44 @@ export default function AboutUsPage() {
     <>
       <Header />
       <main className="flex-1 bg-white">
-        <div className="container">
-          <section className="w-full py-20 lg:py-32">
-            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -50, rotate: -3 }}
-                whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl"
-              >
-                <Image
-                  src="https://picsum.photos/800/600?random=about1"
-                  alt="Our Team working in the community"
-                  fill
-                  className="object-cover"
-                  data-ai-hint="team photo"
-                />
-              </motion.div>
-              <motion.div 
-                // FIX: Use the variants object
-                variants={fadeInVariants}
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true, amount: 0.3 }}
-                className="flex flex-col justify-center space-y-4 text-center lg:text-left"
-              >
-                <div className="space-y-2">
-                  <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-5xl">
-                    About Shreyaskar
-                  </h1>
-                  <p className="max-w-[600px] text-slate-600 md:text-xl lg:text-2xl">
-                    Laying the groundwork for a compassionate and self-reliant society through dedicated service.
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-        </div>
+        <section className="w-full py-20 lg:py-32">
+          <div className="container">
+              <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+                <motion.div
+                  initial={{ opacity: 0, x: -50, rotate: -3 }}
+                  whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl"
+                >
+                  <Image
+                    src="https://picsum.photos/800/600?random=about1"
+                    alt="Our Team working in the community"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="team photo"
+                  />
+                </motion.div>
+                <motion.div 
+                  // FIX: Use the variants object
+                  variants={fadeInVariants}
+                  initial="initial"
+                  whileInView="inView"
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="flex flex-col justify-center space-y-4 text-center lg:text-left"
+                >
+                  <div className="space-y-2">
+                    <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-5xl">
+                      About Shreyaskar
+                    </h1>
+                    <p className="max-w-[600px] text-slate-600 md:text-xl lg:text-2xl">
+                      Laying the groundwork for a compassionate and self-reliant society through dedicated service.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+          </div>
+        </section>
         
         <WaveDivider />
 

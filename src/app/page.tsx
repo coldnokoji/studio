@@ -129,7 +129,7 @@ export default function Home() {
 
         {/* Who We Are Section */}
         <section className="py-20 sm:py-28 overflow-hidden">
-          <div className="container">
+          <div className="container max-w-6xl mx-auto">
             <div className="grid items-center gap-16 lg:grid-cols-2">
               <motion.div
                 initial={{ opacity: 0, x: -50, rotate: -5 }}
@@ -169,7 +169,7 @@ export default function Home() {
 
         {/* Our Works Section */}
         <section className="py-20 sm:py-28 bg-muted/50">
-          <div className="container text-center">
+          <div className="container max-w-6xl mx-auto text-center">
             <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">What We Do</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
               Our work is centered around four key pillars to create a holistic and lasting impact.
@@ -208,7 +208,7 @@ export default function Home() {
 
         {/* Current Projects Section */}
         <section className="py-20 sm:py-28 overflow-hidden">
-          <div className="container">
+          <div className="container max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">Our Foundational Projects</h2>
             </div>
