@@ -1,4 +1,5 @@
 
+
 export type Award = {
   id: string;
   title: string;
@@ -9,7 +10,7 @@ export type Award = {
 };
 
 export type Event = {
-  id: string;
+  id:string;
   title: string;
   date: string;
   description: string;
@@ -63,4 +64,11 @@ export type NewsArticle = {
     image: string;
     aiHint: string;
     createdAt: string;
+}
+
+export type GalleryImage = {
+    id: string;
+    title: string;
+    imageUrl: string;
+    aiHint: string;
 }

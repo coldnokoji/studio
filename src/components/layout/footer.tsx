@@ -28,6 +28,7 @@ const footerLinkSections = [
             { href: '/about', label: 'Our Story' },
             { href: '/team', label: 'Our Team' },
             { href: '/impact', label: 'Our Impact' },
+            { href: '/gallery', label: 'Gallery' },
             { href: '/news', label: 'News' },
             { href: '/legal', label: 'Transparency' },
         ]

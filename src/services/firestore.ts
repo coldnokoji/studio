@@ -1,8 +1,9 @@
 
+
 'use server';
 
 import admin from 'firebase-admin';
-import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle } from '@/lib/types';
+import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage } from '@/lib/types';
 
 // Your web app's Firebase configuration
 const serviceAccount = {
@@ -223,4 +224,32 @@ export async function saveNewsArticle(id: string | undefined, data: Omit<NewsArt
 
 export async function deleteNewsArticle(id: string): Promise<void> {
     await db.collection('newsArticles').doc(id).delete();
+}
+
+// Gallery Images
+export async function getGalleryImages(): Promise<GalleryImage[]> {
+  const imagesCol = db.collection('galleryImages');
+  const snapshot = await imagesCol.orderBy('title').get();
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as GalleryImage));
+}
+
+export async function getGalleryImageById(id: string): Promise<GalleryImage | null> {
+    const doc = await db.collection('galleryImages').doc(id).get();
+    if (!doc.exists) {
+        return null;
+    }
+    return { id: doc.id, ...doc.data() } as GalleryImage;
+}
+
+export async function saveGalleryImage(id: string | undefined, data: Omit<GalleryImage, 'id'>): Promise<string> {
+    if (id) {
+        await db.collection('galleryImages').doc(id).set(data, { merge: true });
+        return id;
+    }
+    const docRef = await db.collection('galleryImages').add(data);
+    return docRef.id;
+}
+
+export async function deleteGalleryImage(id: string): Promise<void> {
+    await db.collection('galleryImages').doc(id).delete();
 }

@@ -20,6 +20,17 @@ export default function AdminDashboardPage() {
         </Card>
         <Card>
           <CardHeader>
+            <CardTitle>Manage Gallery</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Add, edit, or delete gallery images.</p>
+            <Button asChild>
+              <Link href="/admin/gallery">Go to Gallery</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
             <CardTitle>Manage Events</CardTitle>
           </CardHeader>
           <CardContent>
