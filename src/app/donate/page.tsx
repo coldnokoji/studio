@@ -12,6 +12,10 @@ import { HandHeart, IndianRupee } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
+import { toast as sonnerToast } from "sonner";
+
+
+declare const Razorpay: any;
 
 const donationSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -29,19 +33,54 @@ export default function DonatePage() {
     },
   });
 
-  // This is where you would handle the payment gateway integration.
-  // For example, on submit, you would create an order with Razorpay on the server,
-  // then open the Razorpay checkout with the order details.
   async function onSubmit(values: z.infer<typeof donationSchema>) {
-    console.log("Form values:", values);
-    alert(`Thank you for your donation of ₹${values.amount}, ${values.name}!\n\nA developer would now integrate Razorpay checkout here.`);
-    
-    // Developer Integration Steps:
-    // 1. Make a call to a serverless function to create a Razorpay order.
-    // 2. Receive the order_id from the server.
-    // 3. Initialize Razorpay checkout with your Key ID, the order_id, and user details.
-    // 4. Handle success and failure callbacks from Razorpay.
-    // 5. On success, redirect to a thank you page and trigger certificate generation on the backend.
+    try {
+        const response = await fetch('/api/payment/create-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: values.amount * 100, // Amount in paise
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to create payment order.');
+        }
+
+        const order = await response.json();
+        
+        const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            amount: order.amount,
+            currency: order.currency,
+            name: "Shreyaskar Social Welfare Foundation",
+            description: "Donation to support our causes",
+            order_id: order.id,
+            handler: function (response: any) {
+                // This function is called after a successful payment
+                sonnerToast.success("Donation Successful!", { description: `Thank you for your generous contribution. Payment ID: ${response.razorpay_payment_id}`});
+                // Here, you would typically verify the payment signature on your backend
+                // and then trigger the certificate generation.
+                console.log(response);
+            },
+            prefill: {
+                name: values.name,
+                email: values.email,
+            },
+            theme: {
+                color: "#F97316" // This should match your brand orange
+            }
+        };
+        
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+    } catch (error) {
+        console.error("Payment Error:", error);
+        sonnerToast.error("Uh oh! Something went wrong.", { description: "There was a problem processing your donation. Please try again." });
+    }
   }
 
   return (
@@ -110,7 +149,7 @@ export default function DonatePage() {
                 </form>
               </Form>
               <p className="mt-6 text-center text-xs text-muted-foreground">
-                All donations are processed securely. You will receive a tax-exemption certificate via email.
+                All donations are processed securely by Razorpay. You will receive a tax-exemption certificate via email.
               </p>
             </CardContent>
           </Card>

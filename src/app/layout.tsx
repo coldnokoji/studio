@@ -3,6 +3,8 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/sonner" // REMOVED: Unused 'OldToaster'
 import { Poppins } from 'next/font/google';
+import Script from 'next/script';
+
 
 export const metadata: Metadata = {
   title: 'Shreyaskar Social Welfare Foundation',
@@ -26,12 +28,15 @@ export default function RootLayout({
     // ADDED: The poppins.variable to the className
     <html lang="en" className={poppins.variable} suppressHydrationWarning>
       {/* REMOVED: The manual <head> and <link> tags for Google Fonts. next/font handles this. */}
-      <body className={cn(
-        'min-h-screen bg-background font-sans antialiased', // UPDATED: font-body to font-sans
-        'flex flex-col'
-      )}>
-        {children}
-        <Toaster />
+      <body>
+        <main className={cn(
+          'min-h-screen bg-background font-sans antialiased', // UPDATED: font-body to font-sans
+          'flex flex-col'
+        )}>
+          {children}
+          <Toaster />
+        </main>
+        <Script id="razorpay-checkout" src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>
     </html>
   );
