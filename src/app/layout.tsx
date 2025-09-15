@@ -3,7 +3,6 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/sonner" // REMOVED: Unused 'OldToaster'
 import { Poppins } from 'next/font/google';
-import Script from 'next/script';
 
 
 export const metadata: Metadata = {
@@ -36,7 +35,6 @@ export default function RootLayout({
           {children}
           <Toaster />
         </main>
-        <Script id="razorpay-checkout" src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>
     </html>
   );
