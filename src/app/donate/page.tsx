@@ -1,46 +1,55 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from "@/components/ui/switch"
-import { HandHeart, IndianRupee, Loader2, CheckCircle, XCircle, Sparkles } from 'lucide-react';
+import { HandHeart, IndianRupee, Loader2 } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { toast as sonnerToast } from "sonner";
 import { cn } from '@/lib/utils';
-
+import { submitPayuForm } from '@/lib/payu';
 
 export default function DonatePage() {
     const searchParams = useSearchParams();
     const status = searchParams.get('status');
 
-    const [amount, setAmount] = useState<number | string>('');
+    const [amount, setAmount] = useState<number | string>(500);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
-    const [isRecurring, setIsRecurring] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
     useEffect(() => {
+        const status = searchParams.get('status');
+        const txnid = searchParams.get('txnid');
+
         if (status === 'success') {
-          sonnerToast.success("Donation Successful!", { description: "Thank you so much for your generous support." });
+          sonnerToast.success("Donation Successful!", { 
+            description: `Thank you for your generous support. Your Transaction ID is ${txnid}.`
+          });
+        } else if (status === 'failure') {
+           sonnerToast.error("Donation Failed", { 
+            description: `Your donation attempt failed. If any amount was debited, it will be refunded. Transaction ID: ${txnid}.` 
+           });
         } else if (status === 'cancelled') {
-           sonnerToast.error("Donation Cancelled", { description: "Your donation process was cancelled. You can try again anytime." });
+             sonnerToast.warning("Donation Cancelled", {
+                description: "You cancelled the donation process. You can try again anytime."
+             })
         }
-    }, [status]);
+    }, [searchParams]);
 
 
-  const handleDonation = async (e: React.FormEvent) => {
+  const handleDonation = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     const donationAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-    if (!donationAmount || donationAmount < 50) {
-        sonnerToast.error("Invalid Amount", { description: "Minimum donation amount is ₹50." });
+    if (!donationAmount || donationAmount < 1) {
+        sonnerToast.error("Invalid Amount", { description: "Minimum donation amount is ₹1." });
         setIsLoading(false);
         return;
     }
@@ -51,21 +60,22 @@ export default function DonatePage() {
     }
 
     try {
-      const res = await fetch('/api/payment/create-checkout-session', {
+      const res = await fetch('/api/payment/payu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: donationAmount, recurring: isRecurring, name, email }),
+        body: JSON.stringify({ amount: donationAmount, name, email }),
       });
 
-      const { redirectUrl, error } = await res.json();
+      const data = await res.json();
 
-      if (error) {
-        throw new Error(error);
+      if (data.error) {
+        throw new Error(data.error);
       }
+      
+      // The data contains all form fields required by PayU
+      // We'll use a helper function to create and submit the form
+      submitPayuForm(data);
 
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      }
     } catch (error: any) {
       console.error(error);
       sonnerToast.error("Something went wrong", { description: error.message || "Could not initiate donation. Please try again." });
@@ -112,26 +122,10 @@ export default function DonatePage() {
                   </div>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"/>
-                    <Input id="amount" type="number" placeholder="Or enter a custom amount" value={amount} onChange={(e) => setAmount(e.target.value ? parseFloat(e.target.value) : '')} className="pl-10" required min="50" disabled={isLoading} />
+                    <Input id="amount" type="number" placeholder="Or enter a custom amount" value={amount} onChange={(e) => setAmount(e.target.value ? parseFloat(e.target.value) : '')} className="pl-10" required min="1" disabled={isLoading} />
                   </div>
                 </div>
-                <div className="flex items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="recurring-switch" className="flex items-center gap-2 font-bold text-brand-teal-dark">
-                      <Sparkles className="h-5 w-5 text-brand-orange" />
-                      Make it a Monthly Donation
-                    </Label>
-                    <p className="text-sm text-muted-foreground">
-                      Become a regular supporter and create lasting impact.
-                    </p>
-                  </div>
-                  <Switch
-                    id="recurring-switch"
-                    checked={isRecurring}
-                    onCheckedChange={setIsRecurring}
-                    disabled={isLoading}
-                  />
-                </div>
+                
                  <Button type="submit" className="w-full bg-brand-yellow text-slate-900 hover:bg-brand-orange h-12 text-lg" disabled={isLoading}>
                     {isLoading ? <Loader2 className="animate-spin" /> : `Donate Now`}
                  </Button>
@@ -139,7 +133,7 @@ export default function DonatePage() {
             </CardContent>
             <CardFooter>
                  <p className="mt-4 text-center text-xs text-muted-foreground">
-                    You will be redirected to Stripe, our secure payment partner, to complete the donation.
+                    You will be redirected to PayU, our secure payment partner, to complete the donation.
                 </p>
             </CardFooter>
           </Card>
