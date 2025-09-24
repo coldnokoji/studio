@@ -7,7 +7,7 @@ export function Logo() {
     <Link href="/" aria-label="Shreyaskar Social Welfare Foundation Home">
       <div className="flex items-center gap-3 pl-2">
         <Image src={logoImage} alt="Shreyaskar Social Welfare Foundation Logo" width={48} height={48} />
-        <div className="flex flex-col">
+        <div className="flex flex-col text-left">
           <span className="text-lg font-bold text-foreground font-headline leading-tight">
             Shreyaskar
           </span>
