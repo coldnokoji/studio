@@ -22,6 +22,9 @@ export async function POST(req: NextRequest) {
 
     // Generate a unique transaction ID
     const txnid = `TXN_${Date.now()}`;
+
+    // Use the ngrok URL for callbacks in development, otherwise use the request's origin
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
     
     // The data that will be sent to PayU
     const paymentData = {
@@ -32,8 +35,8 @@ export async function POST(req: NextRequest) {
       firstname: name,
       email: email,
       phone: '9999999999', // A dummy phone number, PayU requires one.
-      surl: `${req.nextUrl.origin}/donate/success?txnid=${txnid}`, // Success URL
-      furl: `${req.nextUrl.origin}/donate/failure?txnid=${txnid}`, // Failure URL
+      surl: `${baseUrl}/donate/success?txnid=${txnid}`, // Success URL
+      furl: `${baseUrl}/donate/failure?txnid=${txnid}`, // Failure URL
       service_provider: 'payu_paisa',
     };
 
