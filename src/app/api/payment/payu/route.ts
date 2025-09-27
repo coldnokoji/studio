@@ -32,8 +32,8 @@ export async function POST(req: NextRequest) {
       firstname: name,
       email: email,
       phone: '9999999999', // A dummy phone number, PayU requires one.
-      surl: `${req.nextUrl.origin}/donate?status=success&txnid=${txnid}`, // Success URL
-      furl: `${req.nextUrl.origin}/donate?status=failure&txnid=${txnid}`, // Failure URL
+      surl: `${req.nextUrl.origin}/donate/success?txnid=${txnid}`, // Success URL
+      furl: `${req.nextUrl.origin}/donate/failure?txnid=${txnid}`, // Failure URL
       service_provider: 'payu_paisa',
     };
 
@@ -46,7 +46,16 @@ export async function POST(req: NextRequest) {
         paymentData.productinfo,
         paymentData.firstname,
         paymentData.email,
-        '', '', '', '', '', '', '', '', // 10 empty placeholders for udf1-10
+        '', // udf1
+        '', // udf2
+        '', // udf3
+        '', // udf4
+        '', // udf5
+        '', // udf6
+        '', // udf7
+        '', // udf8
+        '', // udf9
+        '', // udf10
         PAYU_SALT
     ].join('|');
 
