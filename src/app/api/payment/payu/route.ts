@@ -43,11 +43,6 @@ export async function POST(req: NextRequest) {
       udf3: '',
       udf4: '',
       udf5: '',
-      udf6: '',
-      udf7: '',
-      udf8: '',
-      udf9: '',
-      udf10: '',
     };
     
     // Add recurring payment parameters if selected
@@ -62,13 +57,9 @@ export async function POST(req: NextRequest) {
         paymentData['payment_end_date'] = '2099-12-31'; // A far-future date
     }
 
-
     // --- HASH GENERATION ---
-    // The hash string must be in a specific order.
-    // The formula provided by PayU in error logs is the source of truth.
+    // The hash string must be in a specific order, as dictated by PayU's error logs.
     // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt)
-    // For recurring, it can change. Let's follow the error log's formula precisely.
-
     const hashStringParts = [
         paymentData.key,
         paymentData.txnid,
@@ -76,30 +67,18 @@ export async function POST(req: NextRequest) {
         paymentData.productinfo,
         paymentData.firstname,
         paymentData.email,
-        paymentData.udf1,
-        paymentData.udf2,
-        paymentData.udf3,
-        paymentData.udf4,
-        paymentData.udf5,
-        paymentData.udf6, // udf6
-        paymentData.udf7, // udf7
-        paymentData.udf8, // udf8
-        paymentData.udf9, // udf9
-        paymentData.udf10, // udf10
+        paymentData.udf1 || '',
+        paymentData.udf2 || '',
+        paymentData.udf3 || '',
+        paymentData.udf4 || '',
+        paymentData.udf5 || '',
+        '', // udf6
+        '', // udf7
+        '', // udf8
+        '', // udf9
+        '', // udf10
+        PAYU_SALT, // The salt is always last
     ];
-    
-    // For recurring payments, PayU's hash formula includes billing details.
-    if (isRecurring) {
-         hashStringParts.push(
-            paymentData.billing_amount,
-            paymentData.billing_cycle,
-            paymentData.billing_interval,
-            paymentData.payment_start_date,
-            paymentData.payment_end_date
-        );
-    }
-    
-    hashStringParts.push(PAYU_SALT); // The salt is always last
 
     const hashString = hashStringParts.join('|');
     const hash = crypto.createHash('sha512').update(hashString).digest('hex');
