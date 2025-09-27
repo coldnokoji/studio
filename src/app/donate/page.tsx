@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
@@ -6,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { HandHeart, IndianRupee, Loader2 } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -16,11 +18,11 @@ import { submitPayuForm } from '@/lib/payu';
 
 export default function DonatePage() {
     const searchParams = useSearchParams();
-    const status = searchParams.get('status');
 
     const [amount, setAmount] = useState<number | string>(500);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [isRecurring, setIsRecurring] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
     useEffect(() => {
@@ -35,10 +37,6 @@ export default function DonatePage() {
            sonnerToast.error("Donation Failed", { 
             description: `Your donation attempt failed. If any amount was debited, it will be refunded. Transaction ID: ${txnid}.` 
            });
-        } else if (status === 'cancelled') {
-             sonnerToast.warning("Donation Cancelled", {
-                description: "You cancelled the donation process. You can try again anytime."
-             })
         }
     }, [searchParams]);
 
@@ -63,7 +61,7 @@ export default function DonatePage() {
       const res = await fetch('/api/payment/payu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: donationAmount, name, email }),
+        body: JSON.stringify({ amount: donationAmount, name, email, isRecurring }),
       });
 
       const data = await res.json();
@@ -72,8 +70,6 @@ export default function DonatePage() {
         throw new Error(data.error);
       }
       
-      // The data contains all form fields required by PayU
-      // We'll use a helper function to create and submit the form
       submitPayuForm(data);
 
     } catch (error: any) {
@@ -125,9 +121,25 @@ export default function DonatePage() {
                     <Input id="amount" type="number" placeholder="Or enter a custom amount" value={amount} onChange={(e) => setAmount(e.target.value ? parseFloat(e.target.value) : '')} className="pl-10" required min="1" disabled={isLoading} />
                   </div>
                 </div>
-                
+
+                <div className="flex items-center justify-center space-x-4 rounded-lg border p-4">
+                  <Label htmlFor="payment-type" className={cn("font-normal", !isRecurring && "font-semibold text-primary")}>
+                    One-time
+                  </Label>
+                  <Switch
+                    id="payment-type"
+                    checked={isRecurring}
+                    onCheckedChange={setIsRecurring}
+                    disabled={isLoading}
+                    aria-label="Switch between one-time and monthly donation"
+                  />
+                  <Label htmlFor="payment-type" className={cn("font-normal", isRecurring && "font-semibold text-primary")}>
+                    Monthly
+                  </Label>
+                </div>
+
                  <Button type="submit" className="w-full bg-brand-yellow text-slate-900 hover:bg-brand-orange h-12 text-lg" disabled={isLoading}>
-                    {isLoading ? <Loader2 className="animate-spin" /> : `Donate Now`}
+                    {isLoading ? <Loader2 className="animate-spin" /> : `Donate ${isRecurring ? 'Monthly' : 'Now'}`}
                  </Button>
               </form>
             </CardContent>
