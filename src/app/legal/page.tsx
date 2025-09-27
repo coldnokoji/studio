@@ -102,6 +102,15 @@ export default function LegalPage() {
                         </p>
                     </CardContent>
                 </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Legal Policies</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-2">
+                        <Link href="/terms-conditions" className="text-primary hover:underline">Terms & Conditions</Link>
+                        <Link href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>
+                    </CardContent>
+                </Card>
             </div>
           </div>
         </div>

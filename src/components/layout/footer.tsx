@@ -96,9 +96,15 @@ export function Footer() {
                 </div>
             ))}
           </div>
+
+          <div className="flex gap-4 text-xs text-foreground/70">
+             <Link href="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+             <span>&bull;</span>
+             <Link href="/terms-conditions" className="hover:text-primary">Terms & Conditions</Link>
+          </div>
           
           {/* Copyright */}
-          <p className="pt-8 text-xs text-foreground/70">
+          <p className="pt-4 text-xs text-foreground/70">
             &copy; {new Date().getFullYear()} Shreyaskar Social Welfare Foundation. All rights reserved.
           </p>
         </div>
