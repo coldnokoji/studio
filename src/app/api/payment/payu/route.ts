@@ -85,16 +85,15 @@ export async function POST(req: NextRequest) {
         paymentData.udf10,
     ];
     
+    // If recurring, add the SI parameters to the hash string IN THE CORRECT ORDER
     if(isRecurring){
         hashStringParts.push(
-            paymentData.pg,
-            paymentData.si,
             paymentData.billing_amount,
             paymentData.billing_cycle,
             paymentData.billing_interval,
             paymentData.payment_start_date,
             paymentData.payment_end_date,
-        )
+        );
     }
 
     hashStringParts.push(PAYU_SALT); // The salt is always last
