@@ -4,16 +4,39 @@ import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { saveDonation } from './actions';
+
 
 export default function SuccessRedirector() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        // Redirect user to the main donate page with status parameters
         const txnid = searchParams.get('txnid');
+        const name = searchParams.get('firstname');
+        const email = searchParams.get('email');
+        const amount = searchParams.get('amount');
+        const status = searchParams.get('status');
+        const isRecurring = searchParams.get('udf1') === 'RECURRING_PAYMENT';
+        
+        // Save the donation details to Firestore
+        if (status === 'success' && txnid && name && email && amount) {
+            saveDonation({
+                name,
+                email,
+                amount: parseFloat(amount),
+                txnid,
+                status: 'success',
+                isRecurring,
+            });
+        }
+
+        // Redirect user to the main donate page with status parameters
         setTimeout(() => {
-            router.replace(`/donate?status=success&txnid=${txnid || ''}`);
+            const redirectParams = new URLSearchParams();
+            redirectParams.set('status', 'success');
+            if (txnid) redirectParams.set('txnid', txnid);
+            router.replace(`/donate?${redirectParams.toString()}`);
         }, 1500); // 1.5-second delay
     }, [router, searchParams]);
 
@@ -25,7 +48,7 @@ export default function SuccessRedirector() {
                         <CheckCircle className="h-10 w-10" />
                     </div>
                     <CardTitle className="mt-4">Payment Successful!</CardTitle>
-                    <CardDescription>Thank you for your generous donation.</CardDescription>
+                    <CardDescription>Thank you for your generous donation. Saving details...</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col items-center gap-4">

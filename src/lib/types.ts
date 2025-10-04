@@ -1,5 +1,6 @@
 
 
+
 export type Award = {
   id: string;
   title: string;
@@ -71,4 +72,15 @@ export type GalleryImage = {
     title: string;
     imageUrl: string;
     aiHint: string;
+}
+
+export type Donation = {
+  id: string;
+  name: string;
+  email: string;
+  amount: number;
+  txnid: string;
+  status: 'success' | 'failure';
+  isRecurring: boolean;
+  createdAt: string;
 }

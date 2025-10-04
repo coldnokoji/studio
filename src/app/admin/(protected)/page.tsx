@@ -9,6 +9,17 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
+            <CardTitle>View Donations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">See a history of all successful donations.</p>
+            <Button asChild>
+              <Link href="/admin/donations">Go to Donations</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
             <CardTitle>Manage Awards</CardTitle>
           </CardHeader>
           <CardContent>

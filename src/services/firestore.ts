@@ -1,9 +1,10 @@
 
 
+
 'use server';
 
 import admin from 'firebase-admin';
-import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage } from '@/lib/types';
+import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation } from '@/lib/types';
 
 // Your web app's Firebase configuration
 const serviceAccount = {
@@ -252,4 +253,25 @@ export async function saveGalleryImage(id: string | undefined, data: Omit<Galler
 
 export async function deleteGalleryImage(id: string): Promise<void> {
     await db.collection('galleryImages').doc(id).delete();
+}
+
+// Donations
+export async function saveDonation(donationData: Omit<Donation, 'id' | 'createdAt'>): Promise<string> {
+    const docRef = await db.collection('donations').add({
+        ...donationData,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function getDonations(): Promise<Donation[]> {
+    const snapshot = await db.collection('donations').orderBy('createdAt', 'desc').get();
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            ...data,
+            createdAt: data.createdAt.toDate().toISOString(),
+        } as Donation;
+    });
 }
