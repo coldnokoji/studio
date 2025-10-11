@@ -9,15 +9,23 @@ import {
 } from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { IndianRupee } from 'lucide-react';
+import { IndianRupee, PlusCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default async function AdminDonationsPage() {
   const donations = await getDonations();
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Donation History</CardTitle>
+        <Button asChild>
+          <Link href="/admin/donations/new">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Manual Donation
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>
