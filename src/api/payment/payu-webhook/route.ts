@@ -7,26 +7,52 @@ import type { Donation } from '@/lib/types';
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  const data = Object.fromEntries(formData.entries());
+  const data = Object.fromEntries(formData.entries()) as Record<string, string>;
 
   const PAYU_SALT = process.env.PAYU_SALT;
-  if (!PAYU_SALT) {
-    console.error('PayU salt is not configured.');
+  const PAYU_MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY;
+
+  if (!PAYU_SALT || !PAYU_MERCHANT_KEY) {
+    console.error('PayU salt or key is not configured.');
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 
-  // --- HASH VERIFICATION ---
-  // The hash string for the response is calculated in a different order.
-  // The order is: salt|status||||||udf10|udf9|udf8|udf7|udf6|udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key
-  // We use our own salt, not the one PayU might send back.
-  const hashString = PAYU_SALT + '|' + data.status + '||||||||||' + data.udf5 + '|' + data.udf4 + '|' + data.udf3 + '|' + data.udf2 + '|' + data.udf1 + '|' + data.email + '|' + data.firstname + '|' + data.productinfo + '|' + data.amount + '|' + data.txnid + '|' + process.env.PAYU_MERCHANT_KEY;
+  // --- HASH VERIFICATION (PayU Response) ---
+  // The order is critical and defined by PayU.
+  // salt|status||||||udf10|udf9|udf8|udf7|udf6|udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key
+  const hashStringParts = [
+    PAYU_SALT,
+    data.status || '',
+    '', // additional_charges
+    '', // udf10
+    '', // udf9
+    '', // udf8
+    '', // udf7
+    '', // udf6
+    data.udf5 || '',
+    data.udf4 || '',
+    data.udf3 || '',
+    data.udf2 || '',
+    data.udf1 || '',
+    data.email || '',
+    data.firstname || '',
+    data.productinfo || '',
+    data.amount || '',
+    data.txnid || '',
+    PAYU_MERCHANT_KEY,
+  ];
 
+  const hashString = hashStringParts.join('|');
   const reverseHash = crypto.createHash('sha512').update(hashString).digest('hex');
-  
+
   if (reverseHash !== data.hash) {
-    console.warn('PayU webhook hash mismatch.', { received: data.hash, calculated: reverseHash, receivedString: data.hash_string });
-     // It's critical to return a 400 error if the hash doesn't match to prevent fraudulent webhook calls.
-     return NextResponse.json({ error: 'Hash mismatch' }, { status: 400 });
+    console.warn('PayU webhook hash mismatch.', { 
+        received: data.hash, 
+        calculated: reverseHash,
+        string_used_for_hash: hashString 
+    });
+    // It's critical to return a 400 error if the hash doesn't match to prevent fraudulent webhook calls.
+    return NextResponse.json({ error: 'Hash mismatch' }, { status: 400 });
   }
 
   if (data.status === 'success') {
