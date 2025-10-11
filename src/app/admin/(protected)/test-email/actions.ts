@@ -2,6 +2,7 @@
 'use server';
 
 import { sendDonationReceipt } from '@/services/email';
+import { getDonations } from '@/services/firestore';
 import type { Donation } from '@/lib/types';
 
 export async function sendTestEmailAction(): Promise<{ success: boolean; error?: string, email?: string }> {
@@ -12,21 +13,29 @@ export async function sendTestEmailAction(): Promise<{ success: boolean; error?:
     console.error(errorMessage);
     return { success: false, error: errorMessage };
   }
+
+  // --- FIX: Use a real donation instead of a fake one ---
+  // Get the most recent donation from the database.
+  const allDonations = await getDonations();
+  if (allDonations.length === 0) {
+    const errorMessage = "No donations found in the database. Please make a real donation first to generate a test email.";
+    console.error(errorMessage);
+    return { success: false, error: errorMessage };
+  }
   
-  const sampleDonation: Donation = {
-    id: 'test-donation-123',
-    name: 'Test Donor',
-    email: testRecipientEmail,
-    amount: 500,
-    txnid: 'TXN_TEST_123456789',
-    status: 'success',
-    isRecurring: false,
-    createdAt: new Date().toISOString(),
+  // Use the most recent donation as the sample.
+  const sampleDonation = allDonations[0];
+  
+  // Override the email to send it to the admin's test email address.
+  const donationForEmail: Donation = {
+      ...sampleDonation,
+      email: testRecipientEmail,
   };
+  // --- End of Fix ---
 
   try {
-    // The sendDonationReceipt function now handles URL creation internally
-    await sendDonationReceipt(sampleDonation);
+    // The sendDonationReceipt function handles URL creation internally
+    await sendDonationReceipt(donationForEmail);
     return { success: true, email: testRecipientEmail };
   } catch (error: any) {
     console.error('Failed to send test email:', error);
