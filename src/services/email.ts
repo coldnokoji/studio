@@ -14,13 +14,20 @@ export async function sendDonationReceipt(donation: Donation) {
 
     try {
         await resend.emails.send({
-            from: 'Shreyaskar Foundation <noreply@yourdomain.com>', // Replace with your verified Resend domain
+            // IMPORTANT: For testing without a custom domain, use Resend's sandbox email.
+            // Emails will be sent *from* this address.
+            from: 'Shreyaskar Foundation <onboarding@resend.dev>',
+            
+            // For the sandbox to work, the 'to' address MUST be the same email you
+            // used to sign up for your Resend account.
             to: donation.email,
+            
             subject: 'Thank You for Your Donation!',
             react: DonationReceiptEmail({ donation }),
         });
         console.log(`Donation receipt sent to ${donation.email}`);
     } catch (error) {
         console.error("Error sending donation receipt:", error);
+        // Note: This might fail if the 'to' email is not your verified Resend account email.
     }
 }
