@@ -1,3 +1,4 @@
+
 'use server';
 
 import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation } from '@/lib/types';
@@ -266,6 +267,13 @@ export async function deleteGalleryImage(id: string): Promise<void> {
 // Donations
 export async function saveDonation(donationData: Omit<Donation, 'id' | 'createdAt'>): Promise<string> {
     const db = await getDb();
+    // Check if a donation with this txnid already exists to prevent duplicates
+    const existing = await db.collection('donations').where('txnid', '==', donationData.txnid).limit(1).get();
+    if (!existing.empty) {
+        console.log(`Donation with txnid ${donationData.txnid} already exists. Skipping save.`);
+        return existing.docs[0].id;
+    }
+    
     const docRef = await db.collection('donations').add({
         ...donationData,
         createdAt: new Date().toISOString(),
@@ -284,4 +292,19 @@ export async function getDonations(): Promise<Donation[]> {
             createdAt: data.createdAt,
         } as Donation;
     });
+}
+
+export async function getDonationByTxnId(txnid: string): Promise<Donation | null> {
+    const db = await getDb();
+    const snapshot = await db.collection('donations').where('txnid', '==', txnid).limit(1).get();
+    if (snapshot.empty) {
+        return null;
+    }
+    const doc = snapshot.docs[0];
+    const data = doc.data();
+    return { 
+        id: doc.id,
+         ...data,
+        createdAt: data.createdAt
+    } as Donation;
 }
