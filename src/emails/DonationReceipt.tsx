@@ -18,10 +18,13 @@ interface DonationReceiptEmailProps {
   donation: Donation;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-const logoUrl = `${baseUrl}/ngologo.png`;
+// Ensure NEXT_PUBLIC_BASE_URL is read correctly on the server
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+  ? (process.env.NEXT_PUBLIC_BASE_URL.startsWith('http') ? process.env.NEXT_PUBLIC_BASE_URL : `https://${process.env.NEXT_PUBLIC_BASE_URL}`)
+  : 'http://localhost:3000';
 
 export const DonationReceiptEmail = ({ donation }: DonationReceiptEmailProps) => {
+  const logoUrl = `${baseUrl}/ngologo.png`;
   const receiptUrl = `${baseUrl}/donate/receipt/${donation.txnid}`;
   const certificateUrl = `${baseUrl}/donate/certificate/${donation.txnid}`;
 
