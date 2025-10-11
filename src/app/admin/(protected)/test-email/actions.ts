@@ -5,9 +5,6 @@ import { sendDonationReceipt } from '@/services/email';
 import type { Donation } from '@/lib/types';
 
 export async function sendTestEmailAction(): Promise<{ success: boolean; error?: string, email?: string }> {
-  // IMPORTANT: For this test to work, the `to` email address must be the one
-  // you used to sign up for your Resend account, as we are using the sandbox domain.
-  // In a real scenario, this would be the donor's email.
   const testRecipientEmail = process.env.RESEND_SIGNUP_EMAIL;
 
   if (!testRecipientEmail) {
@@ -28,6 +25,7 @@ export async function sendTestEmailAction(): Promise<{ success: boolean; error?:
   };
 
   try {
+    // The sendDonationReceipt function now handles URL creation internally
     await sendDonationReceipt(sampleDonation);
     return { success: true, email: testRecipientEmail };
   } catch (error: any) {

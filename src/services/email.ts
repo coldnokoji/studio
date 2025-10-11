@@ -11,23 +11,23 @@ export async function sendDonationReceipt(donation: Donation) {
         console.log("RESEND_API_KEY is not set. Skipping email.");
         return;
     }
+    
+    // --- FIX: Construct the full URLs here on the server ---
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const receiptUrl = `${baseUrl}/donate/receipt/${donation.txnid}`;
+    const certificateUrl = `${baseUrl}/donate/certificate/${donation.txnid}`;
+    // --- End of Fix ---
 
     try {
         await resend.emails.send({
-            // IMPORTANT: For testing without a custom domain, use Resend's sandbox email.
-            // Emails will be sent *from* this address.
             from: 'Shreyaskar Foundation <onboarding@resend.dev>',
-            
-            // For the sandbox to work, the 'to' address MUST be the same email you
-            // used to sign up for your Resend account.
             to: donation.email,
-            
             subject: 'Thank You for Your Donation!',
-            react: DonationReceiptEmail({ donation }),
+            // Pass the full URLs as props to the email component
+            react: DonationReceiptEmail({ donation, receiptUrl, certificateUrl }),
         });
         console.log(`Donation receipt sent to ${donation.email}`);
     } catch (error) {
         console.error("Error sending donation receipt:", error);
-        // Note: This might fail if the 'to' email is not your verified Resend account email.
     }
 }

@@ -16,17 +16,14 @@ import * as React from 'react';
 
 interface DonationReceiptEmailProps {
   donation: Donation;
+  receiptUrl: string; // Accept the full URL as a prop
+  certificateUrl: string; // Accept the full URL as a prop
 }
 
-// Ensure NEXT_PUBLIC_BASE_URL is read correctly on the server
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
-  ? (process.env.NEXT_PUBLIC_BASE_URL.startsWith('http') ? process.env.NEXT_PUBLIC_BASE_URL : `https://${process.env.NEXT_PUBLIC_BASE_URL}`)
-  : 'http://localhost:3000';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-export const DonationReceiptEmail = ({ donation }: DonationReceiptEmailProps) => {
+export const DonationReceiptEmail = ({ donation, receiptUrl, certificateUrl }: DonationReceiptEmailProps) => {
   const logoUrl = `${baseUrl}/ngologo.png`;
-  const receiptUrl = `${baseUrl}/donate/receipt/${donation.txnid}`;
-  const certificateUrl = `${baseUrl}/donate/certificate/${donation.txnid}`;
 
   return (
     <Html>
