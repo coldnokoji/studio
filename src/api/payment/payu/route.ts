@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
     // --- IMPORTANT: Get these from your PayU account and add to .env.local ---
     const PAYU_MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY;
     const PAYU_SALT = process.env.PAYU_SALT;
+    const isProduction = process.env.NODE_ENV === 'production';
     
     // Determine which PayU URL to use (test or production)
-    const PAYU_BASE_URL = process.env.NODE_ENV === 'production' 
+    const PAYU_BASE_URL = isProduction 
       ? 'https://secure.payu.in/_payment' 
       : 'https://test.payu.in/_payment';
 
@@ -20,11 +21,18 @@ export async function POST(req: NextRequest) {
         throw new Error("PayU credentials are not configured in environment variables.");
     }
 
+    // This is the public URL of your website. It's crucial for production redirects.
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (isProduction && !baseUrl) {
+        throw new Error("NEXT_PUBLIC_BASE_URL is not configured in environment variables for production.");
+    }
+    
+    // Fallback to request origin for local development if NEXT_PUBLIC_BASE_URL is not set
+    const appUrl = baseUrl || req.nextUrl.origin;
+
+
     // Generate a unique transaction ID
     const txnid = `TXN_${Date.now()}`;
-
-    // Use the ngrok URL for callbacks in development, otherwise use the request's origin
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
     
     // The base data that will be sent to PayU
     const paymentData: { [key: string]: string } = {
@@ -35,8 +43,8 @@ export async function POST(req: NextRequest) {
       firstname: name,
       email: email,
       phone: '9999999999', // A dummy phone number, PayU requires one.
-      surl: `${baseUrl}/donate/success`, // Success URL
-      furl: `${baseUrl}/donate/failure`, // Failure URL
+      surl: `${appUrl}/donate/success`, // Success URL
+      furl: `${appUrl}/donate/failure`, // Failure URL
       service_provider: 'payu_paisa',
       udf1: '',
       udf2: '',
