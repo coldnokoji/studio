@@ -1,0 +1,9 @@
+{
+  "founder_portrait": {
+    "src": "https://picsum.photos/seed/founder/800/1000",
+    "width": 800,
+    "height": 1000,
+    "alt": "Founder of Shreyaskar Social Welfare Foundation",
+    "aiHint": "founder portrait"
+  }
+}

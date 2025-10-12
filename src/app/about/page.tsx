@@ -7,10 +7,9 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { motion, Variants } from 'framer-motion';
-import logoImage from '@/components/ngologo.png'; // Import the logo image
+import logoImage from '@/components/ngologo.png';
+import placeholderImageData from '@/app/lib/placeholder-images.json';
 
-
-// Define the animation as a typed Variants object
 const fadeInVariants: Variants = {
   initial: { 
     opacity: 0, 
@@ -38,6 +37,8 @@ const WaveDivider = () => (
 );
 
 export default function AboutUsPage() {
+  const { founder_portrait } = placeholderImageData;
+
   return (
     <>
       <Header />
@@ -147,11 +148,13 @@ export default function AboutUsPage() {
               className="relative h-[28rem] w-full overflow-hidden rounded-2xl shadow-2xl"
             >
               <Image
-                src="https://picsum.photos/seed/founder/800/1000"
-                alt="Founder of Shreyaskar Social Welfare Foundation"
+                src={founder_portrait.src}
+                alt={founder_portrait.alt}
+                width={founder_portrait.width}
+                height={founder_portrait.height}
                 fill
                 className="object-cover"
-                data-ai-hint="founder portrait"
+                data-ai-hint={founder_portrait.aiHint}
               />
             </motion.div>
             <motion.div 
