@@ -2,7 +2,9 @@
 'use server';
 
 import { sendDonationReceipt } from '@/services/email';
+import { saveDonation } from '@/services/firestore';
 import type { Donation } from '@/lib/types';
+import { revalidatePath } from 'next/cache';
 
 export async function sendTestEmailAction(): Promise<{ success: boolean; error?: string, email?: string }> {
   const testRecipientEmail = process.env.RESEND_SIGNUP_EMAIL;
@@ -14,21 +16,32 @@ export async function sendTestEmailAction(): Promise<{ success: boolean; error?:
   }
 
   // Create a perfect, hardcoded sample donation object for testing.
-  // This avoids any issues with database entries and guarantees the data is correct.
-  const sampleDonation: Donation = {
-    id: 'test-id-123',
-    name: 'Jane Donor',
+  const sampleDonationData: Omit<Donation, 'id' | 'createdAt'> = {
+    name: 'Jane Donor (Test)',
     email: testRecipientEmail, // Always send the test to the admin's email.
     amount: 500.00,
     txnid: 'TXN_TEST_123456789',
     status: 'success',
     isRecurring: false,
-    createdAt: new Date().toISOString(),
   };
 
   try {
-    // The sendDonationReceipt function handles URL creation internally.
-    await sendDonationReceipt(sampleDonation);
+    // 1. Save the test donation to the database. This ensures the pages will find it.
+    const newDonationId = await saveDonation(sampleDonationData);
+    
+    // Revalidate paths that might show donation data
+    revalidatePath('/admin/donations');
+    revalidatePath(`/donate/receipt/${sampleDonationData.txnid}`);
+    revalidatePath(`/donate/certificate/${sampleDonationData.txnid}`);
+    
+    const fullDonationRecord: Donation = {
+        ...sampleDonationData,
+        id: newDonationId,
+        createdAt: new Date().toISOString()
+    };
+
+    // 2. Send the email receipt, which now has a valid record to link to.
+    await sendDonationReceipt(fullDonationRecord);
     return { success: true, email: testRecipientEmail };
   } catch (error: any) {
     console.error('Failed to send test email:', error);
