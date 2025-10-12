@@ -150,8 +150,6 @@ export default function AboutUsPage() {
               <Image
                 src={founder_portrait.src}
                 alt={founder_portrait.alt}
-                width={founder_portrait.width}
-                height={founder_portrait.height}
                 fill
                 className="object-cover"
                 data-ai-hint={founder_portrait.aiHint}
