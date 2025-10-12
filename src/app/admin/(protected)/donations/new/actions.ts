@@ -15,6 +15,7 @@ interface ManualDonationInput {
 export async function saveManualDonationAction(data: ManualDonationInput) {
   const donationData: Omit<Donation, 'id' | 'createdAt'> = {
     ...data,
+    amount: typeof data.amount === 'string' ? parseFloat(data.amount) : data.amount,
     status: 'success', // Manual entries are always considered successful
   };
   
