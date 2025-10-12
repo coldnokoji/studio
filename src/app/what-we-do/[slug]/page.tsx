@@ -11,8 +11,9 @@ import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
+import placeholderImageData from '@/app/lib/placeholder-images.json';
 
-const programs = {
+const programsData = {
   education: {
     icon: BookOpen,
     title: 'Education',
@@ -22,11 +23,8 @@ const programs = {
       { number: '5', label: 'Community Learning Centers Planned' },
       { number: '1,000+', label: 'Books to be Distributed' },
     ],
-    images: [
-      { src: 'https://picsum.photos/seed/classroom/600/400', alt: 'Children in a classroom', aiHint: 'children classroom' },
-      { src: 'https://picsum.photos/seed/reading/600/400', alt: 'A child reading a book', aiHint: 'child reading' },
-      { src: 'https://picsum.photos/seed/computer-lab/600/400', alt: 'Digital literacy class', aiHint: 'computer class' },
-    ],
+    images: placeholderImageData.program_page.education.gallery,
+    heroImage: placeholderImageData.program_page.education.hero,
   },
   healthcare: {
     icon: Heart,
@@ -37,11 +35,8 @@ const programs = {
       { number: '10+', label: 'Health Camps to be Organized' },
       { number: '1,000+', label: 'Health Kits to be Distributed' },
     ],
-    images: [
-      { src: 'https://picsum.photos/seed/doctor/600/400', alt: 'Doctor examining a patient', aiHint: 'doctor patient' },
-      { src: 'https://picsum.photos/seed/medicine/600/400', alt: 'A volunteer distributing medicine', aiHint: 'volunteer medicine' },
-      { src: 'https://picsum.photos/seed/health-talk/600/400', alt: 'Health awareness session', aiHint: 'community meeting' },
-    ],
+    images: placeholderImageData.program_page.healthcare.gallery,
+    heroImage: placeholderImageData.program_page.healthcare.hero,
   },
    environment: {
     icon: Sprout,
@@ -52,11 +47,8 @@ const programs = {
       { number: '5+', label: 'Clean-Up Drives Planned' },
       { number: '10+', label: 'Villages in Our Awareness Campaign' },
     ],
-    images: [
-      { src: 'https://picsum.photos/seed/planting/600/400', alt: 'People planting trees', aiHint: 'planting trees' },
-      { src: 'https://picsum.photos/seed/cleanup/600/400', alt: 'Community clean-up drive', aiHint: 'community cleaning' },
-      { src: 'https://picsum.photos/seed/recycling/600/400', alt: 'An awareness session on recycling', aiHint: 'recycling awareness' },
-    ],
+    images: placeholderImageData.program_page.environment.gallery,
+    heroImage: placeholderImageData.program_page.environment.hero,
   },
   livelihood: {
     icon: Briefcase,
@@ -67,22 +59,19 @@ const programs = {
       { number: '10+', label: 'Skill Development Workshops' },
       { number: '50+', label: 'Families We Aim to Support' },
     ],
-     images: [
-      { src: 'https://picsum.photos/seed/training/600/400', alt: 'A person learning a new skill', aiHint: 'vocational training' },
-      { src: 'https://picsum.photos/seed/computers/600/400', alt: 'Students in a computer lab', aiHint: 'computer training' },
-      { src: 'https://picsum.photos/seed/artisans/600/400', alt: 'Group of artisans with their products', aiHint: 'local artisans' },
-    ],
+     images: placeholderImageData.program_page.livelihood.gallery,
+     heroImage: placeholderImageData.program_page.livelihood.hero,
   }
 };
 
 type ProgramPageProps = {
   params: {
-    slug: string;
+    slug: keyof typeof programsData;
   };
 };
 
 export default function ProgramPage({ params }: ProgramPageProps) {
-  const program = programs[params.slug as keyof typeof programs];
+  const program = programsData[params.slug];
 
   if (!program) {
     notFound();
@@ -97,11 +86,13 @@ export default function ProgramPage({ params }: ProgramPageProps) {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
                 <Image
-                  src={`https://picsum.photos/seed/${program.title.toLowerCase().replace(' ', '-')}/800/600`}
-                  alt={program.title}
+                  src={program.heroImage.src}
+                  alt={program.heroImage.alt}
+                  width={program.heroImage.width}
+                  height={program.heroImage.height}
                   fill
                   className="object-cover"
-                  data-ai-hint={`${program.title.toLowerCase()} program`}
+                  data-ai-hint={program.heroImage.aiHint}
                 />
               </div>
               <div className="flex flex-col justify-center space-y-4">
@@ -167,7 +158,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
 
 // Generate static paths for the slugs
 export async function generateStaticParams() {
-  return Object.keys(programs).map((slug) => ({
+  return Object.keys(programsData).map((slug) => ({
     slug,
   }));
 }

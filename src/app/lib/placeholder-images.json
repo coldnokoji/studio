@@ -5,5 +5,91 @@
     "height": 1000,
     "alt": "Founder of Shreyaskar Social Welfare Foundation",
     "aiHint": "founder portrait"
+  },
+  "home_hero_community": {
+    "src": "https://picsum.photos/seed/community/800/600",
+    "width": 800,
+    "height": 600,
+    "alt": "A happy group of volunteers",
+    "aiHint": "happy volunteers community"
+  },
+  "project_gyan": {
+    "src": "https://picsum.photos/seed/education/600/400",
+    "width": 600,
+    "height": 400,
+    "alt": "Project Gyan: Spreading the Light of Education",
+    "aiHint": "smiling children happily learning"
+  },
+  "project_arogya": {
+    "src": "https://picsum.photos/seed/health/600/400",
+    "width": 600,
+    "height": 400,
+    "alt": "Arogya: A Step Towards Community Health",
+    "aiHint": "joyful community health event"
+  },
+  "get_involved_volunteer": {
+    "src": "https://picsum.photos/seed/volunteer/600/400",
+    "width": 600,
+    "height": 400,
+    "alt": "Happy volunteers working together",
+    "aiHint": "happy volunteers"
+  },
+  "program_page": {
+    "education": {
+      "hero": {
+        "src": "https://picsum.photos/seed/education-hero/800/600",
+        "width": 800,
+        "height": 600,
+        "alt": "Education program",
+        "aiHint": "education program"
+      },
+      "gallery": [
+        { "src": "https://picsum.photos/seed/classroom/600/400", "alt": "Children in a classroom", "aiHint": "children classroom" },
+        { "src": "https://picsum.photos/seed/reading/600/400", "alt": "A child reading a book", "aiHint": "child reading" },
+        { "src": "https://picsum.photos/seed/computer-lab/600/400", "alt": "Digital literacy class", "aiHint": "computer class" }
+      ]
+    },
+    "healthcare": {
+      "hero": {
+        "src": "https://picsum.photos/seed/healthcare-hero/800/600",
+        "width": 800,
+        "height": 600,
+        "alt": "Healthcare program",
+        "aiHint": "healthcare program"
+      },
+      "gallery": [
+        { "src": "https://picsum.photos/seed/doctor/600/400", "alt": "Doctor examining a patient", "aiHint": "doctor patient" },
+        { "src": "https://picsum.photos/seed/medicine/600/400", "alt": "A volunteer distributing medicine", "aiHint": "volunteer medicine" },
+        { "src": "https://picsum.photos/seed/health-talk/600/400", "alt": "Health awareness session", "aiHint": "community meeting" }
+      ]
+    },
+    "environment": {
+      "hero": {
+        "src": "https://picsum.photos/seed/environment-hero/800/600",
+        "width": 800,
+        "height": 600,
+        "alt": "Environment program",
+        "aiHint": "environment program"
+      },
+      "gallery": [
+        { "src": "https://picsum.photos/seed/planting/600/400", "alt": "People planting trees", "aiHint": "planting trees" },
+        { "src": "https://picsum.photos/seed/cleanup/600/400", "alt": "Community clean-up drive", "aiHint": "community cleaning" },
+        { "src": "https://picsum.photos/seed/recycling/600/400", "alt": "An awareness session on recycling", "aiHint": "recycling awareness" }
+      ]
+    },
+    "livelihood": {
+      "hero": {
+        "src": "https://picsum.photos/seed/livelihood-hero/800/600",
+        "width": 800,
+        "height": 600,
+        "alt": "Livelihood program",
+        "aiHint": "livelihood program"
+      },
+      "gallery": [
+        { "src": "https://picsum.photos/seed/training/600/400", "alt": "A person learning a new skill", "aiHint": "vocational training" },
+        { "src": "https://picsum.photos/seed/computers/600/400", "alt": "Students in a computer lab", "aiHint": "computer training" },
+        { "src": "https://picsum.photos/seed/artisans/600/400", "alt": "Group of artisans with their products", "aiHint": "local artisans" }
+      ]
+    }
   }
 }

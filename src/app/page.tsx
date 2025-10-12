@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -12,6 +13,7 @@ import { ChatWidget } from '@/components/layout/chat-widget';
 import { getTeamMembers } from '@/services/firestore';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import placeholderImageData from '@/app/lib/placeholder-images.json';
 
 const WaveDivider = () => (
   <div className="bg-transparent">
@@ -45,12 +47,13 @@ const socialCauses = [
 ];
 
 const flagshipProjects = [
-    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: 'https://picsum.photos/seed/education/600/400', aiHint: 'smiling children happily learning', href: '/what-we-do/education' },
-    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: 'https://picsum.photos/seed/health/600/400', aiHint: 'joyful community health event', href: '/what-we-do/healthcare' },
+    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: placeholderImageData.project_gyan, href: '/what-we-do/education' },
+    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: placeholderImageData.project_arogya, href: '/what-we-do/healthcare' },
 ];
 
 export default function Home() {
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const { home_hero_community } = placeholderImageData;
 
   useEffect(() => {
     async function fetchTeam() {
@@ -139,11 +142,11 @@ export default function Home() {
                 className="relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl"
               >
                 <Image
-                  src="https://picsum.photos/seed/community/800/600"
-                  alt="A happy group of volunteers"
+                  src={home_hero_community.src}
+                  alt={home_hero_community.alt}
                   fill
                   className="object-cover"
-                  data-ai-hint="happy volunteers community"
+                  data-ai-hint={home_hero_community.aiHint}
                 />
               </motion.div>
               <motion.div
@@ -223,11 +226,12 @@ export default function Home() {
                     className={`relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl ${index % 2 === 1 ? 'md:order-last' : ''}`}
                   >
                     <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
+                      src={project.image.src}
+                      alt={project.image.alt}
+                      width={project.image.width}
+                      height={project.image.height}
                       className="object-cover"
-                      data-ai-hint={project.aiHint}
+                      data-ai-hint={project.image.aiHint}
                     />
                   </motion.div>
                   <motion.div 
