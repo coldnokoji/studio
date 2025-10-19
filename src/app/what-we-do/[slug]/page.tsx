@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import {
   Carousel,
@@ -11,7 +12,9 @@ import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
-import placeholderImageData from '@/app/lib/placeholder-images.json';
+import { getSiteSettings } from '@/services/firestore';
+import type { SiteSettings } from '@/lib/types';
+import { useEffect, useState } from 'react';
 
 const programsData = {
   education: {
@@ -23,8 +26,6 @@ const programsData = {
       { number: '5', label: 'Community Learning Centers Planned' },
       { number: '1,000+', label: 'Books to be Distributed' },
     ],
-    images: placeholderImageData.program_page.education.gallery,
-    heroImage: placeholderImageData.program_page.education.hero,
   },
   healthcare: {
     icon: Heart,
@@ -35,8 +36,6 @@ const programsData = {
       { number: '10+', label: 'Health Camps to be Organized' },
       { number: '1,000+', label: 'Health Kits to be Distributed' },
     ],
-    images: placeholderImageData.program_page.healthcare.gallery,
-    heroImage: placeholderImageData.program_page.healthcare.hero,
   },
    environment: {
     icon: Sprout,
@@ -47,8 +46,6 @@ const programsData = {
       { number: '5+', label: 'Clean-Up Drives Planned' },
       { number: '10+', label: 'Villages in Our Awareness Campaign' },
     ],
-    images: placeholderImageData.program_page.environment.gallery,
-    heroImage: placeholderImageData.program_page.environment.hero,
   },
   livelihood: {
     icon: Briefcase,
@@ -59,23 +56,50 @@ const programsData = {
       { number: '10+', label: 'Skill Development Workshops' },
       { number: '50+', label: 'Families We Aim to Support' },
     ],
-     images: placeholderImageData.program_page.livelihood.gallery,
-     heroImage: placeholderImageData.program_page.livelihood.hero,
   }
 };
 
+type ProgramSlug = keyof typeof programsData;
+
 type ProgramPageProps = {
   params: {
-    slug: keyof typeof programsData;
+    slug: ProgramSlug;
   };
 };
 
 export default function ProgramPage({ params }: ProgramPageProps) {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   const program = programsData[params.slug];
 
   if (!program) {
     notFound();
   }
+  
+  const programImages = settings ? {
+    education: {
+      hero: settings.programEducationHero,
+      gallery: [settings.programEducationGallery1, settings.programEducationGallery2, settings.programEducationGallery3]
+    },
+    healthcare: {
+      hero: settings.programHealthcareHero,
+      gallery: [settings.programHealthcareGallery1, settings.programHealthcareGallery2, settings.programHealthcareGallery3]
+    },
+    environment: {
+      hero: settings.programEnvironmentHero,
+      gallery: [settings.programEnvironmentGallery1, settings.programEnvironmentGallery2, settings.programEnvironmentGallery3]
+    },
+    livelihood: {
+      hero: settings.programLivelihoodHero,
+      gallery: [settings.programLivelihoodGallery1, settings.programLivelihoodGallery2, settings.programLivelihoodGallery3]
+    },
+  } : null;
+
+  const currentImages = programImages ? programImages[params.slug] : null;
 
   return (
     <>
@@ -85,15 +109,15 @@ export default function ProgramPage({ params }: ProgramPageProps) {
           <section className="w-full py-20 lg:py-32">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
-                <Image
-                  src={program.heroImage.src}
-                  alt={program.heroImage.alt}
-                  width={program.heroImage.width}
-                  height={program.heroImage.height}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={program.heroImage.aiHint}
-                />
+                {currentImages?.hero && (
+                  <Image
+                    src={currentImages.hero}
+                    alt={program.title}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={`${params.slug} program`}
+                  />
+                )}
               </div>
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -126,27 +150,29 @@ export default function ProgramPage({ params }: ProgramPageProps) {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center mb-12">
               Gallery
             </h2>
-            <Carousel className="w-full max-w-6xl mx-auto" opts={{ loop: true }}>
-              <CarouselContent>
-                {program.images.map((image, index) => (
-                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1">
-                      <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
-                        <Image
-                          src={image.src}
-                          alt={image.alt}
-                          fill
-                          className="object-cover"
-                          data-ai-hint={image.aiHint}
-                        />
+            {currentImages && (
+              <Carousel className="w-full max-w-6xl mx-auto" opts={{ loop: true }}>
+                <CarouselContent>
+                  {currentImages.gallery.map((imageSrc, index) => (
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                        <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
+                          <Image
+                            src={imageSrc}
+                            alt={`${program.title} gallery image ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={`${params.slug} community`}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            )}
           </section>
         </div>
       </main>
@@ -156,7 +182,6 @@ export default function ProgramPage({ params }: ProgramPageProps) {
   );
 }
 
-// Generate static paths for the slugs
 export async function generateStaticParams() {
   return Object.keys(programsData).map((slug) => ({
     slug,

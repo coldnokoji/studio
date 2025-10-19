@@ -1,5 +1,6 @@
 
-import { Donation } from '@/lib/types';
+
+import { Donation, SiteSettings } from '@/lib/types';
 import {
   Body,
   Container,
@@ -16,13 +17,14 @@ import * as React from 'react';
 
 interface DonationReceiptEmailProps {
   donation: Donation;
-  receiptUrl: string; // Accept the full URL as a prop
-  certificateUrl: string; // Accept the full URL as a prop
+  settings: SiteSettings;
+  receiptUrl: string;
+  certificateUrl: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-export const DonationReceiptEmail = ({ donation, receiptUrl, certificateUrl }: DonationReceiptEmailProps) => {
+export const DonationReceiptEmail = ({ donation, settings, receiptUrl, certificateUrl }: DonationReceiptEmailProps) => {
   const logoUrl = `${baseUrl}/ngologo.png`;
 
   return (
@@ -60,8 +62,9 @@ export const DonationReceiptEmail = ({ donation, receiptUrl, certificateUrl }: D
             The Shreyaskar Social Welfare Foundation Team
           </Text>
           <Section style={footer}>
+              <Text style={footerText} dangerouslySetInnerHTML={{ __html: settings.contactAddress.replace(/<br\/>/g, ' | ') }} />
               <Text style={footerText}>
-                  Shreyaskar Social Welfare Foundation | 123 Social Welfare Avenue, Mumbai, 400001, India
+                  {settings.contactEmail}
               </Text>
           </Section>
         </Container>

@@ -7,13 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { saveContactMessage } from '@/services/firestore';
+import { saveContactMessage, getSiteSettings } from '@/services/firestore';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { toast as sonnerToast } from "sonner";
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { motion, Variants } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import type { SiteSettings } from '@/lib/types';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -38,6 +40,12 @@ const fadeInVariants: Variants = {
 };
 
 export default function ContactUsPage() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { name: "", email: "", subject: "", message: "" },
@@ -83,20 +91,22 @@ export default function ContactUsPage() {
               >
                 <div>
                   <h2 className="text-2xl font-bold mb-4 text-slate-800">Get in Touch</h2>
-                  <div className="space-y-4 text-slate-600">
-                    <div className="flex items-start gap-4">
-                      <MapPin className="h-6 w-6 text-brand-orange mt-1 flex-shrink-0" />
-                      <span>123 Social Welfare Avenue<br/>Mumbai, 400001, India</span>
+                  {settings && (
+                    <div className="space-y-4 text-slate-600">
+                      <div className="flex items-start gap-4">
+                        <MapPin className="h-6 w-6 text-brand-orange mt-1 flex-shrink-0" />
+                        <span dangerouslySetInnerHTML={{ __html: settings.contactAddress.replace(/<br\/>/g, '<br />') }} />
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <Phone className="h-6 w-6 text-brand-orange flex-shrink-0" />
+                        <a href={`tel:${settings.contactPhone}`} className="hover:text-brand-orange">{settings.contactPhone}</a>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <Mail className="h-6 w-6 text-brand-orange flex-shrink-0" />
+                        <a href={`mailto:${settings.contactEmail}`} className="hover:text-brand-orange">{settings.contactEmail}</a>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Phone className="h-6 w-6 text-brand-orange flex-shrink-0" />
-                      <a href="tel:+911234567890" className="hover:text-brand-orange">+91 123 456 7890</a>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <Mail className="h-6 w-6 text-brand-orange flex-shrink-0" />
-                      <a href="mailto:contact@shreyaskar.org" className="hover:text-brand-orange">contact@shreyaskar.org</a>
-                    </div>
-                  </div>
+                  )}
                 </div>
                 <div className="h-96 w-full rounded-2xl overflow-hidden shadow-lg">
                   <iframe

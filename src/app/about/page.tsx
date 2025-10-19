@@ -179,7 +179,7 @@ export default function AboutUsPage() {
               <blockquote className="text-lg text-slate-600 border-l-4 border-brand-yellow pl-4 italic">
                 "With a firm belief in 'Seva Paramo Dharma' - service as our highest duty - we have embarked on this journey. Shreyaskar is born from a desire to create tangible change from the ground up. Every small step we take today is a seed planted for a better tomorrow. I invite you to join us in nurturing these seeds of hope and building a brighter future together."
               </blockquote>
-              <p className="font-bold text-slate-700">- Founder's Name</p>
+              {settings?.founderName && <p className="font-bold text-slate-700">- {settings.founderName}</p>}
             </motion.div>
           </div>
         </section>

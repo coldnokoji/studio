@@ -1,6 +1,7 @@
 
 
 
+
 export type Award = {
   id: string;
   title: string;
@@ -86,9 +87,38 @@ export type Donation = {
 }
 
 export type SiteSettings = {
+  // Text Content
+  founderName: string;
+  contactAddress: string;
+  contactPhone: string;
+  contactEmail: string;
+
+  // Videos
+  homeHeroVideoUrl: string;
+
+  // Images
   founderPortrait: string;
   homeHeroCommunity: string;
-  projectGyan: string;
-  projectArogya: string;
   getInvolvedVolunteer: string;
+
+  // Program Images
+  programEducationHero: string;
+  programEducationGallery1: string;
+  programEducationGallery2: string;
+  programEducationGallery3: string;
+
+  programHealthcareHero: string;
+  programHealthcareGallery1: string;
+  programHealthcareGallery2: string;
+  programHealthcareGallery3: string;
+  
+  programEnvironmentHero: string;
+  programEnvironmentGallery1: string;
+  programEnvironmentGallery2: string;
+  programEnvironmentGallery3: string;
+  
+  programLivelihoodHero: string;
+  programLivelihoodGallery1: string;
+  programLivelihoodGallery2: string;
+  programLivelihoodGallery3: string;
 }

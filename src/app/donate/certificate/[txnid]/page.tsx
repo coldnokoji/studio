@@ -1,5 +1,5 @@
 
-import { getDonationByTxnId } from '@/services/firestore';
+import { getDonationByTxnId, getSiteSettings } from '@/services/firestore';
 import { notFound } from 'next/navigation';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 export default async function DonationCertificatePage({ params }: { params: { txnid: string } }) {
   const donation = await getDonationByTxnId(params.txnid);
+  const settings = await getSiteSettings();
 
   if (!donation) {
     notFound();
@@ -42,7 +43,7 @@ export default async function DonationCertificatePage({ params }: { params: { tx
 
           <section className="flex justify-center items-center gap-8 mb-10">
              <div className="text-center">
-                <p className="font-bold text-slate-700 border-t-2 border-slate-300 pt-2 mt-2">Founder's Name</p>
+                <p className="font-bold text-slate-700 border-t-2 border-slate-300 pt-2 mt-2">{settings.founderName}</p>
                 <p className="text-sm text-slate-500">Founder</p>
             </div>
           </section>

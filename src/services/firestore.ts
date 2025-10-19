@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation, SiteSettings } from '@/lib/types';
@@ -8,17 +9,39 @@ import { getDb } from '@/lib/firebase/admin';
 export async function getSiteSettings(): Promise<SiteSettings> {
   const db = await getDb();
   const doc = await db.collection('settings').doc('main').get();
+  const defaultSettings: SiteSettings = {
+      founderName: "Founder's Name",
+      contactAddress: "123 Social Welfare Avenue<br/>Mumbai, 400001, India",
+      contactPhone: "+91 123 456 7890",
+      contactEmail: "contact@shreyaskar.org",
+      homeHeroVideoUrl: "https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4",
+      founderPortrait: 'https://picsum.photos/seed/founder/800/1000',
+      homeHeroCommunity: 'https://picsum.photos/seed/community/800/600',
+      getInvolvedVolunteer: 'https://picsum.photos/seed/volunteer/600/400',
+      programEducationHero: 'https://picsum.photos/seed/edu-hero/800/600',
+      programEducationGallery1: 'https://picsum.photos/seed/edu-gal1/600/400',
+      programEducationGallery2: 'https://picsum.photos/seed/edu-gal2/600/400',
+      programEducationGallery3: 'https://picsum.photos/seed/edu-gal3/600/400',
+      programHealthcareHero: 'https://picsum.photos/seed/health-hero/800/600',
+      programHealthcareGallery1: 'https://picsum.photos/seed/health-gal1/600/400',
+      programHealthcareGallery2: 'https://picsum.photos/seed/health-gal2/600/400',
+      programHealthcareGallery3: 'https://picsum.photos/seed/health-gal3/600/400',
+      programEnvironmentHero: 'https://picsum.photos/seed/env-hero/800/600',
+      programEnvironmentGallery1: 'https://picsum.photos/seed/env-gal1/600/400',
+      programEnvironmentGallery2: 'https://picsum.photos/seed/env-gal2/600/400',
+      programEnvironmentGallery3: 'https://picsum.photos/seed/env-gal3/600/400',
+      programLivelihoodHero: 'https://picsum.photos/seed/live-hero/800/600',
+      programLivelihoodGallery1: 'https://picsum.photos/seed/live-gal1/600/400',
+      programLivelihoodGallery2: 'https://picsum.photos/seed/live-gal2/600/400',
+      programLivelihoodGallery3: 'https://picsum.photos/seed/live-gal3/600/400',
+  };
+
   if (!doc.exists) {
-    // Return a default structure if no settings are found
-    return {
-      founderPortrait: 'https://placehold.co/800x1000/E2E8F0/475569?text=Founder+Portrait',
-      homeHeroCommunity: 'https://placehold.co/800x600/E2E8F0/475569?text=Community+Image',
-      projectGyan: 'https://placehold.co/600x400/E2E8F0/475569?text=Project+Gyan',
-      projectArogya: 'https://placehold.co/600x400/E2E8F0/475569?text=Project+Arogya',
-      getInvolvedVolunteer: 'https://placehold.co/600x400/E2E8F0/475569?text=Volunteers',
-    };
+    return defaultSettings;
   }
-  return doc.data() as SiteSettings;
+  
+  // Merge defaults with existing data to prevent errors if new fields are added
+  return { ...defaultSettings, ...doc.data() } as SiteSettings;
 }
 
 export async function saveSiteSettings(data: SiteSettings): Promise<void> {

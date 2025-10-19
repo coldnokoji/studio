@@ -13,7 +13,7 @@ import { ChatWidget } from '@/components/layout/chat-widget';
 import { getTeamMembers, getSiteSettings } from '@/services/firestore';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import type { SiteSettings } from '@/lib/types';
+import type { TeamMember, SiteSettings } from '@/lib/types';
 
 
 const WaveDivider = () => (
@@ -48,7 +48,7 @@ const socialCauses = [
 ];
 
 export default function Home() {
-  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
@@ -60,11 +60,6 @@ export default function Home() {
     }
     fetchData();
   }, []);
-
-  const flagshipProjects = settings ? [
-    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: settings.projectGyan, href: '/what-we-do/education' },
-    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: settings.projectArogya, href: '/what-we-do/healthcare' },
-  ] : [];
 
   const fadeInAnimation: Variants = {
     initial: { opacity: 0, y: 20 },
@@ -85,13 +80,15 @@ export default function Home() {
       <main className="flex-1 bg-white">
         {/* Hero Section */}
         <section className="relative w-full h-[80vh] flex items-center justify-center text-center text-white overflow-hidden">
-           <video
-            src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
-            autoPlay
-            loop
-            muted
-            className="absolute top-0 left-0 w-full h-full object-cover brightness-[0.5]"
-          />
+           {settings?.homeHeroVideoUrl && (
+            <video
+                src={settings.homeHeroVideoUrl}
+                autoPlay
+                loop
+                muted
+                className="absolute top-0 left-0 w-full h-full object-cover brightness-[0.5]"
+            />
+           )}
           <div className="relative z-10 container px-4 md:px-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -213,49 +210,6 @@ export default function Home() {
         </section>
         
         <div style={{ transform: 'scaleY(-1)' }}><WaveDivider /></div>
-
-        {/* Current Projects Section */}
-        <section className="py-20 sm:py-28 overflow-hidden">
-          <div className="container max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">Our Foundational Projects</h2>
-            </div>
-            <div className="space-y-20">
-              {flagshipProjects.map((project, index) => (
-                <div key={project.title} className="grid items-center gap-16 md:grid-cols-2">
-                  <motion.div
-                    initial={{ opacity: 0, x: index % 2 === 1 ? 50 : -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className={`relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl ${index % 2 === 1 ? 'md:order-last' : ''}`}
-                  >
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover"
-                      data-ai-hint="project image"
-                    />
-                  </motion.div>
-                  <motion.div 
-                    initial={{ opacity: 0, x: index % 2 === 1 ? -50 : 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className="space-y-4"
-                  >
-                    <h3 className="text-2xl font-bold text-slate-800">{project.title}</h3>
-                    <p className="text-lg text-slate-600">{project.description}</p>
-                    <Button asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange">
-                      <Link href={project.href}>Read More</Link>
-                    </Button>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <WaveDivider />
         <section className="py-20 sm:py-28 bg-muted/50">
