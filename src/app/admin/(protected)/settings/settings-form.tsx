@@ -1,3 +1,4 @@
+
 'use client';
 
 import { z } from 'zod';
@@ -41,7 +42,7 @@ const formSchema = z.object({
   programHealthcareGallery3: z.string().url('An image upload is required'),
   
   programEnvironmentHero: z.string().url('An image upload is required'),
-  programEnvironmentGallery1: zstring().url('An image upload is required'),
+  programEnvironmentGallery1: z.string().url('An image upload is required'),
   programEnvironmentGallery2: z.string().url('An image upload is required'),
   programEnvironmentGallery3: z.string().url('An image upload is required'),
 
@@ -255,3 +256,5 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
     </FormProvider>
   );
 }
+
+    
