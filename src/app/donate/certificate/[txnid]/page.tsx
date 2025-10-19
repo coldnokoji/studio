@@ -2,8 +2,7 @@
 import { getDonationByTxnId, getSiteSettings } from '@/services/firestore';
 import { notFound } from 'next/navigation';
 import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { Printer } from 'lucide-react';
+import { PrintButton } from '@/components/ui/print-button';
 import Image from 'next/image';
 
 export default async function DonationCertificatePage({ params }: { params: { txnid: string } }) {
@@ -54,10 +53,7 @@ export default async function DonationCertificatePage({ params }: { params: { tx
           </footer>
         </main>
          <div className="absolute bottom-4 right-4 print:hidden">
-            <Button onClick={() => window.print()} variant="ghost" size="sm">
-                <Printer className="mr-2 h-4 w-4" />
-                Print or Save as PDF
-            </Button>
+            <PrintButton />
         </div>
       </div>
     </div>

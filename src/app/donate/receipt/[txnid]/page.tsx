@@ -2,8 +2,7 @@
 import { getDonationByTxnId } from '@/services/firestore';
 import { notFound } from 'next/navigation';
 import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { Printer } from 'lucide-react';
+import { PrintButton } from '@/components/ui/print-button';
 
 export default async function DonationReceiptPage({ params }: { params: { txnid: string } }) {
   const donation = await getDonationByTxnId(params.txnid);
@@ -73,10 +72,7 @@ export default async function DonationReceiptPage({ params }: { params: { txnid:
             <p>Shreyaskar Social Welfare Foundation</p>
             <p>123 Social Welfare Avenue, Mumbai, 400001, India | contact@shreyaskar.org</p>
              <div className="mt-6 print:hidden">
-                 <Button onClick={() => window.print()} className="bg-brand-orange hover:bg-brand-orange/90">
-                    <Printer className="mr-2 h-4 w-4" />
-                    Print or Save as PDF
-                </Button>
+                 <PrintButton />
             </div>
         </footer>
       </div>
