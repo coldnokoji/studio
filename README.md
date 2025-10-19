@@ -17,12 +17,12 @@ To enable image uploads from the admin panel, you need to apply a CORS configura
 1.  **Find your Storage Bucket ID:**
     *   Go to your Firebase Console.
     *   Navigate to **Storage**.
-    *   Your bucket ID is at the top, usually in the format `gs://<your-project-id>.appspot.com`.
-    *   Copy the bucket ID (e.g., `gs://shreyashkar-fb174.appspot.com`).
+    *   Your bucket ID is at the top, in the format `gs://<your-project-id>.appspot.com`.
+    *   Copy the full bucket ID, including the `gs://` part (e.g., `gs://shreyashkar-fb174.appspot.com`).
 
 2.  **Apply the CORS configuration:**
     *   Open your local terminal.
-    *   Run the following command, replacing `<YOUR_BUCKET_ID>` with the ID you copied in the previous step:
+    *   Run the following command, replacing `<YOUR_BUCKET_ID>` with the full ID you copied in the previous step:
         ```bash
         gcloud storage buckets update <YOUR_BUCKET_ID> --cors-file=./cors.json
         ```
