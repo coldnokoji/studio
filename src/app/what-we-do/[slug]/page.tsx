@@ -1,4 +1,6 @@
+
 'use client';
+
 import Image from 'next/image';
 import {
   Carousel,
@@ -69,7 +71,7 @@ type ProgramPageProps = {
 
 export default function ProgramPage({ params }: ProgramPageProps) {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  
+
   useEffect(() => {
     getSiteSettings().then(setSettings);
   }, []);
@@ -180,10 +182,4 @@ export default function ProgramPage({ params }: ProgramPageProps) {
       <ChatWidget />
     </>
   );
-}
-
-export async function generateStaticParams() {
-  return Object.keys(programsData).map((slug) => ({
-    slug,
-  }));
 }
