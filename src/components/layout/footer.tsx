@@ -1,16 +1,14 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 import { Logo } from '../logo';
+import { useEffect, useState } from 'react';
+import { getSiteSettings } from '@/services/firestore';
+import type { SiteSettings } from '@/lib/types';
 
-const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: 'https://facebook.com' },
-  { name: 'Instagram', icon: Instagram, href: 'https://instagram.com' },
-  { name: 'Twitter', icon: Twitter, href: 'https://twitter.com' },
-  { name: 'YouTube', icon: Youtube, href: 'https://youtube.com' },
-];
 
 const footerLinkSections = [
     {
@@ -45,11 +43,22 @@ const footerLinkSections = [
 
 export function Footer() {
   const pathname = usePathname();
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
-  // Don't render footer for admin routes
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   if (pathname.startsWith('/admin')) {
     return null;
   }
+  
+  const socialLinks = settings ? [
+    { name: 'Facebook', icon: Facebook, href: settings.socialFacebook },
+    { name: 'Instagram', icon: Instagram, href: settings.socialInstagram },
+    { name: 'Twitter', icon: Twitter, href: settings.socialTwitter },
+    { name: 'YouTube', icon: Youtube, href: settings.socialYoutube },
+  ] : [];
 
   return (
     <footer className="border-t bg-muted/50">

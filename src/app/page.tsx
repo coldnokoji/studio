@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -159,9 +160,11 @@ export default function Home() {
                  className="space-y-4 text-center lg:text-left"
               >
                 <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">Who We Are</h2>
-                <p className="text-lg text-slate-600">
-                  Shreyaskar Social Welfare Foundation is a newly established non-profit organization driven by the principle of "Seva Paramo Dharma" - service as the highest duty. We are committed to fostering positive change by focusing on the core pillars of a thriving society.
-                </p>
+                {settings?.homeIntro && (
+                  <p className="text-lg text-slate-600">
+                    {settings.homeIntro}
+                  </p>
+                )}
                 <Button asChild className="bg-brand-yellow text-slate-900 hover:bg-brand-orange">
                   <Link href="/about" aria-label="Learn more about us">Learn More</Link>
                 </Button>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -82,9 +83,11 @@ export default function AboutUsPage() {
                     <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-5xl">
                       About Shreyaskar
                     </h1>
-                    <p className="max-w-[600px] text-slate-600 md:text-xl lg:text-2xl">
-                      Laying the groundwork for a compassionate and self-reliant society through dedicated service.
-                    </p>
+                    {settings?.aboutIntro && (
+                      <p className="max-w-[600px] text-slate-600 md:text-xl lg:text-2xl">
+                        {settings.aboutIntro}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               </div>
@@ -119,9 +122,11 @@ export default function AboutUsPage() {
                         <CardTitle className="text-brand-teal-dark">Our Mission</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-slate-600">
-                          To empower communities by fostering sustainable development in education, healthcare, environment, and livelihood. We are dedicated to creating a foundation of opportunity for every individual to lead a life of dignity and purpose.
-                        </p>
+                        {settings?.mission && (
+                          <p className="text-slate-600">
+                            {settings.mission}
+                          </p>
+                        )}
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -136,9 +141,11 @@ export default function AboutUsPage() {
                         <CardTitle className="text-brand-teal-dark">Our Vision</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-slate-600">
-                          We envision a self-reliant and compassionate India, where all citizens have the resources and opportunities they need to thrive, contributing to a society built on the principles of service, equality, and justice.
-                        </p>
+                        {settings?.vision && (
+                          <p className="text-slate-600">
+                            {settings.vision}
+                          </p>
+                        )}
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -176,9 +183,11 @@ export default function AboutUsPage() {
               className="space-y-4"
             >
               <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">Founder's Message</h2>
-              <blockquote className="text-lg text-slate-600 border-l-4 border-brand-yellow pl-4 italic">
-                "With a firm belief in 'Seva Paramo Dharma' - service as our highest duty - we have embarked on this journey. Shreyaskar is born from a desire to create tangible change from the ground up. Every small step we take today is a seed planted for a better tomorrow. I invite you to join us in nurturing these seeds of hope and building a brighter future together."
-              </blockquote>
+              {settings?.founderMessage && (
+                <blockquote className="text-lg text-slate-600 border-l-4 border-brand-yellow pl-4 italic">
+                  {settings.founderMessage}
+                </blockquote>
+              )}
               {settings?.founderName && <p className="font-bold text-slate-700">- {settings.founderName}</p>}
             </motion.div>
           </div>

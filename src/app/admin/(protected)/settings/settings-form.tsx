@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { z } from 'zod';
@@ -21,6 +22,18 @@ const formSchema = z.object({
   contactAddress: z.string().min(1, 'Address is required'),
   contactPhone: z.string().min(1, 'Phone number is required'),
   contactEmail: z.string().email('Must be a valid email'),
+  homeIntro: z.string().min(1, 'Intro text is required'),
+  aboutIntro: z.string().min(1, 'About page intro is required'),
+  mission: z.string().min(1, 'Mission statement is required'),
+  vision: z.string().min(1, 'Vision statement is required'),
+  founderMessage: z.string().min(1, "Founder's message is required"),
+
+  // Social Media URLs
+  socialFacebook: z.string().url('A valid URL is required'),
+  socialInstagram: z.string().url('A valid URL is required'),
+  socialTwitter: z.string().url('A valid URL is required'),
+  socialYoutube: z.string().url('A valid URL is required'),
+  contactWhatsApp: z.string().min(1, 'WhatsApp number is required'),
 
   // Videos
   homeHeroVideoUrl: z.string().url('A valid video URL is required'),
@@ -82,7 +95,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
             
             <Card>
                 <CardHeader>
-                    <CardTitle>Text Content</CardTitle>
+                    <CardTitle>Key Text Content</CardTitle>
                     <CardDescription>Manage key text that appears across the site.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
@@ -93,7 +106,51 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
                             <FormMessage />
                         </FormItem>
                     )}/>
-                    <FormField control={methods.control} name="contactEmail" render={({ field }) => (
+                     <FormField control={methods.control} name="founderMessage" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Founder's Message (About Page)</FormLabel>
+                            <FormControl><Textarea placeholder="The founder's message quote" {...field} rows={4} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                     <FormField control={methods.control} name="homeIntro" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>"Who We Are" Intro (Homepage)</FormLabel>
+                            <FormControl><Textarea placeholder="The intro text on the homepage" {...field} rows={4} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                     <FormField control={methods.control} name="aboutIntro" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>About Page Subtitle</FormLabel>
+                            <FormControl><Textarea placeholder="The subtitle on the about page" {...field} rows={2} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="mission" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Our Mission</FormLabel>
+                            <FormControl><Textarea placeholder="Your organization's mission" {...field} rows={4} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="vision" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Our Vision</FormLabel>
+                            <FormControl><Textarea placeholder="Your organization's vision" {...field} rows={4} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Contact & Social Media</CardTitle>
+                    <CardDescription>Manage contact info and social media URLs.</CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <FormField control={methods.control} name="contactEmail" render={({ field }) => (
                         <FormItem>
                             <FormLabel>Contact Email</FormLabel>
                             <FormControl><Input placeholder="e.g., contact@example.com" {...field} /></FormControl>
@@ -108,9 +165,28 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
                         </FormItem>
                     )}/>
                     <FormField control={methods.control} name="contactAddress" render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="md:col-span-2">
                             <FormLabel>Contact Address</FormLabel>
                             <FormControl><Textarea placeholder="Full address" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="socialFacebook" render={({ field }) => (
+                        <FormItem><FormLabel>Facebook URL</FormLabel><FormControl><Input placeholder="https://facebook.com/..." {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="socialInstagram" render={({ field }) => (
+                        <FormItem><FormLabel>Instagram URL</FormLabel><FormControl><Input placeholder="https://instagram.com/..." {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="socialTwitter" render={({ field }) => (
+                        <FormItem><FormLabel>Twitter/X URL</FormLabel><FormControl><Input placeholder="https://twitter.com/..." {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={methods.control} name="socialYoutube" render={({ field }) => (
+                        <FormItem><FormLabel>YouTube URL</FormLabel><FormControl><Input placeholder="https://youtube.com/..." {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                     <FormField control={methods.control} name="contactWhatsApp" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>WhatsApp Number</FormLabel>
+                            <FormControl><Input placeholder="e.g., 911234567890" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )}/>
@@ -256,5 +332,3 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
     </FormProvider>
   );
 }
-
-    

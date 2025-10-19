@@ -2,6 +2,7 @@
 
 
 
+
 export type Award = {
   id: string;
   title: string;
@@ -92,6 +93,18 @@ export type SiteSettings = {
   contactAddress: string;
   contactPhone: string;
   contactEmail: string;
+  homeIntro: string;
+  aboutIntro: string;
+  mission: string;
+  vision: string;
+  founderMessage: string;
+
+  // Social Media URLs
+  socialFacebook: string;
+  socialInstagram: string;
+  socialTwitter: string;
+  socialYoutube: string;
+  contactWhatsApp: string;
 
   // Videos
   homeHeroVideoUrl: string;

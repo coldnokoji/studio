@@ -1,7 +1,12 @@
+
 "use client";
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getSiteSettings } from '@/services/firestore';
+import { SiteSettings } from '@/lib/types';
+import { useEffect, useState } from 'react';
+
 
 // Using an inline SVG for the WhatsApp icon as it's not in lucide-react
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -19,15 +24,20 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export function ChatWidget() {
     const pathname = usePathname();
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+    useEffect(() => {
+        getSiteSettings().then(setSettings);
+    }, []);
 
     // Don't render widget for admin routes
-    if (pathname.startsWith('/admin')) {
+    if (pathname.startsWith('/admin') || !settings) {
         return null;
     }
 
   return (
     <Link
-      href="https://wa.me/911234567890" // Placeholder phone number
+      href={`https://wa.me/${settings.contactWhatsApp}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"

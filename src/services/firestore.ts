@@ -1,5 +1,6 @@
 
 
+
 'use server';
 
 import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation, SiteSettings } from '@/lib/types';
@@ -14,6 +15,16 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       contactAddress: "123 Social Welfare Avenue<br/>Mumbai, 400001, India",
       contactPhone: "+91 123 456 7890",
       contactEmail: "contact@shreyaskar.org",
+      homeIntro: "Shreyaskar Social Welfare Foundation is a newly established non-profit organization driven by the principle of \"Seva Paramo Dharma\" - service as the highest duty. We are committed to fostering positive change by focusing on the core pillars of a thriving society.",
+      aboutIntro: "Laying the groundwork for a compassionate and self-reliant society through dedicated service.",
+      mission: "To empower communities by fostering sustainable development in education, healthcare, environment, and livelihood. We are dedicated to creating a foundation of opportunity for every individual to lead a life of dignity and purpose.",
+      vision: "We envision a self-reliant and compassionate India, where all citizens have the resources and opportunities they need to thrive, contributing to a society built on the principles of service, equality, and justice.",
+      founderMessage: "\"With a firm belief in 'Seva Paramo Dharma' - service as our highest duty - we have embarked on this journey. Shreyaskar is born from a desire to create tangible change from the ground up. Every small step we take today is a seed planted for a better tomorrow. I invite you to join us in nurturing these seeds of hope and building a brighter future together.\"",
+      socialFacebook: "https://facebook.com",
+      socialInstagram: "https://instagram.com",
+      socialTwitter: "https://twitter.com",
+      socialYoutube: "https://youtube.com",
+      contactWhatsApp: "911234567890",
       homeHeroVideoUrl: "https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4",
       founderPortrait: 'https://picsum.photos/seed/founder/800/1000',
       homeHeroCommunity: 'https://picsum.photos/seed/community/800/600',
