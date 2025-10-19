@@ -1,39 +1,4 @@
 {
-  "founder_portrait": {
-    "src": "https://picsum.photos/seed/founder/800/1000",
-    "width": 800,
-    "height": 1000,
-    "alt": "Founder of Shreyaskar Social Welfare Foundation",
-    "aiHint": "founder portrait"
-  },
-  "home_hero_community": {
-    "src": "https://picsum.photos/seed/community/800/600",
-    "width": 800,
-    "height": 600,
-    "alt": "A happy group of volunteers",
-    "aiHint": "happy volunteers community"
-  },
-  "project_gyan": {
-    "src": "https://picsum.photos/seed/education/600/400",
-    "width": 600,
-    "height": 400,
-    "alt": "Project Gyan: Spreading the Light of Education",
-    "aiHint": "smiling children happily learning"
-  },
-  "project_arogya": {
-    "src": "https://picsum.photos/seed/health/600/400",
-    "width": 600,
-    "height": 400,
-    "alt": "Arogya: A Step Towards Community Health",
-    "aiHint": "joyful community health event"
-  },
-  "get_involved_volunteer": {
-    "src": "https://picsum.photos/seed/volunteer/600/400",
-    "width": 600,
-    "height": 400,
-    "alt": "Happy volunteers working together",
-    "aiHint": "happy volunteers"
-  },
   "program_page": {
     "education": {
       "hero": {

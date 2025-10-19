@@ -8,7 +8,10 @@ import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { motion, Variants } from 'framer-motion';
 import logoImage from '@/components/ngologo.png';
-import placeholderImageData from '@/app/lib/placeholder-images.json';
+import { useEffect, useState } from 'react';
+import { getSiteSettings } from '@/services/firestore';
+import type { SiteSettings } from '@/lib/types';
+
 
 const fadeInVariants: Variants = {
   initial: { 
@@ -37,7 +40,15 @@ const WaveDivider = () => (
 );
 
 export default function AboutUsPage() {
-  const { founder_portrait } = placeholderImageData;
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    async function fetchSettings() {
+        const siteSettings = await getSiteSettings();
+        setSettings(siteSettings);
+    }
+    fetchSettings();
+  }, []);
 
   return (
     <>
@@ -147,13 +158,15 @@ export default function AboutUsPage() {
               transition={{ duration: 0.8, ease: 'easeOut' }}
               className="relative h-[28rem] w-full overflow-hidden rounded-2xl shadow-2xl"
             >
-              <Image
-                src={founder_portrait.src}
-                alt={founder_portrait.alt}
-                fill
-                className="object-cover"
-                data-ai-hint={founder_portrait.aiHint}
-              />
+              {settings?.founderPortrait && (
+                <Image
+                    src={settings.founderPortrait}
+                    alt="Founder of Shreyaskar Social Welfare Foundation"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="founder portrait"
+                />
+              )}
             </motion.div>
             <motion.div 
               variants={fadeInVariants}

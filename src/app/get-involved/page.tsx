@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { saveVolunteerApplication } from '@/services/firestore';
+import { saveVolunteerApplication, getSiteSettings } from '@/services/firestore';
 import { toast as sonnerToast } from "sonner";
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -17,7 +17,8 @@ import { motion } from 'framer-motion';
 import { HandHeart, BookOpen, Heart, Sprout, Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import Image from 'next/image';
-import placeholderImageData from '@/app/lib/placeholder-images.json';
+import { useEffect, useState } from 'react';
+import type { SiteSettings } from '@/lib/types';
 
 
 const volunteerRoles = [
@@ -53,7 +54,16 @@ const formSchema = z.object({
 });
 
 export default function GetInvolvedPage() {
-  const { get_involved_volunteer } = placeholderImageData;
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  
+  useEffect(() => {
+    async function fetchSettings() {
+        const siteSettings = await getSiteSettings();
+        setSettings(siteSettings);
+    }
+    fetchSettings();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { name: "", email: "", phone: "", availability: "" },
@@ -117,14 +127,14 @@ export default function GetInvolvedPage() {
                     Fill out the form below to express your interest. Our team will review your application and contact you with potential opportunities that match your skills and passion. We're excited to have you on board!
                   </p>
                   <div className="relative h-80 w-full overflow-hidden rounded-2xl shadow-lg">
-                     <Image 
-                        src={get_involved_volunteer.src} 
-                        alt={get_involved_volunteer.alt} 
-                        width={get_involved_volunteer.width}
-                        height={get_involved_volunteer.height}
-                        fill 
-                        className="object-cover" 
-                        data-ai-hint={get_involved_volunteer.aiHint}/>
+                     {settings?.getInvolvedVolunteer && (
+                        <Image 
+                            src={settings.getInvolvedVolunteer}
+                            alt="Happy volunteers working together" 
+                            fill 
+                            className="object-cover" 
+                            data-ai-hint="happy volunteers"/>
+                     )}
                   </div>
               </div>
               <Card className="p-8 shadow-xl">

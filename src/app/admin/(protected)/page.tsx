@@ -20,6 +20,17 @@ export default function AdminDashboardPage() {
         </Card>
         <Card>
           <CardHeader>
+            <CardTitle>Site Settings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Manage key site-wide images and settings.</p>
+            <Button asChild>
+              <Link href="/admin/settings">Go to Settings</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
             <CardTitle>Manage Awards</CardTitle>
           </CardHeader>
           <CardContent>

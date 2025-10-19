@@ -10,10 +10,11 @@ import { TestimonialCarousel } from '@/components/testimonial-carousel';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
-import { getTeamMembers } from '@/services/firestore';
+import { getTeamMembers, getSiteSettings } from '@/services/firestore';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import placeholderImageData from '@/app/lib/placeholder-images.json';
+import type { SiteSettings } from '@/lib/types';
+
 
 const WaveDivider = () => (
   <div className="bg-transparent">
@@ -46,22 +47,24 @@ const socialCauses = [
     { icon: Briefcase, title: 'Livelihood', description: 'Creating opportunities for economic self-reliance.', href: '/what-we-do/livelihood' },
 ];
 
-const flagshipProjects = [
-    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: placeholderImageData.project_gyan, href: '/what-we-do/education' },
-    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: placeholderImageData.project_arogya, href: '/what-we-do/healthcare' },
-];
-
 export default function Home() {
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
-  const { home_hero_community } = placeholderImageData;
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
-    async function fetchTeam() {
+    async function fetchData() {
         const members = (await getTeamMembers()).slice(0, 3);
         setTeamMembers(members);
+        const siteSettings = await getSiteSettings();
+        setSettings(siteSettings);
     }
-    fetchTeam();
+    fetchData();
   }, []);
+
+  const flagshipProjects = settings ? [
+    { title: 'Project Gyan: Spreading the Light of Education', description: 'Our foundational project, Gyan, aims to establish community learning centers to provide quality education and digital literacy, ensuring every child has the opportunity to learn and grow.', image: settings.projectGyan, href: '/what-we-do/education' },
+    { title: 'Arogya: A Step Towards Community Health', description: "Through 'Arogya,' we plan to organize regular health check-up camps and awareness sessions in underserved areas, focusing on preventive care and promoting a healthy lifestyle for all.", image: settings.projectArogya, href: '/what-we-do/healthcare' },
+  ] : [];
 
   const fadeInAnimation: Variants = {
     initial: { opacity: 0, y: 20 },
@@ -141,13 +144,15 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl"
               >
-                <Image
-                  src={home_hero_community.src}
-                  alt={home_hero_community.alt}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={home_hero_community.aiHint}
-                />
+                {settings?.homeHeroCommunity && (
+                  <Image
+                    src={settings.homeHeroCommunity}
+                    alt="A happy group of volunteers"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="happy volunteers community"
+                  />
+                )}
               </motion.div>
               <motion.div
                  initial={{ opacity: 0, x: 50 }}
@@ -226,12 +231,11 @@ export default function Home() {
                     className={`relative w-full aspect-video overflow-hidden rounded-2xl shadow-2xl ${index % 2 === 1 ? 'md:order-last' : ''}`}
                   >
                     <Image
-                      src={project.image.src}
-                      alt={project.image.alt}
-                      width={project.image.width}
-                      height={project.image.height}
+                      src={project.image}
+                      alt={project.title}
+                      fill
                       className="object-cover"
-                      data-ai-hint={project.image.aiHint}
+                      data-ai-hint="project image"
                     />
                   </motion.div>
                   <motion.div 

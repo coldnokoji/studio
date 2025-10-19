@@ -1,8 +1,30 @@
 
 'use server';
 
-import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation } from '@/lib/types';
+import type { Award, Event, ContactMessage, TeamMember, VolunteerApplication, ImpactStory, NewsArticle, GalleryImage, Donation, SiteSettings } from '@/lib/types';
 import { getDb } from '@/lib/firebase/admin';
+
+// Site Settings
+export async function getSiteSettings(): Promise<SiteSettings> {
+  const db = await getDb();
+  const doc = await db.collection('settings').doc('main').get();
+  if (!doc.exists) {
+    // Return a default structure if no settings are found
+    return {
+      founderPortrait: 'https://placehold.co/800x1000/E2E8F0/475569?text=Founder+Portrait',
+      homeHeroCommunity: 'https://placehold.co/800x600/E2E8F0/475569?text=Community+Image',
+      projectGyan: 'https://placehold.co/600x400/E2E8F0/475569?text=Project+Gyan',
+      projectArogya: 'https://placehold.co/600x400/E2E8F0/475569?text=Project+Arogya',
+      getInvolvedVolunteer: 'https://placehold.co/600x400/E2E8F0/475569?text=Volunteers',
+    };
+  }
+  return doc.data() as SiteSettings;
+}
+
+export async function saveSiteSettings(data: SiteSettings): Promise<void> {
+  const db = await getDb();
+  await db.collection('settings').doc('main').set(data, { merge: true });
+}
 
 // Awards
 export async function getAwards(): Promise<Award[]> {

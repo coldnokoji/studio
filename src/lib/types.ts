@@ -84,3 +84,11 @@ export type Donation = {
   isRecurring: boolean;
   createdAt: string;
 }
+
+export type SiteSettings = {
+  founderPortrait: string;
+  homeHeroCommunity: string;
+  projectGyan: string;
+  projectArogya: string;
+  getInvolvedVolunteer: string;
+}
