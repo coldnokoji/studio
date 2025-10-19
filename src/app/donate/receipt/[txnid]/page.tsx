@@ -13,9 +13,9 @@ export default async function DonationReceiptPage({ params }: { params: { txnid:
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
-        <header className="bg-gray-50 border-b border-gray-200 p-8">
+    <div className="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8 print:bg-white">
+      <div className="max-w-3xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden print:shadow-none print:border">
+        <header className="bg-gray-50 border-b border-gray-200 p-8 print:bg-white">
             <div className="flex justify-between items-center">
                 <div className="scale-125 origin-left">
                     <Logo />
@@ -41,7 +41,7 @@ export default async function DonationReceiptPage({ params }: { params: { txnid:
           </div>
 
           <table className="w-full text-left">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 print:bg-white">
               <tr>
                 <th className="p-3 text-sm font-semibold text-gray-600 uppercase">Description</th>
                 <th className="p-3 text-right text-sm font-semibold text-gray-600 uppercase">Amount</th>
@@ -69,7 +69,7 @@ export default async function DonationReceiptPage({ params }: { params: { txnid:
           </div>
         </main>
         
-        <footer className="bg-gray-50 border-t border-gray-200 p-8 text-xs text-gray-500 text-center">
+        <footer className="bg-gray-50 border-t border-gray-200 p-8 text-xs text-gray-500 text-center print:bg-white">
             <p>Shreyaskar Social Welfare Foundation</p>
             <p>123 Social Welfare Avenue, Mumbai, 400001, India | contact@shreyaskar.org</p>
              <div className="mt-6 print:hidden">

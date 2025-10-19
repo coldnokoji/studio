@@ -31,8 +31,8 @@ export async function sendTestEmailAction(): Promise<{ success: boolean; error?:
     
     // Revalidate paths that might show donation data
     revalidatePath('/admin/donations');
-    revalidatePath(`/donate/receipt/${sampleDonationData.txnid}`);
-    revalidatePath(`/donate/certificate/${sampleDonationData.txnid}`);
+    revalidatePath(`/donate/receipt/${sampleDonationData.txnid}`, 'page');
+    revalidatePath(`/donate/certificate/${sampleDonationData.txnid}`, 'page');
     
     const fullDonationRecord: Donation = {
         ...sampleDonationData,

@@ -3,7 +3,7 @@ import { getDonationByTxnId, getSiteSettings } from '@/services/firestore';
 import { notFound } from 'next/navigation';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { Award, Printer } from 'lucide-react';
+import { Printer } from 'lucide-react';
 import Image from 'next/image';
 
 export default async function DonationCertificatePage({ params }: { params: { txnid: string } }) {
@@ -15,9 +15,9 @@ export default async function DonationCertificatePage({ params }: { params: { tx
   }
 
   return (
-    <div className="bg-slate-100 min-h-screen p-4 sm:p-8 flex items-center justify-center font-serif">
+    <div className="bg-slate-100 min-h-screen p-4 sm:p-8 flex items-center justify-center font-serif print:bg-white">
       <div 
-        className="w-full max-w-4xl bg-white shadow-2xl rounded-lg relative overflow-hidden" 
+        className="w-full max-w-4xl bg-white shadow-2xl rounded-lg relative overflow-hidden print:shadow-none" 
         style={{ border: '10px solid transparent', borderImage: 'url(/border-pattern.svg) 30 round' }}
       >
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{backgroundImage: 'url(/ngologo.png)', backgroundSize: '300px', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
@@ -56,7 +56,7 @@ export default async function DonationCertificatePage({ params }: { params: { tx
          <div className="absolute bottom-4 right-4 print:hidden">
             <Button onClick={() => window.print()} variant="ghost" size="sm">
                 <Printer className="mr-2 h-4 w-4" />
-                Print
+                Print or Save as PDF
             </Button>
         </div>
       </div>

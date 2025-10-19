@@ -1,11 +1,7 @@
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .l { fill: #FBBF24; } /* brand-yellow */
-    .d { fill: #F97316; } /* brand-orange */
-  </style>
-  <path class="d" d="M0 0 H100 V100 H0 Z" />
-  <path class="l" d="M10 10 H90 V90 H10 Z" />
-  <path class="d" d="M20 20 H80 V80 H20 Z" />
-  <path class="l" d="M30 30 H70 V70 H30 Z" />
-  <path class="d" d="M40 40 H60 V60 H40 Z" />
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 0 H80 V80 H0 Z" fill="#FBBF24" fill-opacity="0.1"/>
+<path d="M0 10 V0 H10" stroke="#F97316" stroke-width="4"/>
+<path d="M70 0 H80 V10" stroke="#F97316" stroke-width="4"/>
+<path d="M80 70 V80 H70" stroke="#F97316" stroke-width="4"/>
+<path d="M10 80 H0 V70" stroke="#F97316" stroke-width="4"/>
 </svg>
