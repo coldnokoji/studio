@@ -16,7 +16,7 @@ import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/layout/chat-widget';
 import { getSiteSettings } from '@/services/firestore';
 import type { SiteSettings } from '@/lib/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 
 const programsData = {
   education: {
@@ -64,19 +64,21 @@ const programsData = {
 type ProgramSlug = keyof typeof programsData;
 
 type ProgramPageProps = {
-  params: {
+  params: Promise<{
     slug: ProgramSlug;
-  };
+  }>;
 };
 
-export default function ProgramPage({ params }: ProgramPageProps) {
+export default function ProgramPage({ params: paramsProp }: ProgramPageProps) {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const params = use(paramsProp);
+  const slug = params.slug;
 
   useEffect(() => {
     getSiteSettings().then(setSettings);
   }, []);
 
-  const program = programsData[params.slug];
+  const program = programsData[slug];
 
   if (!program) {
     notFound();
@@ -101,7 +103,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
     },
   } : null;
 
-  const currentImages = programImages ? programImages[params.slug] : null;
+  const currentImages = programImages ? programImages[slug] : null;
 
   return (
     <>
@@ -117,7 +119,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
                     alt={program.title}
                     fill
                     className="object-cover"
-                    data-ai-hint={`${params.slug} program`}
+                    data-ai-hint={`${slug} program`}
                   />
                 )}
               </div>
@@ -164,7 +166,7 @@ export default function ProgramPage({ params }: ProgramPageProps) {
                             alt={`${program.title} gallery image ${index + 1}`}
                             fill
                             className="object-cover"
-                            data-ai-hint={`${params.slug} community`}
+                            data-ai-hint={`${slug} community`}
                           />
                         </div>
                       </div>
