@@ -9,7 +9,7 @@ export type Award = {
   issuer: string;
   year: string;
   image: string;
-  aiHint: string;
+  aiHint?: string;
 };
 
 export type Event = {
@@ -18,7 +18,7 @@ export type Event = {
   date: string;
   description: string;
   image: string;
-  aiHint: string;
+  aiHint?: string;
 };
 
 export type ContactMessage = {
@@ -35,7 +35,7 @@ export type TeamMember = {
   name: string;
   role: string;
   image: string;
-  aiHint: string;
+  aiHint?: string;
 };
 
 export type VolunteerApplication = {
@@ -55,7 +55,7 @@ export type ImpactStory = {
     story: string;
     personName: string;
     image: string;
-    aiHint: string;
+    aiHint?: string;
 }
 
 export type NewsArticle = {
@@ -65,7 +65,7 @@ export type NewsArticle = {
     summary: string;
     content: string;
     image: string;
-    aiHint: string;
+    aiHint?: string;
     createdAt: string;
 }
 
@@ -73,7 +73,7 @@ export type GalleryImage = {
     id: string;
     title: string;
     imageUrl: string;
-    aiHint: string;
+    aiHint?: string;
 }
 
 export type Donation = {

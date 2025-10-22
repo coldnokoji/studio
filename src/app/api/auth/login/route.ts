@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-    cookies().set('firebaseIdToken', idToken, {
+    (await cookies()).set('firebaseIdToken', idToken, {
       maxAge: expiresIn,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
