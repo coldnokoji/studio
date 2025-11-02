@@ -21,7 +21,7 @@ export async function sendDonationReceipt(donation: Donation) {
 
   try {
     await resend.emails.send({
-      from: 'Shreyaskar Foundation <onboarding@resend.dev>', // TODO: Change this to your "from" email
+      from: 'Shreyaskar Foundation <info@shreyaskarfoundation.com>', // TODO: Change this to your "from" email
       to: donation.email,
       subject: 'Thank You for Your Donation!',
       
