@@ -15,14 +15,31 @@ import { toast as sonnerToast } from "sonner";
 import { cn } from '@/lib/utils';
 import { submitPayuForm } from '@/lib/payu';
 
+// Import components for new fields
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 export default function DonateClientPage() {
     const searchParams = useSearchParams();
 
+    // --- EXISTING FIELDS ---
     const [amount, setAmount] = useState<number | string>(500);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [isRecurring, setIsRecurring] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    // --- NEW FIELDS TO ADD ---
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [pan, setPan] = useState('');
+    const [purpose, setPurpose] = useState(''); // This will be 'productinfo'
 
     useEffect(() => {
         const status = searchParams.get('status');
@@ -50,17 +67,38 @@ export default function DonateClientPage() {
         setIsLoading(false);
         return;
     }
-     if (!name || !email) {
-        sonnerToast.error("Information Missing", { description: "Please provide your name and email." });
+     
+    // --- VALIDATE NEW FIELDS ---
+    if (!name || !email || !phone || !address || !pan || !purpose) {
+        sonnerToast.error("Information Missing", { description: "Please fill in all required fields." });
         setIsLoading(false);
         return;
     }
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    if (!panRegex.test(pan.toUpperCase())) {
+      sonnerToast.error("Invalid PAN", {
+        description: "Please enter a valid 10-digit PAN number.",
+      });
+      setIsLoading(false);
+      return;
+    }
+    // --- END VALIDATION ---
 
     try {
       const res = await fetch('/api/payment/payu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: donationAmount, name, email, isRecurring }),
+        body: JSON.stringify({ 
+            amount: donationAmount, 
+            name, 
+            email, 
+            isRecurring,
+            // --- PASS NEW DATA ---
+            phone,
+            address,
+            pan: pan.toUpperCase(),
+            purpose,
+        }),
       });
 
       const data = await res.json();
@@ -69,7 +107,7 @@ export default function DonateClientPage() {
         throw new Error(data.error);
       }
 
-      submitPayuForm(data);
+      submitPayuForm(data); // This is your existing correct logic
 
     } catch (error: any) {
       console.error(error);
@@ -97,15 +135,55 @@ export default function DonateClientPage() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleDonation} className="space-y-6">
+                
+                {/* --- UPDATED FORM LAYOUT --- */}
+                
                 <div className="space-y-2">
                     <Label htmlFor='name'>Full Name</Label>
                     <Input id='name' type='text' placeholder='Your Name' value={name} onChange={(e) => setName(e.target.value)} required disabled={isLoading} />
                 </div>
-                 <div className="space-y-2">
-                    <Label htmlFor='email'>Email Address</Label>
-                    <Input id='email' type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isLoading}/>
-                    <p className="text-xs text-muted-foreground">Your donation receipt will be sent here.</p>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor='email'>Email Address</Label>
+                        <Input id='email' type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isLoading}/>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor='phone'>Phone Number</Label>
+                        <Input id='phone' type='tel' placeholder='10-digit number' value={phone} onChange={(e) => setPhone(e.target.value)} required disabled={isLoading}/>
+                    </div>
                 </div>
+                
+                 <div className="space-y-2">
+                    <Label htmlFor='address'>Address</Label>
+                    <Textarea id='address' placeholder='Your full address (for 80G receipt)' value={address} onChange={(e) => setAddress(e.target.value)} required disabled={isLoading} />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor='pan'>PAN Number</Label>
+                        <Input id='pan' type='text' placeholder='ABCDE1234F' value={pan} onChange={(e) => setPan(e.target.value.toUpperCase())} required disabled={isLoading} maxLength={10} />
+                        <p className="text-xs text-muted-foreground">Required for 80G receipt.</p>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor='purpose'>Purpose of Donation</Label>
+                         <Select onValueChange={setPurpose} value={purpose} required disabled={isLoading}>
+                          <SelectTrigger id="purpose">
+                            <SelectValue placeholder="Select a purpose" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="General Donation">General Donation</SelectItem>
+                            <SelectItem value="Education">Education</SelectItem>
+                            <SelectItem value="Health & Nutrition">Health & Nutrition</SelectItem>
+                            <SelectItem value="Women Empowerment">Women Empowerment</SelectItem>
+                          </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+                
+                {/* --- END UPDATED LAYOUT --- */}
+
+
                 <div className="space-y-2">
                   <Label>Select an amount (INR)</Label>
                   <div className="grid grid-cols-3 gap-2">

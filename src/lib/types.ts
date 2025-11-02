@@ -84,7 +84,15 @@ export type Donation = {
   txnid: string;
   status: 'success' | 'failure';
   isRecurring: boolean;
-  createdAt: string;
+  
+  // --- NEW FIELDS TO ADD ---
+  phone: string;
+  address: string;
+  pan: string;
+  purpose: string;
+  donationDate: string; // We'll use this instead of createdAt
+  paymentMode?: string;
+  // --- END OF NEW FIELDS ---
 }
 
 export type SiteSettings = {

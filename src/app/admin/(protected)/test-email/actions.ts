@@ -1,4 +1,3 @@
-
 'use server';
 
 import { sendDonationReceipt } from '@/services/email';
@@ -15,32 +14,39 @@ export async function sendTestEmailAction(): Promise<{ success: boolean; error?:
     return { success: false, error: errorMessage };
   }
 
-  // Create a perfect, hardcoded sample donation object for testing.
-  const sampleDonationData: Omit<Donation, 'id' | 'createdAt'> = {
+  // --- UPDATED: Create a full sample donation ---
+  // We use Omit<Donation, 'id'> to ensure all fields are included
+  const sampleDonationData: Omit<Donation, 'id'> = {
     name: 'Jane Donor (Test)',
-    email: testRecipientEmail, // Always send the test to the admin's email.
+    email: testRecipientEmail,
+    phone: '+91 9876543210',
+    address: '123 Test Street, Admin City, 400001',
+    pan: 'ABCDE1234F',
+    purpose: 'Test Donation for Receipt',
     amount: 500.00,
-    txnid: 'TXN_TEST_123456789',
+    txnid: `TXN_TEST_${Date.now()}`, // Unique txnid
     status: 'success',
     isRecurring: false,
+    donationDate: new Date().toISOString(), // Use the new field
+    paymentMode: 'Test Payment',
   };
 
   try {
-    // 1. Save the test donation to the database. This ensures the pages will find it.
+    // 1. Save the test donation to the database.
+    // This now saves the *full* object.
     const newDonationId = await saveDonation(sampleDonationData);
     
-    // Revalidate paths that might show donation data
     revalidatePath('/admin/donations');
     revalidatePath(`/donate/receipt/${sampleDonationData.txnid}`, 'page');
     revalidatePath(`/donate/certificate/${sampleDonationData.txnid}`, 'page');
     
+    // The full record now matches the type
     const fullDonationRecord: Donation = {
         ...sampleDonationData,
-        id: newDonationId,
-        createdAt: new Date().toISOString()
+        id: newDonationId, // This will be the txnid
     };
 
-    // 2. Send the email receipt, which now has a valid record to link to.
+    // 2. Send the email receipt
     await sendDonationReceipt(fullDonationRecord);
     return { success: true, email: testRecipientEmail };
   } catch (error: any) {

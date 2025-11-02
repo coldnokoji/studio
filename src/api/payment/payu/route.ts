@@ -1,18 +1,24 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
-// This is the main server-side route to handle PayU integration.
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, amount, isRecurring } = await req.json();
+    // --- UPDATED: Receive all new fields ---
+    const { 
+        name, 
+        email, 
+        amount, 
+        isRecurring, 
+        phone,        // NEW
+        address,      // NEW
+        pan,          // NEW
+        purpose       // NEW
+    } = await req.json();
 
-    // --- IMPORTANT: Get these from your PayU account and add to .env.local ---
     const PAYU_MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY;
     const PAYU_SALT = process.env.PAYU_SALT;
     const isProduction = process.env.NODE_ENV === 'production';
     
-    // Determine which PayU URL to use (test or production)
     const PAYU_BASE_URL = isProduction 
       ? 'https://secure.payu.in/_payment' 
       : 'https://test.payu.in/_payment';
@@ -21,65 +27,59 @@ export async function POST(req: NextRequest) {
         throw new Error("PayU credentials are not configured in environment variables.");
     }
 
-    // This is the public URL of your website. It's crucial for production redirects.
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (isProduction && !baseUrl) {
         throw new Error("NEXT_PUBLIC_BASE_URL is not configured in environment variables for production.");
     }
     
-    // Fallback to request origin for local development if NEXT_PUBLIC_BASE_URL is not set
     const appUrl = baseUrl || req.nextUrl.origin;
-
-
-    // Generate a unique transaction ID
     const txnid = `TXN_${Date.now()}`;
     
-    // The base data that will be sent to PayU
+    // --- UPDATED: Populate paymentData with new fields ---
     const paymentData: { [key: string]: string } = {
       key: PAYU_MERCHANT_KEY,
       txnid: txnid,
       amount: amount.toString(),
-      productinfo: isRecurring ? 'Monthly Donation to Shreyaskar Foundation' : 'Donation to Shreyaskar Foundation',
+      productinfo: purpose, // Use 'purpose' from form
       firstname: name,
       email: email,
-      phone: '9999999999', // A dummy phone number, PayU requires one.
-      surl: `${appUrl}/donate/success`, // Success URL
-      furl: `${appUrl}/donate/failure`, // Failure URL
+      phone: phone, // Use real 'phone' from form
+      surl: `${appUrl}/donate/success`,
+      furl: `${appUrl}/donate/failure`,
       service_provider: 'payu_paisa',
-      udf1: '',
-      udf2: '',
+      udf1: address, // Use 'address' for udf1
+      udf2: pan,     // Use 'pan' for udf2
       udf3: '',
       udf4: '',
       udf5: '',
     };
     
-    // Add recurring payment parameters if selected
     if (isRecurring) {
-        paymentData['udf1'] = 'RECURRING_PAYMENT'; // Example User Defined Field for tracking
-        // These are standard PayU parameters to enable SI/recurring payments
+        // Use udf3 for recurring flag
+        paymentData['udf3'] = 'RECURRING_PAYMENT'; 
         paymentData['si'] = '1';
         paymentData['billing_amount'] = amount.toString();
-        paymentData['billing_cycle'] = 'MONTHLY'; // Or 'YEARLY', 'WEEKLY', 'DAILY'
+        paymentData['billing_cycle'] = 'MONTHLY';
         paymentData['billing_interval'] = '1';
-        paymentData['payment_start_date'] = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]; // Start next month
-        paymentData['payment_end_date'] = '2099-12-31'; // A far-future date
+        paymentData['payment_start_date'] = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0];
+        paymentData['payment_end_date'] = '2099-12-31';
     }
 
-    // --- HASH GENERATION ---
-    // The hash string must be in a specific order, as dictated by PayU's error logs.
+    // --- CRITICAL UPDATE: The Hash String ---
+    // The hash string MUST include the new fields in the correct order.
     // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|||||||salt)
     const hashStringParts = [
         paymentData.key,
         paymentData.txnid,
         paymentData.amount,
-        paymentData.productinfo,
+        paymentData.productinfo, // Now 'purpose'
         paymentData.firstname,
         paymentData.email,
-        paymentData.udf1 || '',
-        paymentData.udf2 || '',
-        paymentData.udf3 || '',
-        paymentData.udf4 || '',
-        paymentData.udf5 || '',
+        paymentData.udf1, // Now 'address'
+        paymentData.udf2, // Now 'pan'
+        paymentData.udf3, // Now 'RECURRING_PAYMENT' or ''
+        paymentData.udf4,
+        paymentData.udf5,
         '', // udf6
         '', // udf7
         '', // udf8
@@ -91,14 +91,12 @@ export async function POST(req: NextRequest) {
     const hashString = hashStringParts.join('|');
     const hash = crypto.createHash('sha512').update(hashString).digest('hex');
 
-    // Combine all data for the form
     const payuFormData = {
         ...paymentData,
         hash: hash,
         action: PAYU_BASE_URL
     };
 
-    // Send the data back to the client to be submitted
     return NextResponse.json(payuFormData);
 
   } catch (err: any) {

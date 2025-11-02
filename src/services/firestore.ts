@@ -321,46 +321,74 @@ export async function deleteGalleryImage(id: string): Promise<void> {
 }
 
 // Donations
-export async function saveDonation(donationData: Omit<Donation, 'id' | 'createdAt'>): Promise<string> {
-    const db = await getDb();
-    // Check if a donation with this txnid already exists to prevent duplicates
-    const existing = await db.collection('donations').where('txnid', '==', donationData.txnid).limit(1).get();
-    if (!existing.empty) {
-        console.log(`Donation with txnid ${donationData.txnid} already exists. Skipping save.`);
-        return existing.docs[0].id;
-    }
-    
-    const docRef = await db.collection('donations').add({
-        ...donationData,
-        createdAt: new Date().toISOString(),
-    });
-    return docRef.id;
+export async function saveDonation(data: Omit<Donation, 'id'>): Promise<string> {
+  const db = await getDb();
+  
+  // Use the txnid as the document ID, just like the webhook does
+  const docRef = db.collection("donations").doc(data.txnid);
+  
+  // Set the complete data object
+  await docRef.set(data);
+  
+  return data.txnid;
 }
 
-export async function getDonations(): Promise<Donation[]> {
+export async function getAllDonations(): Promise<Donation[]> {
     const db = await getDb();
-    const snapshot = await db.collection('donations').orderBy('createdAt', 'desc').get();
-    return snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-            id: doc.id,
-            ...data,
-            createdAt: data.createdAt,
-        } as Donation;
-    });
+  const snapshot = await db
+    .collection("donations")
+    .orderBy("donationDate", "desc") // Use the new 'donationDate' field
+    .get();
+
+  return snapshot.docs.map((doc:any) => {
+    // This is the safe way to cast
+    const data = doc.data() as Omit<Donation, "id">;
+    return {
+      id: doc.id,
+      ...data,
+    };
+  });
+}
+
+type CreateDonationData = Omit<Donation, 'id'>;
+
+
+export async function createDonation(data: CreateDonationData) {
+  const { txnid } = data;
+  const db = await getDb();
+  try {
+    const donationRef = db.collection('donations').doc(txnid);
+    
+    // 'data' already contains all fields (pan, address, etc.)
+    // from the webhook, so we just set it.
+    await donationRef.set(data);
+
+    console.log(`Donation ${txnid} created successfully.`);
+    return txnid;
+  } catch (error) {
+    console.error('Error creating donation:', error);
+    throw new Error('Failed to create donation in Firestore');
+  }
 }
 
 export async function getDonationByTxnId(txnid: string): Promise<Donation | null> {
     const db = await getDb();
-    const snapshot = await db.collection('donations').where('txnid', '==', txnid).limit(1).get();
-    if (snapshot.empty) {
-        return null;
+  try {
+    const donationRef = db.collection("donations").doc(txnid);
+    const doc = await donationRef.get();
+
+    if (!doc.exists) {
+      console.log("No such donation!", txnid);
+      return null;
     }
-    const doc = snapshot.docs[0];
-    const data = doc.data();
-    return { 
-        id: doc.id,
-         ...data,
-        createdAt: data.createdAt
-    } as Donation;
+
+    // Cast the data to the Donation type
+    const donation = doc.data() as Omit<Donation, 'id'>;
+    
+    return { ...donation, id: doc.id };
+  } catch (error)
+  {
+    console.error("Error getting donation by txnid:", error);
+    return null;
+  }
 }
