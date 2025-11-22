@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createDonation } from "@/services/firestore";
 import { getDb } from "@/lib/firebase/admin";
-import { verifyPayUHash } from "@/lib/payu";
+import { verifyPayUHash } from "@/lib/payu-server";
 import { sendDonationReceipt } from "@/services/email";
 import { Donation } from "@/lib/types";
 
