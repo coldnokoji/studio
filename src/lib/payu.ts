@@ -1,6 +1,6 @@
 "use client";
 
-import crypto from "crypto"; // <--- ADD THIS IMPORT
+import crypto from "crypto";
 
 // This function dynamically creates and submits a form to redirect to PayU
 export const submitPayuForm = (data: { [key: string]: string }) => {
@@ -22,7 +22,6 @@ export const submitPayuForm = (data: { [key: string]: string }) => {
   form.submit();
 };
 
-// --- ADD THIS NEW FUNCTION ---
 /**
  * Verifies the PayU hash string (SERVER-SIDE ONLY).
  */
@@ -60,6 +59,13 @@ export const verifyPayUHash = (
     .createHash("sha512")
     .update(hashString)
     .digest("hex");
+
+  if (calculatedHash !== receivedHash) {
+    console.log("PayU Hash Mismatch Details:");
+    console.log("Received Hash:", receivedHash);
+    console.log("Calculated Hash:", calculatedHash);
+    console.log("Hash String Used:", hashString.replace(PAYU_SALT, "SALT_HIDDEN")); // Hide salt in logs
+  }
 
   return calculatedHash === receivedHash;
 };

@@ -10,7 +10,10 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const reqBody = Object.fromEntries(formData.entries()) as Record<string, string>;
 
-        console.log("PayU Callback received:", reqBody);
+        // Log all keys received for debugging
+        console.log("PayU Callback Keys:", Object.keys(reqBody));
+        console.log("PayU Callback Status:", reqBody.status);
+        console.log("PayU Callback TxnId:", reqBody.txnid);
 
         const {
             status,
@@ -26,15 +29,18 @@ export async function POST(req: NextRequest) {
             mode,
             hash,
             error_Message,
+            mihpayid, // PayU's internal ID
         } = reqBody as Record<string, string>;
+
+        if (!txnid) {
+            console.error("PayU Callback Error: Missing txnid. Full Body:", JSON.stringify(reqBody));
+            return NextResponse.redirect(new URL(`/donate/failure?error=MissingTxnId&payuId=${mihpayid || 'unknown'}`, req.url), 303);
+        }
 
         // 1. Verify the hash
         const isHashValid = verifyPayUHash(reqBody, hash);
         if (!isHashValid) {
             console.warn("PayU Callback: Invalid hash received", txnid);
-            // Even if hash is invalid, we should probably redirect to failure page with a warning
-            // But for security, let's return 400 if it's a direct API call, or redirect if it's a browser form post.
-            // Since this is a callback for the user, we MUST redirect.
             return NextResponse.redirect(new URL(`/donate/failure?txnid=${txnid}&error=InvalidHash`, req.url), 303);
         }
 
