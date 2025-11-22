@@ -1,5 +1,3 @@
-// src/app/donate/certificate/[txnid]/page.tsx
-
 import { getDonationByTxnId } from "@/services/firestore";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -49,9 +47,9 @@ export default async function CertificatePage({
     notFound();
   }
 
-  const donationDate = formatDate(donation.donationDate);
-  const formattedAmount = formatCurrency(donation.amount);
-  const amountInWords = toWords(donation.amount)
+  const donationDate = formatDate(donation.donationDate || new Date().toISOString());
+  const formattedAmount = formatCurrency(donation.amount || 0);
+  const amountInWords = toWords(donation.amount || 0)
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
@@ -61,7 +59,7 @@ export default async function CertificatePage({
       <Header />
       <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          
+
           <div
             id="printable-certificate"
             className="bg-white shadow-2xl rounded-lg overflow-hidden relative"
@@ -92,14 +90,8 @@ export default async function CertificatePage({
               {/* Header with Logo */}
               <div className="text-center mb-8">
                 <div className="inline-block bg-white rounded-full p-4 shadow-lg mb-4">
-                  <Logo/>
+                  <Logo />
                 </div>
-                {/* <h1 className="text-4xl font-bold text-amber-800 mb-1" style={{ fontFamily: 'Georgia, serif' }}>
-                  {NGO_NAME}
-                </h1>
-                <p className="text-lg text-amber-700 tracking-wider font-semibold mb-2">
-                  {NGO_SUBTITLE}
-                </p> */}
                 <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-600 to-transparent mx-auto mb-3"></div>
                 <p className="text-xs text-gray-600 max-w-2xl mx-auto">{NGO_ADDRESS}</p>
                 <p className="text-xs text-gray-600 mt-1">
@@ -132,15 +124,15 @@ export default async function CertificatePage({
                   <p className="text-center text-lg text-gray-700 leading-relaxed mb-6" style={{ fontFamily: 'Georgia, serif' }}>
                     This is to certify that
                   </p>
-                  
+
                   <h3 className="text-3xl font-bold text-center text-amber-900 mb-6" style={{ fontFamily: 'Brush Script MT, cursive' }}>
                     {donation.name}
                   </h3>
-                  
+
                   <p className="text-center text-gray-700 leading-relaxed mb-4">
                     has made a generous donation of
                   </p>
-                  
+
                   <div className="bg-white rounded-lg p-6 shadow-md mb-4 border-2 border-amber-300">
                     <p className="text-4xl font-bold text-center text-amber-800">
                       {formattedAmount}
@@ -149,14 +141,14 @@ export default async function CertificatePage({
                       ({amountInWords} Rupees Only)
                     </p>
                   </div>
-                  
+
                   <p className="text-center text-gray-700 leading-relaxed mb-4">
-                    towards <strong>{donation.purpose}</strong> on <strong>{donationDate}</strong>
+                    towards <strong>{donation.purpose || "Donation"}</strong> on <strong>{donationDate}</strong>
                   </p>
-                  
+
                   <div className="bg-amber-100 border-l-4 border-amber-600 p-4 mt-6 rounded">
                     <p className="text-sm text-gray-800">
-                      <strong>Tax Benefit:</strong> This donation qualifies for tax exemption under Section 80G of the Income Tax Act, 1961. 
+                      <strong>Tax Benefit:</strong> This donation qualifies for tax exemption under Section 80G of the Income Tax Act, 1961.
                       Transaction ID: <span className="font-mono text-xs">{donation.txnid}</span>
                     </p>
                   </div>
@@ -177,9 +169,9 @@ export default async function CertificatePage({
                   <div className="text-left">
                     <p className="text-xs text-gray-500 mb-1">Certificate No: {donation.id}</p>
                     <p className="text-xs text-gray-500">Issue Date: {donationDate}</p>
-                    <p className="text-xs text-gray-500 mt-2">Donor PAN: {donation.pan.toUpperCase()}</p>
+                    <p className="text-xs text-gray-500 mt-2">Donor PAN: {(donation.pan || "").toUpperCase()}</p>
                   </div>
-                  
+
                   <div className="text-center">
                     <div className="mb-2">
                       <div className="h-16 w-40 flex items-end justify-center">
