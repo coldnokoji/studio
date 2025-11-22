@@ -7,7 +7,7 @@ import { Donation } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
     try {
-        let reqBody: Record<string, string>;
+        let reqBody: Record<string, string> = {};
         try {
             const formData = await req.formData();
             reqBody = Object.fromEntries(formData.entries()) as Record<string, string>;
@@ -16,7 +16,14 @@ export async function POST(req: NextRequest) {
             try {
                 reqBody = await req.json();
             } catch (jsonError) {
-                console.error("Failed to parse request body as formData or JSON", jsonError);
+                console.log("Failed to parse JSON, trying text...", jsonError);
+                try {
+                    const text = await req.text();
+                    console.log("Raw Request Body:", text);
+                    // If it's URL encoded string, we might want to parse it manually, but for now just log it.
+                } catch (textError) {
+                    console.error("Failed to read request body as text", textError);
+                }
                 return NextResponse.redirect(new URL('/donate/failure?error=InvalidRequestFormat', req.url), 303);
             }
         }
@@ -117,9 +124,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.redirect(failureUrl, 303);
         }
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error in PayU callback:", error);
-        // In case of server error, redirect to failure with a generic message
-        return NextResponse.redirect(new URL('/donate/failure?error=InternalServerError', req.url), 303);
+        // In case of server error, redirect to failure with the specific error message
+        const errorMessage = encodeURIComponent(error.message || "UnknownError");
+        return NextResponse.redirect(new URL(`/donate/failure?error=InternalServerError:${errorMessage}`, req.url), 303);
     }
 }
