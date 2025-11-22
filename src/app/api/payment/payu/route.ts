@@ -35,8 +35,8 @@ export async function POST(req: NextRequest) {
       firstname: name,
       email: email,
       phone: '9999999999', // A dummy phone number, PayU requires one.
-      surl: `${baseUrl}/donate/success?txnid=${txnid}`, // Success URL
-      furl: `${baseUrl}/donate/failure?txnid=${txnid}`, // Failure URL
+      surl: `${baseUrl}/api/payment/payu/callback`, // Success URL - POST to API route
+      furl: `${baseUrl}/api/payment/payu/callback`, // Failure URL - POST to API route
       service_provider: 'payu_paisa',
       udf1: '',
       udf2: '',
