@@ -75,19 +75,26 @@ export async function POST(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/donate/success?txnid=${txnid}&status=success&firstname=${firstname}&email=${email}&amount=${amount}`, req.url), 303);
             }
 
-            const donationData: Omit<Donation, "id"> = {
+            // Extract additional fields from PayU callback
+            // We mapped address to udf1 and pan to udf2 in the payment init route
+            const address = udf1 || '';
+            const pan = udf2 || '';
+            const purpose = productinfo || '';
+
+            const donationData: Donation = {
+                id: txnid,
                 txnid: txnid,
                 amount: Number(amount),
                 email: email,
                 name: firstname,
                 status: "success" as const,
                 isRecurring: udf3 === "RECURRING_PAYMENT", // We set this in the payment route
-                phone: phone,
-                address: udf1, // We mapped address to udf1
-                pan: udf2,     // We mapped pan to udf2
-                purpose: productinfo,
+                phone: phone || '',
+                address: address,
+                pan: pan,
+                purpose: purpose,
                 donationDate: new Date().toISOString(),
-                paymentMode: mode,
+                paymentMode: mode || 'PayU',
             };
 
             // Save to Firestore
@@ -95,8 +102,7 @@ export async function POST(req: NextRequest) {
 
             // Send Email
             try {
-                const fullDonation = { ...donationData, id: txnid } as Donation;
-                await sendDonationReceipt(fullDonation);
+                await sendDonationReceipt(donationData);
             } catch (emailError) {
                 console.error(`Failed to send receipt email for ${txnid}:`, emailError);
                 // Continue to redirect even if email fails

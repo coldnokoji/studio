@@ -1,5 +1,3 @@
-// src/app/donate/receipt/[txnid]/page.tsx
-
 import { getDonationByTxnId } from "@/services/firestore";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -45,13 +43,13 @@ export default async function ReceiptPage({
   }
 
   // Format amount to words
-  const amountInWords = toWords(donation.amount)
+  const amountInWords = toWords(donation.amount || 0)
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
   // Format the date to DD-MM-YYYY
-  const donationDate = new Date(donation.donationDate).toLocaleDateString(
+  const donationDate = new Date(donation.donationDate || new Date()).toLocaleDateString(
     "en-GB",
     {
       day: "2-digit",
@@ -66,7 +64,7 @@ export default async function ReceiptPage({
     currency: "INR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(donation.amount);
+  }).format(donation.amount || 0);
 
   return (
     <>
@@ -76,21 +74,21 @@ export default async function ReceiptPage({
         <div className="max-w-4xl mx-auto">
           {/* Printable Area */}
           <div id="printable-receipt" className="bg-white shadow-xl rounded-none overflow-hidden p-0">
-            
+
             {/* Border wrapper */}
             <div className="border-4 border-black m-0">
-              
+
               {/* Header Section with Logo */}
               <div className="border-b-2 border-black p-4">
                 {/* Devanagari text and Logo - vertically stacked and centered */}
                 <div className="flex flex-col items-center">
                   {/* Devanagari text on top */}
                   <p className="text-sm font-semibold mb-2">{NGO_HINDI_TEXT}</p>
-                  
+
                   {/* Logo below */}
-                  <Logo/>
+                  <Logo />
                 </div>
-                
+
                 {/* Contact Details Below */}
                 <div className="mt-4 text-xs text-center">
                   <p className="font-semibold">Reg. Office: {NGO_REG_OFFICE}</p>
@@ -171,13 +169,13 @@ export default async function ReceiptPage({
               {/* Donor Information */}
               <div className="px-4 py-3 border-b-2 border-black">
                 <p className="text-sm">
-                  <span className="font-bold">Recevied with thanks from Mr./Mrs. {donation.name}, Pan No- {donation.pan.toUpperCase()}</span>
+                  <span className="font-bold">Recevied with thanks from Mr./Mrs. {donation.name}, Pan No- {(donation.pan || "").toUpperCase()}</span>
                 </p>
                 <p className="text-sm mt-1">
                   Rupees. <span className="font-semibold">{amountInWords} Only</span>
                 </p>
                 <p className="text-sm mt-1">
-                  on account of membership/donation to {NGO_NAME} {NGO_SUBTITLE} by <span className="font-semibold">{donation.paymentMode}</span>
+                  on account of membership/donation to {NGO_NAME} {NGO_SUBTITLE} by <span className="font-semibold">{donation.paymentMode || "Online"}</span>
                 </p>
               </div>
 
@@ -197,14 +195,14 @@ export default async function ReceiptPage({
                       </div>
                       <div className="border-t border-black pt-1 text-xs">Received by</div>
                     </div>
-                    
+
                     <div className="text-center">
                       <div className="h-16 w-32 flex items-center justify-center mb-1">
                         {/* Signature space */}
                       </div>
                       <div className="border-t border-black pt-1 text-xs">Treasurer Signature</div>
                     </div>
-                    
+
                     <div className="text-center">
                       <div className="h-16 w-32 flex items-center justify-center mb-1">
                         {/* Signature space */}
