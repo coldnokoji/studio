@@ -7,8 +7,19 @@ import { Donation } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
     try {
-        const formData = await req.formData();
-        const reqBody = Object.fromEntries(formData.entries()) as Record<string, string>;
+        let reqBody: Record<string, string>;
+        try {
+            const formData = await req.formData();
+            reqBody = Object.fromEntries(formData.entries()) as Record<string, string>;
+        } catch (e) {
+            console.log("Failed to parse formData, trying json...", e);
+            try {
+                reqBody = await req.json();
+            } catch (jsonError) {
+                console.error("Failed to parse request body as formData or JSON", jsonError);
+                return NextResponse.redirect(new URL('/donate/failure?error=InvalidRequestFormat', req.url), 303);
+            }
+        }
 
         // Log all keys received for debugging
         console.log("PayU Callback Keys:", Object.keys(reqBody));

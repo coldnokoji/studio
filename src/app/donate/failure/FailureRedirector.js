@@ -12,9 +12,10 @@ export default function FailureRedirector() {
     useEffect(() => {
         // Redirect user to the main donate page with status parameters
         const txnid = searchParams.get('txnid');
+        const error = searchParams.get('error');
         // Use a slight delay to ensure the user sees the message
         setTimeout(() => {
-            router.replace(`/donate?status=failure&txnid=${txnid || ''}`);
+            router.replace(`/donate?status=failure&txnid=${txnid || ''}&error=${error || ''}`);
         }, 1500); // 1.5 second delay
     }, [router, searchParams]);
 
