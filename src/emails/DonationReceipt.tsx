@@ -19,14 +19,14 @@ import { toWords } from "number-to-words";
 import type { Donation } from "@/lib/types"; // <-- THIS IS THE FIX
 
 // --- TODO: Update these with your NGO's details ---
-const NGO_NAME = "NAAM FOUNDATION"; // Example
-const NGO_ADDRESS_LINE_1 = "Building No. 1, Example Road";
-const NGO_ADDRESS_LINE_2 = "Mumbai - 400001, Maharashtra, India";
-const NGO_EMAIL = "info@naamfoundation.org";
-const NGO_PHONE = "+91 99999 88888";
+const NGO_NAME = "SHREYASKAR SOCIAL WELFARE FOUNDATION"; // ExampleS
+const NGO_ADDRESS_LINE_1 = "Reg. Office: 832-G, Nyay Khand-1, Indira Puram, Near Sai Mandir,";
+const NGO_ADDRESS_LINE_2 = " Ghaziabad- 201014 Utter Pradesh.";
+const NGO_EMAIL = "info@shreyaskarfoundation.com";
+const NGO_PHONE = "+91 9768000257/138";
 const NGO_80G_INFO =
   "All donations are eligible for 50% tax exemption under Section 80G of the Income Tax Act, 1961.";
-const LOGO_URL = "https://your-ngo-website.org/logo.png"; // TODO: Update this to a full, public URL of your logo
+const LOGO_URL = "@/components/ngologo.jpeg"; // TODO: Update this to a full, public URL of your logo
 
 // UPDATED: This interface now matches your Donation type AND includes baseUrl
 interface DonationReceiptEmailProps extends Omit<Donation, 'id'> {
@@ -116,7 +116,7 @@ export const DonationReceiptEmail = (props: DonationReceiptEmailProps) => {
             </Section>
 
             {/* Donor Information */}
-             <Section style={infoBox}>
+            <Section style={infoBox}>
               <Heading as="h3" style={infoBoxTitle}>Donor Information</Heading>
               <InfoRow label="Donor Name:" value={name} />
               <InfoRow label="Email:" value={props.email} />
@@ -160,7 +160,7 @@ export const DonationReceiptEmail = (props: DonationReceiptEmailProps) => {
             </Text>
 
             <Hr style={hr} />
-            
+
             {/* --- FIX: Use the baseUrl prop to build links --- */}
             <Section style={linksSection}>
               <Button
@@ -176,7 +176,7 @@ export const DonationReceiptEmail = (props: DonationReceiptEmailProps) => {
                 Download 80G Certificate
               </Button>
             </Section>
-            
+
             <Text style={smallPrint}>
               This is a computer-generated receipt and does not require a
               physical signature.

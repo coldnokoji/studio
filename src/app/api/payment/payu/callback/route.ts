@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
         console.log("PayU Callback Keys:", Object.keys(reqBody));
         console.log("PayU Callback Status:", reqBody.status);
         console.log("PayU Callback TxnId:", reqBody.txnid);
+        console.log("PayU Callback Data Check -> Phone:", reqBody.phone, "UDF1 (Addr):", reqBody.udf1, "UDF2 (PAN):", reqBody.udf2);
 
         const {
             status,

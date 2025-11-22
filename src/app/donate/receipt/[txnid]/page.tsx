@@ -12,7 +12,7 @@ const NGO_NAME = "Shreyaskar";
 const NGO_SUBTITLE = "SOCIAL WELFARE FOUNDATION";
 const NGO_HINDI_TEXT = "सेवा परमो धर्मः"; // Service is the highest duty
 const NGO_REG_OFFICE = "832-G, Nyay Khand-1, Indira Puram, Near Sai Mandir, Ghaziabad- 201014 Utter Pradesh.";
-const NGO_EMAIL = "shreyaskarfoundation@gmail.com";
+const NGO_EMAIL = "info@shreyaskarfoundation.com";
 const NGO_MOBILE = "9768000257/138";
 
 // Organization Details (Left side)

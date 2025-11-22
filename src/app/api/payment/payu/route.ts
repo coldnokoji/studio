@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
     const txnid = `TXN_${Date.now()}`;
 
     // Use the ngrok URL for callbacks in development, otherwise use the request's origin
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
+    // FIX: In production, ensure we use the main domain, not the Netlify preview URL
+    let baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
+    if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_BASE_URL) {
+      baseUrl = 'https://shreyaskarfoundation.com';
+    }
 
     // The base data that will be sent to PayU
     const paymentData: { [key: string]: string } = {
