@@ -63,12 +63,22 @@ export async function POST(req: NextRequest) {
       paymentData['udf3'] = 'RECURRING_PAYMENT'; // Store recurring flag in udf3
       // These are standard PayU parameters to enable SI/recurring payments
       paymentData['si'] = '1';
+      paymentData['api_version'] = '1'; // Often required for SI
       paymentData['billing_amount'] = amount.toString();
       paymentData['billing_cycle'] = 'MONTHLY'; // Or 'YEARLY', 'WEEKLY', 'DAILY'
       paymentData['billing_interval'] = '1';
       paymentData['payment_start_date'] = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]; // Start next month
       paymentData['payment_end_date'] = '2099-12-31'; // A far-future date
     }
+
+    console.log("PayU Init: isRecurring?", isRecurring);
+    console.log("PayU Init: Payment Data (Partial):", {
+      txnid,
+      amount,
+      si: paymentData.si,
+      api_version: paymentData.api_version,
+      udf3: paymentData.udf3
+    });
 
     // --- HASH GENERATION ---
     // The hash string must be in a specific order, as dictated by PayU's error logs.
