@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createDonation } from "@/services/firestore";
+import { createDonation, saveDonation, getDonationByTxnId } from "@/services/firestore";
 import { getDb } from "@/lib/firebase/admin";
 import { verifyPayUHash } from "@/lib/payu-server";
 import { sendDonationReceipt } from "@/services/email";
@@ -71,43 +71,72 @@ export async function POST(req: NextRequest) {
                 .get();
 
             if (existingDonation.exists) {
-                console.log(`Donation ${txnid} already processed.`);
-                // Already processed, just redirect to success
-                return NextResponse.redirect(new URL(`/donate/success?txnid=${txnid}&status=success&firstname=${firstname}&email=${email}&amount=${amount}`, req.url), 303);
+                console.log(`Donation ${txnid} found, updating status.`);
+
+                const currentData = existingDonation.data() as Donation;
+
+                // Update status and any other fields that might have changed or were missing
+                // We preserve the original data (PAN, Address) if it exists
+                const updatedData: Donation = {
+                    ...currentData,
+                    status: 'success',
+                    // Update these if they are present in callback, otherwise keep existing
+                    // PayU might return different values or we might want to trust our initial data more?
+                    // Let's trust our initial data for critical fields like PAN/Address if we have them.
+                    // But PayU might give us the final payment mode.
+                    paymentMode: mode || currentData.paymentMode,
+                    // Ensure amount is correct (though it shouldn't change)
+                    amount: Number(amount),
+                };
+
+                await saveDonation(updatedData);
+
+                // Send Email only if it wasn't already success (to avoid duplicate emails on double callback)
+                if (currentData.status !== 'success') {
+                    try {
+                        await sendDonationReceipt(updatedData);
+                    } catch (emailError) {
+                        console.error(`Failed to send receipt email for ${txnid}:`, emailError);
+                    }
+                }
+
+            } else {
+                console.warn(`Donation ${txnid} not found in DB during success callback. Creating new record (fallback).`);
+                // Fallback: Create new if not found (e.g. if the init failed but user somehow paid?)
+                // This is the old logic, but now as a fallback
+                const address = udf1 || '';
+                const pan = udf2 || '';
+                const purpose = productinfo || '';
+
+                const donationData: Donation = {
+                    id: txnid,
+                    txnid: txnid,
+                    amount: Number(amount),
+                    email: email,
+                    name: firstname,
+                    status: "success" as const,
+                    isRecurring: udf3 === "RECURRING_PAYMENT",
+                    phone: phone || '',
+                    address: address,
+                    pan: pan,
+                    purpose: purpose,
+                    donationDate: new Date().toISOString(),
+                    paymentMode: mode || 'PayU',
+                };
+
+                await createDonation(donationData);
+
+                try {
+                    await sendDonationReceipt(donationData);
+                } catch (emailError) {
+                    console.error(`Failed to send receipt email for ${txnid}:`, emailError);
+                }
             }
-
-            // Extract additional fields from PayU callback
-            // We mapped address to udf1 and pan to udf2 in the payment init route
-            const address = udf1 || '';
-            const pan = udf2 || '';
-            const purpose = productinfo || '';
-
-            const donationData: Donation = {
-                id: txnid,
-                txnid: txnid,
-                amount: Number(amount),
-                email: email,
-                name: firstname,
-                status: "success" as const,
-                isRecurring: udf3 === "RECURRING_PAYMENT", // We set this in the payment route
-                phone: phone || '',
-                address: address,
-                pan: pan,
-                purpose: purpose,
-                donationDate: new Date().toISOString(),
-                paymentMode: mode || 'PayU',
-            };
-
-            // Save to Firestore
-            await createDonation(donationData);
 
             // Send Email
-            try {
-                await sendDonationReceipt(donationData);
-            } catch (emailError) {
-                console.error(`Failed to send receipt email for ${txnid}:`, emailError);
-                // Continue to redirect even if email fails
-            }
+            // We only send email here if we created a NEW donation (fallback case)
+            // OR if we updated an existing one and it wasn't already success (handled above)
+            // So we don't need a generic send email here anymore, it's handled in the branches.
 
             // Redirect to success page
             // We pass params so the client page can display them if needed, though it should ideally fetch from DB or just show success.
@@ -122,6 +151,17 @@ export async function POST(req: NextRequest) {
 
         } else {
             console.log(`Transaction failed for txnid: ${txnid} with status: ${status}`);
+            // Update status to failure if record exists
+            const adminDb = await getDb();
+            const existingDonation = await adminDb.collection("donations").doc(txnid).get();
+
+            if (existingDonation.exists) {
+                await adminDb.collection("donations").doc(txnid).update({
+                    status: 'failure',
+                    paymentMode: mode || 'PayU' // capture mode even on failure
+                });
+            }
+
             // Redirect to failure page
             const failureUrl = new URL('/donate/failure', req.url);
             failureUrl.searchParams.set('txnid', txnid);

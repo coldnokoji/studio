@@ -1,5 +1,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
+import { createDonation } from '@/services/firestore';
+import { Donation } from '@/lib/types';
 import crypto from 'crypto';
 
 // This is the main server-side route to handle PayU integration.
@@ -26,7 +28,9 @@ export async function POST(req: NextRequest) {
     // Use the ngrok URL for callbacks in development, otherwise use the request's origin
     // FIX: In production, ensure we use the main domain, not the Netlify preview URL
     let baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
-    if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_BASE_URL) {
+
+    // FORCE production domain in production environment, ignoring other env vars or request origin
+    if (process.env.NODE_ENV === 'production') {
       baseUrl = 'https://shreyaskarfoundation.com';
     }
 
@@ -93,6 +97,26 @@ export async function POST(req: NextRequest) {
       hash: hash,
       action: PAYU_BASE_URL
     };
+
+    // --- SAVE TO FIRESTORE BEFORE REDIRECT ---
+    // This ensures we have the PAN and Address even if PayU callback doesn't return them
+    const donationData: Donation = {
+      id: txnid,
+      txnid: txnid,
+      amount: Number(amount),
+      email: email,
+      name: name,
+      status: 'initiated',
+      isRecurring: isRecurring,
+      phone: phone || '',
+      address: address || '',
+      pan: pan || '',
+      purpose: purpose || '',
+      donationDate: new Date().toISOString(),
+      paymentMode: 'PayU', // Initial assumption
+    };
+
+    await createDonation(donationData);
 
     // Send the data back to the client to be submitted
     return NextResponse.json(payuFormData);

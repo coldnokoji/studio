@@ -19,7 +19,7 @@ const NGO_MOBILE = "9768000257/138";
 const CIN_NO = "U85500UP2025NPL227438";
 const SECTION_8_LICENCE = "170505";
 const NGO_PAN = "ABQCS6673P";
-const REG_80G = ""; // Leave empty if not available
+const REG_80G = "ABQCS6673PF2025101"; // Leave empty if not available
 
 // Bank Details (Right side)
 const BANK_NAME = "Axis Bank";

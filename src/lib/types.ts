@@ -13,7 +13,7 @@ export type Award = {
 };
 
 export type Event = {
-  id:string;
+  id: string;
   title: string;
   date: string;
   description: string;
@@ -39,41 +39,41 @@ export type TeamMember = {
 };
 
 export type VolunteerApplication = {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    areaOfInterest: string;
-    availability: string;
-    createdAt: string;
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  areaOfInterest: string;
+  availability: string;
+  createdAt: string;
 }
 
 export type ImpactStory = {
-    id: string;
-    title: string;
-    quote: string;
-    story: string;
-    personName: string;
-    image: string;
-    aiHint?: string;
+  id: string;
+  title: string;
+  quote: string;
+  story: string;
+  personName: string;
+  image: string;
+  aiHint?: string;
 }
 
 export type NewsArticle = {
-    id: string;
-    title: string;
-    author: string;
-    summary: string;
-    content: string;
-    image: string;
-    aiHint?: string;
-    createdAt: string;
+  id: string;
+  title: string;
+  author: string;
+  summary: string;
+  content: string;
+  image: string;
+  aiHint?: string;
+  createdAt: string;
 }
 
 export type GalleryImage = {
-    id: string;
-    title: string;
-    imageUrl: string;
-    aiHint?: string;
+  id: string;
+  title: string;
+  imageUrl: string;
+  aiHint?: string;
 }
 
 export type Donation = {
@@ -82,9 +82,9 @@ export type Donation = {
   email: string;
   amount: number;
   txnid: string;
-  status: 'success' | 'failure';
+  status: 'success' | 'failure' | 'initiated';
   isRecurring: boolean;
-  
+
   // --- NEW FIELDS TO ADD ---
   phone: string;
   address: string;
@@ -132,12 +132,12 @@ export type SiteSettings = {
   programHealthcareGallery1: string;
   programHealthcareGallery2: string;
   programHealthcareGallery3: string;
-  
+
   programEnvironmentHero: string;
   programEnvironmentGallery1: string;
   programEnvironmentGallery2: string;
   programEnvironmentGallery3: string;
-  
+
   programLivelihoodHero: string;
   programLivelihoodGallery1: string;
   programLivelihoodGallery2: string;
