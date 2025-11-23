@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { saveDonation as saveDonationToDb } from '@/services/firestore';
 import type { Donation } from '@/lib/types';
 
-export async function saveDonation(donationData: Omit<Donation, 'id' | 'createdAt'>) {
+export async function saveDonation(donationData: Partial<Donation> & { txnid: string }) {
     try {
         await saveDonationToDb(donationData);
         revalidatePath('/admin/donations');

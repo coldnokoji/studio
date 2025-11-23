@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   const hashString = PAYU_SALT + '|' + data.status + '||||||||||' + data.email + '|' + data.firstname + '|' + data.productinfo + '|' + data.amount + '|' + data.txnid + '|' + process.env.PAYU_MERCHANT_KEY;
 
   const reverseHash = crypto.createHash('sha512').update(hashString).digest('hex');
-  
+
   if (reverseHash !== data.hash) {
     console.warn('PayU webhook hash mismatch.', { received: data.hash, calculated: reverseHash });
     // In production, you might want to return an error here. For now, we'll log it.
@@ -49,15 +49,21 @@ export async function POST(req: NextRequest) {
 
   if (data.status === 'success') {
     try {
-      const donationData: Omit<Donation, 'id' | 'createdAt'> = {
+      const donationData: Partial<Donation> & { txnid: string } = {
         name: data.firstname as string,
         email: data.email as string,
         amount: parseFloat(data.amount as string),
         txnid: data.txnid as string,
         status: 'success',
-        isRecurring: data.udf1 === 'RECURRING_PAYMENT',
+        isRecurring: data.udf3 === 'RECURRING_PAYMENT',
+        donationDate: new Date().toISOString(),
+        // Only include optional fields if they are present to avoid overwriting with empty strings
+        ...((data.phone as string) ? { phone: data.phone as string } : {}),
+        ...((data.udf1 as string) ? { address: data.udf1 as string } : {}),
+        ...((data.udf2 as string) ? { pan: data.udf2 as string } : {}),
+        ...((data.productinfo as string) ? { purpose: data.productinfo as string } : {}),
       };
-      
+
       await saveDonation(donationData);
       console.log(`Successfully saved donation for txnid: ${data.txnid}`);
 
@@ -66,7 +72,7 @@ export async function POST(req: NextRequest) {
       // Even if saving fails, we must return a 200 to PayU to prevent retries.
     }
   } else {
-     console.log(`Received non-success status '${data.status}' for txnid: ${data.txnid}`);
+    console.log(`Received non-success status '${data.status}' for txnid: ${data.txnid}`);
   }
 
   // Always return a 200 OK response to PayU to acknowledge receipt of the webhook.

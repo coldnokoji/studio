@@ -10,6 +10,11 @@ interface ManualDonationInput {
   amount: number;
   txnid: string;
   isRecurring: boolean;
+  phone: string;
+  address: string;
+  pan: string;
+  purpose: string;
+  donationDate: string;
 }
 
 export async function saveManualDonationAction(data: ManualDonationInput) {
@@ -18,9 +23,9 @@ export async function saveManualDonationAction(data: ManualDonationInput) {
     amount: typeof data.amount === 'string' ? parseFloat(data.amount) : data.amount,
     status: 'success', // Manual entries are always considered successful
   };
-  
+
   await saveDonation(donationData);
-  
+
   revalidatePath('/admin/donations');
   revalidatePath('/admin/test-email');
 }

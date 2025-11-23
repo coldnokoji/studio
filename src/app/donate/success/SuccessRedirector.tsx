@@ -17,8 +17,10 @@ export default function SuccessRedirector() {
         const email = searchParams.get('email');
         const amount = searchParams.get('amount');
         const status = searchParams.get('status');
-        const isRecurring = searchParams.get('udf1') === 'RECURRING_PAYMENT';
-        
+        const isRecurring = searchParams.get('udf3') === 'RECURRING_PAYMENT';
+        const address = searchParams.get('udf1');
+        const pan = searchParams.get('udf2');
+
         // Save the donation details to Firestore
         if (status === 'success' && txnid && name && email && amount) {
             saveDonation({
@@ -28,6 +30,9 @@ export default function SuccessRedirector() {
                 txnid,
                 status: 'success',
                 isRecurring,
+                donationDate: new Date().toISOString(),
+                ...(address && { address }),
+                ...(pan && { pan }),
             });
         }
 
