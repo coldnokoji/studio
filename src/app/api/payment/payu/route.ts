@@ -34,6 +34,11 @@ export async function POST(req: NextRequest) {
       baseUrl = 'https://shreyaskarfoundation.com';
     }
 
+    console.log("PayU Init: NODE_ENV:", process.env.NODE_ENV);
+    console.log("PayU Init: Resolved baseUrl:", baseUrl);
+    console.log("PayU Init: Request Origin:", req.nextUrl.origin);
+
+
     // The base data that will be sent to PayU
     const paymentData: { [key: string]: string } = {
       key: PAYU_MERCHANT_KEY,
@@ -116,7 +121,9 @@ export async function POST(req: NextRequest) {
       paymentMode: 'PayU', // Initial assumption
     };
 
+    console.log("PayU Init: Creating donation record before redirect:", JSON.stringify(donationData));
     await createDonation(donationData);
+    console.log("PayU Init: Donation record created successfully for txnid:", txnid);
 
     // Send the data back to the client to be submitted
     return NextResponse.json(payuFormData);

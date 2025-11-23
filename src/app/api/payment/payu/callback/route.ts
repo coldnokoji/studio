@@ -63,12 +63,15 @@ export async function POST(req: NextRequest) {
             return NextResponse.redirect(new URL(`/donate/failure?txnid=${txnid}&error=InvalidHash`, req.url), 303);
         }
 
+        const adminDb = await getDb();
+
         if (status === "success") {
-            const adminDb = await getDb();
             const existingDonation = await adminDb
                 .collection("donations")
                 .doc(txnid)
                 .get();
+
+            console.log(`PayU Callback: Checking for existing donation ${txnid}. Exists: ${existingDonation.exists}`);
 
             if (existingDonation.exists) {
                 console.log(`Donation ${txnid} found, updating status.`);
@@ -152,7 +155,6 @@ export async function POST(req: NextRequest) {
         } else {
             console.log(`Transaction failed for txnid: ${txnid} with status: ${status}`);
             // Update status to failure if record exists
-            const adminDb = await getDb();
             const existingDonation = await adminDb.collection("donations").doc(txnid).get();
 
             if (existingDonation.exists) {
