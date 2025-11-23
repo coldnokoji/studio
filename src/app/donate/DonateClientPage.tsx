@@ -26,35 +26,36 @@ import {
 } from "@/components/ui/select";
 
 export default function DonateClientPage() {
-    const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-    // --- EXISTING FIELDS ---
-    const [amount, setAmount] = useState<number | string>(500);
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [isRecurring, setIsRecurring] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+  // --- EXISTING FIELDS ---
+  const [amount, setAmount] = useState<number | string>(500);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  // const [isRecurring, setIsRecurring] = useState(false); // REMOVED
+  const [isLoading, setIsLoading] = useState(false);
 
-    // --- NEW FIELDS TO ADD ---
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [pan, setPan] = useState('');
-    const [purpose, setPurpose] = useState(''); // This will be 'productinfo'
+  // --- NEW FIELDS TO ADD ---
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [pan, setPan] = useState('');
+  const [purpose, setPurpose] = useState(''); // This will be 'productinfo'
+  const [frequency, setFrequency] = useState('ONETIME'); // New state for donation frequency
 
-    useEffect(() => {
-        const status = searchParams.get('status');
-        const txnid = searchParams.get('txnid');
+  useEffect(() => {
+    const status = searchParams.get('status');
+    const txnid = searchParams.get('txnid');
 
-        if (status === 'success') {
-          sonnerToast.success("Donation Successful!", {
-            description: `Thank you for your generous support. Your Transaction ID is ${txnid}.`
-          });
-        } else if (status === 'failure') {
-           sonnerToast.error("Donation Failed", {
-            description: `Your donation attempt failed. If any amount was debited, it will be refunded. Transaction ID: ${txnid}.`
-           });
-        }
-    }, [searchParams]);
+    if (status === 'success') {
+      sonnerToast.success("Donation Successful!", {
+        description: `Thank you for your generous support. Your Transaction ID is ${txnid}.`
+      });
+    } else if (status === 'failure') {
+      sonnerToast.error("Donation Failed", {
+        description: `Your donation attempt failed. If any amount was debited, it will be refunded. Transaction ID: ${txnid}.`
+      });
+    }
+  }, [searchParams]);
 
 
   const handleDonation = async (e: FormEvent) => {
@@ -63,16 +64,16 @@ export default function DonateClientPage() {
 
     const donationAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
     if (!donationAmount || donationAmount < 1) {
-        sonnerToast.error("Invalid Amount", { description: "Minimum donation amount is ₹1." });
-        setIsLoading(false);
-        return;
+      sonnerToast.error("Invalid Amount", { description: "Minimum donation amount is ₹1." });
+      setIsLoading(false);
+      return;
     }
-     
+
     // --- VALIDATE NEW FIELDS ---
     if (!name || !email || !phone || !address || !pan || !purpose) {
-        sonnerToast.error("Information Missing", { description: "Please fill in all required fields." });
-        setIsLoading(false);
-        return;
+      sonnerToast.error("Information Missing", { description: "Please fill in all required fields." });
+      setIsLoading(false);
+      return;
     }
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     if (!panRegex.test(pan.toUpperCase())) {
@@ -88,16 +89,17 @@ export default function DonateClientPage() {
       const res = await fetch('/api/payment/payu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            amount: donationAmount, 
-            name, 
-            email, 
-            isRecurring,
-            // --- PASS NEW DATA ---
-            phone,
-            address,
-            pan: pan.toUpperCase(),
-            purpose,
+        body: JSON.stringify({
+          amount: donationAmount,
+          name,
+          email,
+          isRecurring: frequency !== 'ONETIME', // Set isRecurring based on frequency
+          frequency, // Pass frequency to API
+          // --- PASS NEW DATA ---
+          phone,
+          address,
+          pan: pan.toUpperCase(),
+          purpose,
         }),
       });
 
@@ -135,52 +137,52 @@ export default function DonateClientPage() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleDonation} className="space-y-6">
-                
-                {/* --- UPDATED FORM LAYOUT --- */}
-                
-                <div className="space-y-2">
-                    <Label htmlFor='name'>Full Name</Label>
-                    <Input id='name' type='text' placeholder='Your Name' value={name} onChange={(e) => setName(e.target.value)} required disabled={isLoading} />
-                </div>
 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label htmlFor='email'>Email Address</Label>
-                        <Input id='email' type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isLoading}/>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor='phone'>Phone Number</Label>
-                        <Input id='phone' type='tel' placeholder='10-digit number' value={phone} onChange={(e) => setPhone(e.target.value)} required disabled={isLoading}/>
-                    </div>
-                </div>
-                
-                 <div className="space-y-2">
-                    <Label htmlFor='address'>Address</Label>
-                    <Textarea id='address' placeholder='Your full address (for 80G receipt)' value={address} onChange={(e) => setAddress(e.target.value)} required disabled={isLoading} />
+                {/* --- UPDATED FORM LAYOUT --- */}
+
+                <div className="space-y-2">
+                  <Label htmlFor='name'>Full Name</Label>
+                  <Input id='name' type='text' placeholder='Your Name' value={name} onChange={(e) => setName(e.target.value)} required disabled={isLoading} />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label htmlFor='pan'>PAN Number</Label>
-                        <Input id='pan' type='text' placeholder='ABCDE1234F' value={pan} onChange={(e) => setPan(e.target.value.toUpperCase())} required disabled={isLoading} maxLength={10} />
-                        <p className="text-xs text-muted-foreground">Required for 80G receipt.</p>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor='purpose'>Purpose of Donation</Label>
-                         <Select onValueChange={setPurpose} value={purpose} required disabled={isLoading}>
-                          <SelectTrigger id="purpose">
-                            <SelectValue placeholder="Select a purpose" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="General Donation">General Donation</SelectItem>
-                            <SelectItem value="Education">Education</SelectItem>
-                            <SelectItem value="Health & Nutrition">Health & Nutrition</SelectItem>
-                            <SelectItem value="Women Empowerment">Women Empowerment</SelectItem>
-                          </SelectContent>
-                        </Select>
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor='email'>Email Address</Label>
+                    <Input id='email' type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isLoading} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor='phone'>Phone Number</Label>
+                    <Input id='phone' type='tel' placeholder='10-digit number' value={phone} onChange={(e) => setPhone(e.target.value)} required disabled={isLoading} />
+                  </div>
                 </div>
-                
+
+                <div className="space-y-2">
+                  <Label htmlFor='address'>Address</Label>
+                  <Textarea id='address' placeholder='Your full address (for 80G receipt)' value={address} onChange={(e) => setAddress(e.target.value)} required disabled={isLoading} />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor='pan'>PAN Number</Label>
+                    <Input id='pan' type='text' placeholder='ABCDE1234F' value={pan} onChange={(e) => setPan(e.target.value.toUpperCase())} required disabled={isLoading} maxLength={10} />
+                    <p className="text-xs text-muted-foreground">Required for 80G receipt.</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor='purpose'>Purpose of Donation</Label>
+                    <Select onValueChange={setPurpose} value={purpose} required disabled={isLoading}>
+                      <SelectTrigger id="purpose">
+                        <SelectValue placeholder="Select a purpose" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="General Donation">General Donation</SelectItem>
+                        <SelectItem value="Education">Education</SelectItem>
+                        <SelectItem value="Health & Nutrition">Health & Nutrition</SelectItem>
+                        <SelectItem value="Women Empowerment">Women Empowerment</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
                 {/* --- END UPDATED LAYOUT --- */}
 
 
@@ -189,41 +191,45 @@ export default function DonateClientPage() {
                   <div className="grid grid-cols-3 gap-2">
                     {presetAmounts.map(preset => (
                       <Button key={preset} variant="outline" type="button" onClick={() => setAmount(preset)} className={cn(amount === preset && 'bg-brand-yellow/30 border-brand-orange')}>
-                         ₹{preset}
+                        ₹{preset}
                       </Button>
                     ))}
                   </div>
                   <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"/>
+                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input id="amount" type="number" placeholder="Or enter a custom amount" value={amount} onChange={(e) => setAmount(e.target.value ? parseFloat(e.target.value) : '')} className="pl-10" required min="1" disabled={isLoading} />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center space-x-4 rounded-lg border p-4">
-                  <Label htmlFor="payment-type" className={cn("font-normal", !isRecurring && "font-semibold text-primary")}>
-                    One-time
-                  </Label>
-                  <Switch
-                    id="payment-type"
-                    checked={isRecurring}
-                    onCheckedChange={setIsRecurring}
-                    disabled={isLoading}
-                    aria-label="Switch between one-time and monthly donation"
-                  />
-                  <Label htmlFor="payment-type" className={cn("font-normal", isRecurring && "font-semibold text-primary")}>
-                    Monthly
-                  </Label>
+                <div className="space-y-2">
+                  <Label>Donation Frequency</Label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {['ONETIME', 'MONTHLY', 'QUARTERLY', 'YEARLY'].map((freq) => (
+                      <Button
+                        key={freq}
+                        type="button"
+                        variant="outline"
+                        onClick={() => setFrequency(freq)}
+                        className={cn(
+                          frequency === freq && 'bg-brand-yellow/30 border-brand-orange text-brand-orange font-semibold',
+                          "text-xs sm:text-sm px-2"
+                        )}
+                      >
+                        {freq === 'ONETIME' ? 'One-time' : freq.charAt(0) + freq.slice(1).toLowerCase()}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
 
-                 <Button type="submit" className="w-full bg-brand-yellow text-slate-900 hover:bg-brand-orange h-12 text-lg" disabled={isLoading}>
-                    {isLoading ? <Loader2 className="animate-spin" /> : `Donate ${isRecurring ? 'Monthly' : 'Now'}`}
-                 </Button>
+                <Button type="submit" className="w-full bg-brand-yellow text-slate-900 hover:bg-brand-orange h-12 text-lg" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : `Donate ${frequency === 'ONETIME' ? 'Now' : frequency.charAt(0) + frequency.slice(1).toLowerCase()}`}
+                </Button>
               </form>
             </CardContent>
             <CardFooter>
-                 <p className="mt-4 text-center text-xs text-muted-foreground">
-                    You will be redirected to PayU, our secure payment partner, to complete the donation.
-                </p>
+              <p className="mt-4 text-center text-xs text-muted-foreground">
+                You will be redirected to PayU, our secure payment partner, to complete the donation.
+              </p>
             </CardFooter>
           </Card>
         </div>

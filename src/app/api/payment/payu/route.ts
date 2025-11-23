@@ -7,7 +7,8 @@ import crypto from 'crypto';
 // This is the main server-side route to handle PayU integration.
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, amount, isRecurring, phone, address, pan, purpose } = await req.json();
+    const reqBody = await req.json();
+    const { name, email, amount, isRecurring, phone, address, pan, purpose } = reqBody;
 
     // --- IMPORTANT: Get these from your PayU account and add to .env.local ---
     const PAYU_MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY;
@@ -65,7 +66,14 @@ export async function POST(req: NextRequest) {
       paymentData['si'] = '1';
       paymentData['api_version'] = '1'; // Often required for SI
       paymentData['billing_amount'] = amount.toString();
-      paymentData['billing_cycle'] = 'MONTHLY'; // Or 'YEARLY', 'WEEKLY', 'DAILY'
+
+      // Map frequency to PayU billing_cycle
+      // PayU typically expects: MONTHLY, QUARTERLY, YEARLY, etc.
+      // The frontend sends: MONTHLY, QUARTERLY, YEARLY (ONETIME is handled by isRecurring=false)
+      // We need to ensure we default to MONTHLY if something else comes in but isRecurring is true.
+      const frequency = (reqBody.frequency || 'MONTHLY').toUpperCase();
+      paymentData['billing_cycle'] = ['MONTHLY', 'QUARTERLY', 'YEARLY'].includes(frequency) ? frequency : 'MONTHLY';
+
       paymentData['billing_interval'] = '1';
       paymentData['payment_start_date'] = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]; // Start next month
       paymentData['payment_end_date'] = '2099-12-31'; // A far-future date
@@ -77,7 +85,8 @@ export async function POST(req: NextRequest) {
       amount,
       si: paymentData.si,
       api_version: paymentData.api_version,
-      udf3: paymentData.udf3
+      udf3: paymentData.udf3,
+      billing_cycle: paymentData.billing_cycle
     });
 
     // --- HASH GENERATION ---
