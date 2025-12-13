@@ -77,6 +77,8 @@ export async function POST(req: NextRequest) {
         billingInterval: '1',
         paymentStartDate: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0], // Start next month
         paymentEndDate: '2099-12-31', // A far-future date
+        billingCurrency: 'INR', // Mandatory
+        billingLimit: 'MAX', // Optional but recommended
       };
 
       paymentData['si_details'] = JSON.stringify(siDetails);
