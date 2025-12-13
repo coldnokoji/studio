@@ -51,7 +51,7 @@
     "framer-motion": "^12.23.12",
     "genkit": "^1.14.1",
     "lucide-react": "^0.475.0",
-    "next": "^16.0.10",
+    "next": "^15.5.9",
     "number-to-words": "^1.2.4",
     "patch-package": "^8.0.0",
     "react": "^18.3.1",
