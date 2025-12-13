@@ -65,18 +65,21 @@ export async function POST(req: NextRequest) {
       // These are standard PayU parameters to enable SI/recurring payments
       paymentData['si'] = '1';
       paymentData['api_version'] = '7'; // Required for SI (Recurring Payments)
-      paymentData['billing_amount'] = amount.toString();
 
       // Map frequency to PayU billing_cycle
-      // PayU typically expects: MONTHLY, QUARTERLY, YEARLY, etc.
-      // The frontend sends: MONTHLY, QUARTERLY, YEARLY (ONETIME is handled by isRecurring=false)
-      // We need to ensure we default to MONTHLY if something else comes in but isRecurring is true.
       const frequency = (reqBody.frequency || 'MONTHLY').toUpperCase();
-      paymentData['billing_cycle'] = ['MONTHLY', 'QUARTERLY', 'YEARLY'].includes(frequency) ? frequency : 'MONTHLY';
+      const billingCycle = ['MONTHLY', 'QUARTERLY', 'YEARLY'].includes(frequency) ? frequency : 'MONTHLY';
 
-      paymentData['billing_interval'] = '1';
-      paymentData['payment_start_date'] = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]; // Start next month
-      paymentData['payment_end_date'] = '2099-12-31'; // A far-future date
+      // Construct si_details JSON object
+      const siDetails = {
+        billingAmount: amount.toString(),
+        billingCycle: billingCycle,
+        billingInterval: '1',
+        paymentStartDate: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0], // Start next month
+        paymentEndDate: '2099-12-31', // A far-future date
+      };
+
+      paymentData['si_details'] = JSON.stringify(siDetails);
     }
 
     console.log("PayU Init: isRecurring?", isRecurring);
@@ -86,12 +89,13 @@ export async function POST(req: NextRequest) {
       si: paymentData.si,
       api_version: paymentData.api_version,
       udf3: paymentData.udf3,
-      billing_cycle: paymentData.billing_cycle
+      si_details: paymentData.si_details
     });
 
     // --- HASH GENERATION ---
     // The hash string must be in a specific order, as dictated by PayU's error logs.
-    // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt)
+    // Standard: sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt)
+    // Recurring (SI): sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|si_details|salt)
     const hashStringParts = [
       paymentData.key,
       paymentData.txnid,
@@ -109,8 +113,14 @@ export async function POST(req: NextRequest) {
       '', // udf8
       '', // udf9
       '', // udf10
-      PAYU_SALT, // The salt is always last
     ];
+
+    // Add si_details to hash if it exists (for recurring payments)
+    if (isRecurring && paymentData.si_details) {
+      hashStringParts.push(paymentData.si_details);
+    }
+
+    hashStringParts.push(PAYU_SALT); // The salt is always last
 
     const hashString = hashStringParts.join('|');
     const hash = crypto.createHash('sha512').update(hashString).digest('hex');
