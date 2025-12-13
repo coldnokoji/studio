@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       paymentData['udf3'] = 'RECURRING_PAYMENT'; // Store recurring flag in udf3
       // These are standard PayU parameters to enable SI/recurring payments
       paymentData['si'] = '1';
-      paymentData['api_version'] = '1'; // Often required for SI
+      paymentData['api_version'] = '7'; // Required for SI (Recurring Payments)
       paymentData['billing_amount'] = amount.toString();
 
       // Map frequency to PayU billing_cycle
