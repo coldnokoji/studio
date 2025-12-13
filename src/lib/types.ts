@@ -82,7 +82,7 @@ export type Donation = {
   email: string;
   amount: number;
   txnid: string;
-  status: 'success' | 'failure' | 'initiated';
+  status: 'success' | 'failure' | 'initiated' | 'active';
   isRecurring: boolean;
 
   // --- NEW FIELDS TO ADD ---
@@ -92,6 +92,7 @@ export type Donation = {
   purpose: string;
   donationDate: string; // We'll use this instead of createdAt
   paymentMode?: string;
+  si_id?: string; // For recurring payments (mandate ID)
   // --- END OF NEW FIELDS ---
 }
 

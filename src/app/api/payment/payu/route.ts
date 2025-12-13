@@ -30,8 +30,9 @@ export async function POST(req: NextRequest) {
     // FIX: In production, ensure we use the main domain, not the Netlify preview URL
     let baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
 
-    // FORCE production domain in production environment, ignoring other env vars or request origin
-    if (process.env.NODE_ENV === 'production') {
+    // FORCE production domain in production environment OR if current origin is a netlify subdomain
+    // This prevents redirects to transient deployment URLs
+    if (process.env.NODE_ENV === 'production' || req.nextUrl.origin.includes('netlify.app')) {
       baseUrl = 'https://shreyaskarfoundation.com';
     }
 
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
     if (isRecurring) {
       paymentData['udf3'] = 'RECURRING_PAYMENT'; // Store recurring flag in udf3
       // These are standard PayU parameters to enable SI/recurring payments
+      // User explicitly requested si = 1
       paymentData['si'] = '1';
       paymentData['api_version'] = '7'; // Required for SI (Recurring Payments)
 

@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
             hash,
             error_Message,
             mihpayid, // PayU's internal ID
+            si_id,    // PayU Subscription ID (for recurring)
         } = reqBody as Record<string, string>;
 
         if (!txnid) {
@@ -82,7 +83,7 @@ export async function POST(req: NextRequest) {
                 // We preserve the original data (PAN, Address) if it exists
                 const updatedData: Donation = {
                     ...currentData,
-                    status: 'success',
+                    status: (currentData.isRecurring || udf3 === 'RECURRING_PAYMENT') ? 'active' : 'success', // Recurring = active (mandate), One-time = success
                     // Update these if they are present in callback, otherwise keep existing
                     // PayU might return different values or we might want to trust our initial data more?
                     // Let's trust our initial data for critical fields like PAN/Address if we have them.
@@ -90,6 +91,7 @@ export async function POST(req: NextRequest) {
                     paymentMode: mode || currentData.paymentMode,
                     // Ensure amount is correct (though it shouldn't change)
                     amount: Number(amount),
+                    si_id: si_id || mihpayid, // Store SI ID for recurring
                 };
 
                 await saveDonation(updatedData);
@@ -117,7 +119,7 @@ export async function POST(req: NextRequest) {
                     amount: Number(amount),
                     email: email,
                     name: firstname,
-                    status: "success" as const,
+                    status: (udf3 === "RECURRING_PAYMENT") ? 'active' : 'success',
                     isRecurring: udf3 === "RECURRING_PAYMENT",
                     phone: phone || '',
                     address: address,
@@ -125,6 +127,7 @@ export async function POST(req: NextRequest) {
                     purpose: purpose,
                     donationDate: new Date().toISOString(),
                     paymentMode: mode || 'PayU',
+                    si_id: si_id || mihpayid,
                 };
 
                 await createDonation(donationData);

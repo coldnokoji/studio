@@ -54,9 +54,10 @@ export async function POST(req: NextRequest) {
         email: data.email as string,
         amount: parseFloat(data.amount as string),
         txnid: data.txnid as string,
-        status: 'success',
+        status: 'success', // Recurring charges are successful payments
         isRecurring: data.udf3 === 'RECURRING_PAYMENT',
         donationDate: new Date().toISOString(),
+        si_id: (data.si_id || data.mihpayid) as string, // Capture SI ID if present
         // Only include optional fields if they are present to avoid overwriting with empty strings
         ...((data.phone as string) ? { phone: data.phone as string } : {}),
         ...((data.udf1 as string) ? { address: data.udf1 as string } : {}),
