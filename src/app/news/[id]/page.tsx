@@ -7,13 +7,15 @@ import { ChatWidget } from '@/components/layout/chat-widget';
 import { Calendar, User } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = "force-dynamic";
+
 // Simple Markdown to HTML
 const Markdown = ({ text }: { text: string }) => {
-    const html = text
-        .split('\n')
-        .map(line => line.trim() === '' ? '<br/>' : `<p>${line}</p>`)
-        .join('');
-    return <div dangerouslySetInnerHTML={{ __html: html }} className="prose lg:prose-xl max-w-none text-slate-600" />;
+  const html = text
+    .split('\n')
+    .map(line => line.trim() === '' ? '<br/>' : `<p>${line}</p>`)
+    .join('');
+  return <div dangerouslySetInnerHTML={{ __html: html }} className="prose lg:prose-xl max-w-none text-slate-600" />;
 }
 
 export default async function NewsArticlePage({ params }: { params: { id: string } }) {
@@ -34,7 +36,7 @@ export default async function NewsArticlePage({ params }: { params: { id: string
                 &larr; Back to News
               </Link>
             </div>
-            
+
             <header className="mb-8">
               <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-5xl mb-4">
                 {article.title}
@@ -61,9 +63,9 @@ export default async function NewsArticlePage({ params }: { params: { id: string
                 priority
               />
             </div>
-            
+
             <div className="prose lg:prose-xl max-w-none text-slate-600 space-y-4">
-                <Markdown text={article.content} />
+              <Markdown text={article.content} />
             </div>
 
           </article>
@@ -75,9 +77,9 @@ export default async function NewsArticlePage({ params }: { params: { id: string
   );
 }
 
-export async function generateStaticParams() {
-  const articles = await getNewsArticles();
-  return articles.map((article) => ({
-    id: article.id,
-  }));
-}
+// export async function generateStaticParams() {
+//   const articles = await getNewsArticles();
+//   return articles.map((article) => ({
+//     id: article.id,
+//   }));
+// }
